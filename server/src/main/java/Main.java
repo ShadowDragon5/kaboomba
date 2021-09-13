@@ -3,8 +3,11 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
+    private static final ArrayList<Connection> connections = new ArrayList<>();
+
     public static void main(String ...args){
         Server server = new Server();
         server.start();
@@ -17,16 +20,24 @@ public class Main {
 
         server.addListener(new Listener() {
             public void received (Connection connection, Object object) {
-                System.out.println("Connected" + connection.getID());
                 if (object instanceof String) {
+                    connections.forEach(it-> {
+                        it.sendTCP(object);
+                    });
                     System.out.println(object);
-                    connection.sendTCP("Thanks");
                 }
             }
 
             @Override
-            public void disconnected(Connection connection) {
-                System.out.println("Disconnected" + connection.getID());
+            public void connected(Connection incomingConnection) {
+                System.out.println("Connected" + incomingConnection.getID());
+                connections.add(incomingConnection);
+            }
+
+            @Override
+            public void disconnected(Connection outGoingConnection) {
+                System.out.println("Disconnected" + outGoingConnection.getID());
+                connections.removeIf(it->it.getID() == outGoingConnection.getID());
             }
         });
     }
