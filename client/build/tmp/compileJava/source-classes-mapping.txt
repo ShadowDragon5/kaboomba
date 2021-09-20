@@ -1,3 +1,0 @@
-org/core/Main.java
- org.core.Main
- org.core.Main$1
