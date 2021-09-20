@@ -1,15 +1,17 @@
+package org.core;
+
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-import java.io.BufferedReader;ah
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
     public static void main(String ...args) {
         Client client = new Client();
-        client.start();con
+        client.start();
         client.addListener(new Listener() {
             public void received (Connection connection, Object object) {
                 if (object instanceof String) {
@@ -30,7 +32,7 @@ public class Main {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader buffer = new BufferedReader(isr);
         String input="";
-        while (true)  {
+        while (!input.equals("X"))  {
 
             try {
 

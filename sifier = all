@@ -1,0 +1,29 @@
+[33mcommit 3d02bac37faf242a4a2d8e0a5c85418cbc64c60f[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: pijoneris <benasmiliunas@gmail.com>
+Date:   Mon Sep 13 20:42:27 2021 +0300
+
+    Add dummy demo
+
+[33mcommit 884a364b3f2c39dae1c300b549326d6e45b3b2bd[m
+Author: pijoneris <benasmiliunas@gmail.com>
+Date:   Mon Sep 13 20:21:01 2021 +0300
+
+    Kryonet client-server example
+
+[33mcommit 32404af01fbcbcded0eca116230648a6a9dd0997[m
+Author: pijoneris <benasmiliunas@gmail.com>
+Date:   Mon Sep 13 20:00:31 2021 +0300
+
+    Added Java server
+
+[33mcommit 1d80aeca4c81e42aa9e084e2d02995f48be6cc1f[m
+Author: pijoneris <benasmiliunas@gmail.com>
+Date:   Mon Sep 13 19:26:34 2021 +0300
+
+    Java client initial
+
+[33mcommit ddc74552fe234e9e19dad442aefc7a36aa8f7fd0[m
+Author: ShadowDragon5 <lauriuskas@gmail.com>
+Date:   Fri Sep 10 12:45:19 2021 +0300
+
+    Initial commit

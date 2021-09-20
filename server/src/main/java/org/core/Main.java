@@ -24,7 +24,7 @@ public class Main {
             public void received (Connection connection, Object object) {
                 if (object instanceof String) {
                     connections.forEach(it-> {
-                        it.sendTCP(object);
+                        it.sendTCP(connection.getID() + ":" + object);
                     });
                     System.out.println(object);
                 }
