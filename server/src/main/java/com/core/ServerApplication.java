@@ -30,7 +30,7 @@ public class ServerApplication {
                 connections.forEach(it-> {
                         it.sendTCP(resolvedObject);
                     });
-                
+
                 System.out.println(resolvedObject);
             }
 
