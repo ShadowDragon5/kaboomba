@@ -3,14 +3,17 @@ package com.core;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import org.javatuples.Pair;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Application {
+public class ServerApplication {
     private static final ArrayList<Connection> connections = new ArrayList<>();
 
     public static void main(String ...args){
+        ClientActionResolver clientActionResolver = new ClientActionResolver();
+
         Server server = new Server();
         server.start();
         try {
@@ -21,13 +24,14 @@ public class Application {
         }
 
         server.addListener(new Listener() {
-            public void received (Connection connection, Object object) {
-                if (object instanceof String) {
-                    connections.forEach(it-> {
-                        it.sendTCP(connection.getID() + ":" + object);
+            public void received (Connection connection, Pair<ClientAction, Object> object) {
+                var resolvedObject = clientActionResolver.resolve(object);
+
+                connections.forEach(it-> {
+                        it.sendTCP(resolvedObject);
                     });
-                    System.out.println(object);
-                }
+                
+                System.out.println(resolvedObject);
             }
 
             @Override
