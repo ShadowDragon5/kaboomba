@@ -1,4 +1,5 @@
 package com.core;
+import com.entities.Position;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -13,6 +14,8 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Application {
+
+    Position position = new Position();
 
     // The window handle
     private long window;
@@ -30,6 +33,20 @@ public class Application {
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    public void DrawQuad(float x, float y, float width, float height) {
+        GL11.glColor3f(0, 255, 255);
+
+        glBegin(GL_QUADS);
+
+        glVertex2f(x-width/2, y-height/2);
+        glVertex2f(x+width/2, y-height/2);
+
+        glVertex2f(x+width/2, y+height/2);
+        glVertex2f(x-width/2, y+height/2);
+
+        glEnd();
     }
 
     private void init() {
@@ -53,8 +70,25 @@ public class Application {
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            if(action == GLFW_PRESS) {
+                switch (key){
+                    case GLFW_KEY_ESCAPE:
+                        glfwSetWindowShouldClose(window, true);
+                        break;
+                    case GLFW_KEY_UP:
+                        position.incrementY();
+                        break;
+                    case GLFW_KEY_DOWN:
+                        position.decrementY();
+                        break;
+                    case GLFW_KEY_RIGHT:
+                        position.incrementX();
+                        break;
+                    case GLFW_KEY_LEFT:
+                        position.decrementX();
+                        break;
+                }
+            }
         });
 
         // Get the thread stack and push a new frame
@@ -94,12 +128,16 @@ public class Application {
         GL.createCapabilities();
 
         // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+
+            //rendering
+            DrawQuad(position.getX(), position.getY(),0.1f,0.1f);
 
             glfwSwapBuffers(window); // swap the color buffers
 
