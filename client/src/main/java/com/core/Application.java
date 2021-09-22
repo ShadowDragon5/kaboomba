@@ -1,154 +1,39 @@
 package com.core;
-import com.entities.Position;
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
 
-import java.nio.*;
-
-import static org.lwjgl.glfw.Callbacks.*;
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import com.entities.Player;
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.utils.ActionUtils;
 
 public class Application {
 
-    Position position = new Position();
+    private final ServerConnection connection = ServerConnection.getInstance();
+    private final Client client;
+    private State state;
 
-    // The window handle
-    private long window;
-
-    public void run() {
-        System.out.println("Hello LWJGL " + Version.getVersion() + "!");
-
-        init();
-        loop();
-
-        // Free the window callbacks and destroy the window
-        glfwFreeCallbacks(window);
-        glfwDestroyWindow(window);
-
-        // Terminate GLFW and free the error callback
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
+    public Application(){
+        this.client = connection.startListening();
     }
 
-    public void DrawQuad(float x, float y, float width, float height) {
-        GL11.glColor3f(0, 255, 255);
+    public static void main(String[] args) {
+        Application application = new Application();
 
-        glBegin(GL_QUADS);
+        Client appClient = application.client;
+        Player player = new Player("testName");
 
-        glVertex2f(x-width/2, y-height/2);
-        glVertex2f(x+width/2, y-height/2);
-
-        glVertex2f(x+width/2, y+height/2);
-        glVertex2f(x-width/2, y+height/2);
-
-        glEnd();
-    }
-
-    private void init() {
-        // Setup an error callback. The default implementation
-        // will print the error message in System.err.
-        GLFWErrorCallback.createPrint(System.err).set();
-
-        // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if ( !glfwInit() )
-            throw new IllegalStateException("Unable to initialize GLFW");
-
-        // Configure GLFW
-        glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_FALSE);
-        // Create the window
-        window = glfwCreateWindow(600, 600, "Hello World!", NULL, NULL);
-        if ( window == NULL )
-            throw new RuntimeException("Failed to create the GLFW window");
-
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if(action == GLFW_PRESS) {
-                switch (key){
-                    case GLFW_KEY_ESCAPE:
-                        glfwSetWindowShouldClose(window, true);
-                        break;
-                    case GLFW_KEY_UP:
-                        position.incrementY();
-                        break;
-                    case GLFW_KEY_DOWN:
-                        position.decrementY();
-                        break;
-                    case GLFW_KEY_RIGHT:
-                        position.incrementX();
-                        break;
-                    case GLFW_KEY_LEFT:
-                        position.decrementX();
-                        break;
+        appClient.addListener(new Listener() {
+            public void received (Connection connection, Object object) {
+                if (object instanceof State) {
+                    application.state = (State) object;
                 }
             }
         });
 
-        // Get the thread stack and push a new frame
-        try ( MemoryStack stack = stackPush() ) {
-            IntBuffer pWidth = stack.mallocInt(1); // int*
-            IntBuffer pHeight = stack.mallocInt(1); // int*
+        appClient.sendTCP(ActionUtils.createActionObject(ClientAction.CONNECTED, player));
 
-            // Get the window size passed to glfwCreateWindow
-            glfwGetWindowSize(window, pWidth, pHeight);
-
-            // Get the resolution of the primary monitor
-            GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-            // Center the window
-            glfwSetWindowPos(
-                    window,
-                    (vidmode.width() - pWidth.get(0)) / 2,
-                    (vidmode.height() - pHeight.get(0)) / 2
-            );
-        } // the stack frame is popped automatically
-
-        // Make the OpenGL context current
-        glfwMakeContextCurrent(window);
-        // Enable v-sync
-        glfwSwapInterval(1);
-
-        // Make the window visible
-        glfwShowWindow(window);
-    }
-
-    private void loop() {
-        // This line is critical for LWJGL's interoperation with GLFW's
-        // OpenGL context, or any context that is managed externally.
-        // LWJGL detects the context that is current in the current thread,
-        // creates the GLCapabilities instance and makes the OpenGL
-        // bindings available for use.
-        GL.createCapabilities();
-
-        // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
-
-        // Run the rendering loop until the user has attempted to close
-        // the window or has pressed the ESCAPE key.
-        while ( !glfwWindowShouldClose(window) ) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
-
-            //rendering
-            DrawQuad(position.getX(), position.getY(),0.1f,0.1f);
-
-            glfwSwapBuffers(window); // swap the color buffers
-
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
-            glfwPollEvents();
-        }
-    }
-
-    public static void main(String[] args) {
-        new Application().run();
+        Game game = new Game(application.state, appClient);
+        game.run();
     }
 
 }

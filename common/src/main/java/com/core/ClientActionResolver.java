@@ -1,5 +1,6 @@
 package com.core;
 
+import com.entities.Player;
 import com.entities.Position;
 import org.javatuples.Pair;
 

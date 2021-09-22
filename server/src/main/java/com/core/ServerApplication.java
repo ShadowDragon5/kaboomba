@@ -1,18 +1,27 @@
 package com.core;
 
+import com.entities.Player;
+import com.entities.Position;
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import org.javatuples.Pair;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ServerApplication {
-    private static final ArrayList<Connection> connections = new ArrayList<>();
+    private static final HashMap<Connection, Player> connections = new HashMap<>();
+    private static State state;
 
     public static void main(String ...args){
         ClientActionResolver clientActionResolver = new ClientActionResolver();
+
+        Kryo kryo = new Kryo();
+        kryo.register(org.javatuples.Pair.class);
+
+        state = State.getInstance();
 
         Server server = new Server();
         server.start();
@@ -23,27 +32,43 @@ public class ServerApplication {
             e.printStackTrace();
         }
 
+        // CONNECTED Player("vardas");
+        // MOVE_UP null
+        // MOVE_DOWN null
         server.addListener(new Listener() {
-            public void received (Connection connection, Pair<ClientAction, Object> object) {
-                var resolvedObject = clientActionResolver.resolve(object);
+            public void received (Connection connection, Object object) {
+                Pair<ClientAction, Object> clientActionObjectPair = (Pair<ClientAction, Object>) object;
+                    switch (clientActionObjectPair.getValue0()){
+                        case CONNECTED:
+                            //Creates new connection and initializes state for new player
+                            Player newPlayer = (Player) clientActionObjectPair.getValue1();
+                            connections.put(connection, newPlayer);
+                            state.addPosition(newPlayer);
 
-                connections.forEach(it-> {
-                        it.sendTCP(resolvedObject);
-                    });
+                            //Sends new server state to all clients
+                            for (Connection client : connections.keySet()) {
+                                client.sendTCP(state.getPositions());
+                            }
+                            break;
+                        case MOVE_UP:
+                            Player player = connections.get(connection);
+                            Position positionToUpdate = state.getPosition(player);
+                            positionToUpdate.incrementY();
 
-                System.out.println(resolvedObject);
+                            state.updateStatePosition(player, positionToUpdate);
+                        default:
+                            break;
+                    }
             }
 
             @Override
             public void connected(Connection incomingConnection) {
                 System.out.println("Connected" + incomingConnection.getID());
-                connections.add(incomingConnection);
             }
 
             @Override
             public void disconnected(Connection outGoingConnection) {
                 System.out.println("Disconnected" + outGoingConnection.getID());
-                connections.removeIf(it->it.getID() == outGoingConnection.getID());
             }
         });
     }
