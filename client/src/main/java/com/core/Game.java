@@ -19,7 +19,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Game{
+public class Game {
 
     private State state;
     private Client client;
@@ -96,13 +96,16 @@ public class Game{
                         client.sendTCP(command);
                         break;
                     case GLFW_KEY_DOWN:
-                        client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_DOWN));
+                        // client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_DOWN));
+                        client.sendTCP(ClientAction.MOVE_DOWN + ";");
                         break;
                     case GLFW_KEY_RIGHT:
-                        client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_RIGHT));
+                        // client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_RIGHT));
+                        client.sendTCP(ClientAction.MOVE_RIGHT + ";");
                         break;
                     case GLFW_KEY_LEFT:
-                        client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_LEFT));
+                        // client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_LEFT));
+                        client.sendTCP(ClientAction.MOVE_LEFT + ";");
                         break;
                 }
             }

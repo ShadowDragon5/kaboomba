@@ -7,7 +7,6 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.google.gson.Gson;
-import org.javatuples.Pair;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class ServerApplication {
     private static final HashMap<Connection, Player> connections = new HashMap<>();
     private static State state;
 
-    public static void main(String ...args){
+    public static void main(String ...args) {
         state = State.getInstance();
         Gson gson = new Gson();
 
@@ -51,17 +50,19 @@ public class ServerApplication {
         // MOVE_DOWN null
         server.addListener(new Listener() {
             public void received (Connection connection, Object object) {
-                if(!(object instanceof String)){
+                if (!(object instanceof String)) {
                     return;
                 }
 
                 String[] contents = String.valueOf(object).split(";");
                 ClientAction clientAction = ClientAction.valueOf(contents[0]);
+                Player player;
+                Position positionToUpdate;
 
-                switch (clientAction){
+                switch (clientAction) {
                     case CONNECTED:
                         String payload = contents[1];
-                        Player player = gson.fromJson(payload, Player.class);
+                        player = gson.fromJson(payload, Player.class);
                         connections.put(connection, player);
                         state.addPosition(player);
 
@@ -70,17 +71,58 @@ public class ServerApplication {
                             client.sendTCP(positions);
                         }
                         break;
+
                     case MOVE_UP:
-                        Player player1 = connections.get(connection);
-                        Position positionToUpdate = state.getPosition(player1);
+                        player = connections.get(connection);
+                        positionToUpdate = state.getPosition(player);
                         positionToUpdate.incrementY();
 
-                        state.updateStatePosition(player1, positionToUpdate);
+                        state.updateStatePosition(player, positionToUpdate);
 
                         for (Connection client : connections.keySet()) {
                             String positions = gson.toJson(state);
                             client.sendTCP(positions);
                         }
+                        break;
+
+                    case MOVE_DOWN:
+                        player = connections.get(connection);
+                        positionToUpdate = state.getPosition(player);
+                        positionToUpdate.decrementY();
+
+                        state.updateStatePosition(player, positionToUpdate);
+
+                        for (Connection client : connections.keySet()) {
+                            String positions = gson.toJson(state);
+                            client.sendTCP(positions);
+                        }
+                        break;
+
+                    case MOVE_LEFT:
+                        player = connections.get(connection);
+                        positionToUpdate = state.getPosition(player);
+                        positionToUpdate.decrementX();
+
+                        state.updateStatePosition(player, positionToUpdate);
+
+                        for (Connection client : connections.keySet()) {
+                            String positions = gson.toJson(state);
+                            client.sendTCP(positions);
+                        }
+                        break;
+
+                    case MOVE_RIGHT:
+                        player = connections.get(connection);
+                        positionToUpdate = state.getPosition(player);
+                        positionToUpdate.incrementX();
+
+                        state.updateStatePosition(player, positionToUpdate);
+
+                        for (Connection client : connections.keySet()) {
+                            String positions = gson.toJson(state);
+                            client.sendTCP(positions);
+                        }
+                        break;
                 }
             }
 

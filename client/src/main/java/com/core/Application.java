@@ -5,9 +5,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.google.gson.Gson;
-import com.utils.ActionUtils;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class Application {
@@ -15,7 +13,7 @@ public class Application {
     private final ServerConnection connection = ServerConnection.getInstance();
     private final Client client;
 
-    public Application(){
+    public Application() {
         this.client = connection.startListening();
     }
 
@@ -29,7 +27,7 @@ public class Application {
 
         appClient.addListener(new Listener() {
             public void received (Connection connection, Object object) {
-                if(!(object instanceof String)){
+                if (!(object instanceof String)) {
                     return;
                 }
 
@@ -40,7 +38,8 @@ public class Application {
             }
         });
 
-        String playerString = String.format("%s;%s", ClientAction.CONNECTED.toString(), gson.toJson(player));
+        System.out.println("> " + ClientAction.CONNECTED);
+        String playerString = String.format("%s;%s", ClientAction.CONNECTED, gson.toJson(player));
         appClient.sendTCP(playerString);
 
         game.run();
