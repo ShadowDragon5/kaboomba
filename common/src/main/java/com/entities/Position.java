@@ -1,12 +1,15 @@
 package com.entities;
 
+import java.util.Random;
+
 public class Position {
     private float x;
     private float y;
 
     public Position(){
-        this.x = 0;
-        this.y = 0;
+        Random random = new Random(100);
+        this.x = random.nextFloat() * 2 - 1;
+        this.y = random.nextFloat() * 2 - 1;
     }
 
     public float getX() {

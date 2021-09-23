@@ -2,6 +2,7 @@ package com.core;
 
 import com.entities.Position;
 import com.esotericsoftware.kryonet.Client;
+import com.google.gson.Gson;
 import com.utils.ActionUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -23,9 +24,12 @@ public class Game{
     private State state;
     private Client client;
 
-    public Game(State state, Client client){
-        this.state = state;
+    public Game(Client client){
         this.client = client;
+    }
+
+    public void setState(State state){
+        this.state = state;
     }
 
     // The window handle
@@ -61,6 +65,7 @@ public class Game{
     }
 
     private void init() {
+        Gson gson = new Gson();
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
@@ -87,7 +92,8 @@ public class Game{
                         glfwSetWindowShouldClose(window, true);
                         break;
                     case GLFW_KEY_UP:
-                        client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_UP));
+                        String command = String.format("%s;", ClientAction.MOVE_UP.toString());
+                        client.sendTCP(command);
                         break;
                     case GLFW_KEY_DOWN:
                         client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_DOWN));
@@ -147,9 +153,11 @@ public class Game{
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             //rendering
-            state.getPositions().forEach(it->{
-                DrawQuad(it.getValue1().getX(), it.getValue1().getY(),0.1f,0.1f);
-            });
+            if(state != null) {
+                state.getPositions().forEach(it->{
+                    DrawQuad(it.getValue1().getX(), it.getValue1().getY(),0.1f,0.1f);
+                });
+            }
 
             glfwSwapBuffers(window); // swap the color buffers
 

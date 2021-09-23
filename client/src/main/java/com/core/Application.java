@@ -4,13 +4,16 @@ import com.entities.Player;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.google.gson.Gson;
 import com.utils.ActionUtils;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class Application {
 
     private final ServerConnection connection = ServerConnection.getInstance();
     private final Client client;
-    private State state;
 
     public Application(){
         this.client = connection.startListening();
@@ -18,21 +21,28 @@ public class Application {
 
     public static void main(String[] args) {
         Application application = new Application();
-
+        Gson gson = new Gson();
         Client appClient = application.client;
-        Player player = new Player("testName");
+
+        Game game = new Game(appClient);
+        Player player = new Player(UUID.randomUUID().toString());
 
         appClient.addListener(new Listener() {
             public void received (Connection connection, Object object) {
-                if (object instanceof State) {
-                    application.state = (State) object;
+                if(!(object instanceof String)){
+                    return;
                 }
+
+                String response = String.valueOf(object);
+
+                State state = gson.fromJson(response, State.class);
+                game.setState(state);
             }
         });
 
-        appClient.sendTCP(ActionUtils.createActionObject(ClientAction.CONNECTED, player));
+        String playerString = String.format("%s;%s", ClientAction.CONNECTED.toString(), gson.toJson(player));
+        appClient.sendTCP(playerString);
 
-        Game game = new Game(application.state, appClient);
         game.run();
     }
 
