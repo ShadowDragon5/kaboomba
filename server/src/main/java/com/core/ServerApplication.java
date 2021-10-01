@@ -78,10 +78,8 @@ public class ServerApplication {
 
                 String stateJson = gson.toJson(state);
                 for (Connection client : connections.keySet()) {
-                    client.sendTCP(stateJson);
+                    client.sendTCP("STATE_UPDATE;"+stateJson);
                 }
-
-
             }
 
             @Override

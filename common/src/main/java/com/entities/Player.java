@@ -6,7 +6,9 @@ public class Player extends GameObject {
 
     private final float speed = 0.1f;
 
-    public Player() {}
+    public Player() {
+        super(new Position());
+    }
 
     @Override
     public String getTextureFile() {
