@@ -22,7 +22,7 @@ public class Application {
         Client appClient = application.client;
 
         Game game = new Game(appClient);
-        GameObject player = new Player();
+        Player player = new Player();
 
         appClient.addListener(new Listener() {
             public void received (Connection connection, Object object) {
@@ -30,7 +30,6 @@ public class Application {
                     return;
                 }
 
-                // String response = String.valueOf(object);
                 String[] contents = String.valueOf(object).split(";");
                 ServerAction serverAction = ServerAction.valueOf(contents[0]);
 
