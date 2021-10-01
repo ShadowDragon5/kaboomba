@@ -1,19 +1,36 @@
 package com.entities;
 
-public class Player {
-    private String name;
+import com.core.Direction;
 
-    public Player(){}
+public class Player extends GameObject {
 
-    public Player(String name) {
-        this.name = name;
+    private final float speed = 0.1f;
+
+    public Player() {}
+
+    @Override
+    public String getTextureFile() {
+        return "Player";
     }
 
-    public String getName() {
-        return name;
+    public void move(Direction direction) {
+        switch (direction) {
+            case UP:
+                this.position.addY(speed);
+                break;
+
+            case DOWN:
+                this.position.addY(-speed);
+                break;
+
+            case LEFT:
+                this.position.addX(-speed);
+                break;
+
+            case RIGHT:
+                this.position.addX(speed);
+                break;
+        }
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }

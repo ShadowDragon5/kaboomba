@@ -1,9 +1,9 @@
 package com.core;
 
-import com.entities.Position;
+import com.entities.*;
+
 import com.esotericsoftware.kryonet.Client;
 import com.google.gson.Gson;
-import com.utils.ActionUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -24,6 +24,9 @@ public class Game {
     private State state;
     private Client client;
 
+
+    private GameMap map;
+
     public Game(Client client){
         this.client = client;
     }
@@ -32,6 +35,9 @@ public class Game {
         this.state = state;
     }
 
+    public void setMap(GameMap map) {
+        this.map = map;
+    }
     // The window handle
     private long window;
 
@@ -65,7 +71,6 @@ public class Game {
     }
 
     private void init() {
-        Gson gson = new Gson();
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
@@ -92,19 +97,15 @@ public class Game {
                         glfwSetWindowShouldClose(window, true);
                         break;
                     case GLFW_KEY_UP:
-                        String command = String.format("%s;", ClientAction.MOVE_UP.toString());
-                        client.sendTCP(command);
+                        client.sendTCP(ClientAction.MOVE_UP + ";");
                         break;
                     case GLFW_KEY_DOWN:
-                        // client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_DOWN));
                         client.sendTCP(ClientAction.MOVE_DOWN + ";");
                         break;
                     case GLFW_KEY_RIGHT:
-                        // client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_RIGHT));
                         client.sendTCP(ClientAction.MOVE_RIGHT + ";");
                         break;
                     case GLFW_KEY_LEFT:
-                        // client.sendTCP(ActionUtils.createActionObject(ClientAction.MOVE_LEFT));
                         client.sendTCP(ClientAction.MOVE_LEFT + ";");
                         break;
                 }
@@ -157,8 +158,8 @@ public class Game {
 
             //rendering
             if(state != null) {
-                state.getPositions().forEach(it->{
-                    DrawQuad(it.getValue1().getX(), it.getValue1().getY(),0.1f,0.1f);
+                state.getPlayers().forEach(it->{
+                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), 0.1f, 0.1f);
                 });
             }
 
@@ -168,5 +169,9 @@ public class Game {
             // invoked during this call.
             glfwPollEvents();
         }
+    }
+
+    public boolean isReady() {
+        return map != null;
     }
 }

@@ -1,41 +1,28 @@
 package com.core;
 
+import com.entities.GameMap;
 import com.entities.Player;
 import com.entities.Position;
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class ServerApplication {
-    private static final HashMap<Connection, Player> connections = new HashMap<>();
+    private static final HashMap<Connection, String> connections = new HashMap<>();
     private static State state;
 
     public static void main(String ...args) {
         state = State.getInstance();
         Gson gson = new Gson();
 
+        GameMap gameMap = new GameMap();
+        gameMap.loadMap("src/main/resources/map1.tmx", state);
 
         Server server = new Server();
-
-        Kryo kryo = server.getKryo();
-
-        kryo.register(Object[].class);
-        kryo.register(State.class);
-        kryo.register(Player.class);
-        kryo.register(ClientAction.class);
-        kryo.register(Position.class);
-        kryo.register(List.of().getClass());
-        kryo.register(Arrays.class);
-        kryo.register(ArrayList.class);
-        kryo.register(org.javatuples.Pair.class);
 
         server.start();
         try {
@@ -45,9 +32,6 @@ public class ServerApplication {
             e.printStackTrace();
         }
 
-        // CONNECTED Player("vardas");
-        // MOVE_UP null
-        // MOVE_DOWN null
         server.addListener(new Listener() {
             public void received (Connection connection, Object object) {
                 if (!(object instanceof String)) {
@@ -56,79 +40,54 @@ public class ServerApplication {
 
                 String[] contents = String.valueOf(object).split(";");
                 ClientAction clientAction = ClientAction.valueOf(contents[0]);
-                Player player;
-                Position positionToUpdate;
+                Player playerToUpdate;
+                String id;
 
-                switch (clientAction) {
-                    case CONNECTED:
-                        String payload = contents[1];
-                        player = gson.fromJson(payload, Player.class);
-                        connections.put(connection, player);
-                        state.addPosition(player);
+                if (clientAction == ClientAction.CONNECTED) {
+                    String payload = contents[1];
+                    Player player = gson.fromJson(payload, Player.class);
+                    connections.put(connection, player.ID);
+                    state.addPlayer(player);
 
-                        for (Connection client : connections.keySet()) {
-                            String positions = gson.toJson(state);
-                            client.sendTCP(positions);
-                        }
-                        break;
+                    String mapJson = String.format("%s;%s", ServerAction.MAP_INIT, gson.toJson(gameMap));
+                    connection.sendTCP(mapJson);
 
-                    case MOVE_UP:
-                        player = connections.get(connection);
-                        positionToUpdate = state.getPosition(player);
-                        positionToUpdate.incrementY();
+                } else {
+                    id = connections.get(connection);
+                    playerToUpdate = state.getPlayer(id);
 
-                        state.updateStatePosition(player, positionToUpdate);
+                    switch (clientAction) {
+                        case MOVE_UP:
+                            playerToUpdate.move(Direction.UP);
+                            break;
 
-                        for (Connection client : connections.keySet()) {
-                            String positions = gson.toJson(state);
-                            client.sendTCP(positions);
-                        }
-                        break;
+                        case MOVE_DOWN:
+                            playerToUpdate.move(Direction.DOWN);
+                            break;
 
-                    case MOVE_DOWN:
-                        player = connections.get(connection);
-                        positionToUpdate = state.getPosition(player);
-                        positionToUpdate.decrementY();
+                        case MOVE_LEFT:
+                            playerToUpdate.move(Direction.LEFT);
+                            break;
 
-                        state.updateStatePosition(player, positionToUpdate);
-
-                        for (Connection client : connections.keySet()) {
-                            String positions = gson.toJson(state);
-                            client.sendTCP(positions);
-                        }
-                        break;
-
-                    case MOVE_LEFT:
-                        player = connections.get(connection);
-                        positionToUpdate = state.getPosition(player);
-                        positionToUpdate.decrementX();
-
-                        state.updateStatePosition(player, positionToUpdate);
-
-                        for (Connection client : connections.keySet()) {
-                            String positions = gson.toJson(state);
-                            client.sendTCP(positions);
-                        }
-                        break;
-
-                    case MOVE_RIGHT:
-                        player = connections.get(connection);
-                        positionToUpdate = state.getPosition(player);
-                        positionToUpdate.incrementX();
-
-                        state.updateStatePosition(player, positionToUpdate);
-
-                        for (Connection client : connections.keySet()) {
-                            String positions = gson.toJson(state);
-                            client.sendTCP(positions);
-                        }
-                        break;
+                        case MOVE_RIGHT:
+                            playerToUpdate.move(Direction.RIGHT);
+                            break;
+                    }
+                    state.updateStatePlayer(id, playerToUpdate);
                 }
+
+                String stateJson = gson.toJson(state);
+                for (Connection client : connections.keySet()) {
+                    client.sendTCP(stateJson);
+                }
+
+
             }
 
             @Override
             public void connected(Connection incomingConnection) {
                 System.out.println("Connected" + incomingConnection.getID());
+
             }
 
             @Override

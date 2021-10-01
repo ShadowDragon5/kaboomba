@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.kaboomba'
@@ -7,6 +8,10 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass = 'com.core.Application'
 }
 
 jar {
@@ -54,9 +59,8 @@ switch (OperatingSystem.current()) {
 
 dependencies {
     implementation project(':common')
-    implementation 'com.esotericsoftware:kryonet:2.22.0-RC1'
-    implementation 'org.javatuples:javatuples:1.2'
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation libraries.shared
+
     implementation "org.lwjgl:lwjgl:$lwjglVersion"
     implementation "org.lwjgl:lwjgl-bgfx:$lwjglVersion"
     implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"

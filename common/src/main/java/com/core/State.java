@@ -1,52 +1,55 @@
 package com.core;
 
-import com.entities.Player;
-import com.entities.Position;
-import org.javatuples.Pair;
-
+import com.entities.*;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+// import java.util.stream.Collectors;
+// import com.entities.Position;
+// import org.javatuples.Pair;
 
 public class State {
-    private final ArrayList<Pair<Player, Position>> positions = new ArrayList<>();
 
-    private State(){}
+    private final ArrayList<GameObject> players = new ArrayList<>();
+    private final ArrayList<GameObject> objects = new ArrayList<>();
+
+    private State() {}
     private static State state;
 
     public static State getInstance() {
-        if(state == null){
+        if(state == null) {
             return new State();
         }
-
         return state;
     }
 
-    public void addPosition(Player player) {
-        positions.add(new Pair<>(player, new Position()));
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
+    public void addObjects(GameObject gameObject) {
+        objects.add(gameObject);
     }
 
     /*
         Player1, [x:0, y:0]
         Player2, [x:0, y:0]
      */
-    public ArrayList<Pair<Player, Position>> getPositions() {
-        return positions;
+    public ArrayList<GameObject> getPlayers() {
+        return players;
     }
 
-    public Position getPosition(Player player) {
-        return getPositions().stream()
-                .filter(it->it.getValue0().getName().equals(player.getName()))
-                .findFirst().get().getValue1();
+    public Player getPlayer(String id) {
+        return (Player) getPlayers().stream()
+                .filter(it -> it.ID.equals(id))
+                .findFirst().get();
     }
 
-    public void updateStatePosition(Player player, Position newPosition) {
-        int idx = positions.stream()
-                .map(Pair::getValue0)
-                .collect(Collectors.toList())
-                .indexOf(player);
+    public void updateStatePlayer(String id, Player newPlayer) {
+        // GameObject oldPlayer = getPlayers().stream()
+        //                         .filter(it -> it.ID.equals(id))
+        //                         .findFirst().get();
+        // oldPlayer.setPosition(newPlayer.getPosition());
 
-        var newPair = positions.get(idx).setAt1(newPosition);
-        positions.set(idx, newPair);
+        getPlayer(id)
+            .setPosition(newPlayer.getPosition());
     }
 
 
