@@ -1,22 +1,35 @@
 package com.entities;
 
 public class Position {
-    public int x;
-    public int y;
+    private float x;
+    private float y;
 
-    public int getX() {
+    public Position(){
+        this.x = 0;
+        this.y = 0;
+    }
+
+    public float getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
+    }
+
+    public void addX(float dx) {
+        this.x += dx;
+    }
+
+    public void addY(float dy) {
+        this.y += dy;
     }
 }

@@ -1,9 +1,13 @@
 subprojects {
-    plugins {
-        id 'java'
-    }
-
     repositories {
         mavenCentral()
     }
 }
+
+ext.libraries = [
+    shared: [
+        'org.javatuples:javatuples:1.2',
+        'com.esotericsoftware:kryonet:2.22.0-RC1',
+        'com.google.code.gson:gson:2.8.8',
+    ]
+]
