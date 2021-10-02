@@ -6,6 +6,8 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.gsonParsers.GameObjectAdapter;
 
 public class Application {
 
@@ -18,7 +20,11 @@ public class Application {
 
     public static void main(String[] args) {
         Application application = new Application();
-        Gson gson = new Gson();
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(GameObject.class, new GameObjectAdapter());
+        Gson gson = gsonBuilder.create();
+
         Client appClient = application.client;
 
         Game game = new Game(appClient);
@@ -48,10 +54,6 @@ public class Application {
 
         String playerString = String.format("%s;%s", ClientAction.CONNECTED, gson.toJson(player));
         appClient.sendTCP(playerString);
-
-        // while (!game.isReady()) {
-            // TODO loading screen
-        // }
 
         game.run();
     }

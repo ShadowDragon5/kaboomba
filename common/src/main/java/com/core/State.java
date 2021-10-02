@@ -35,6 +35,4 @@ public class State {
         getPlayer(id)
             .setPosition(newPlayer.getPosition());
     }
-
-
 }

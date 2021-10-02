@@ -1,12 +1,21 @@
 package com.utils;
 
+import com.entities.Floor;
 import com.entities.Tile;
 import com.entities.Position;
+import com.entities.Wall;
 
-public abstract class TileCreator {
+public class TileCreator extends Creator {
 
-    /*
-     * @position - world coordinates
-     */
-    public abstract Tile createTile(Position position);
+    @Override
+    public Tile createFactory(String gid, Position position, float dimension) {
+        switch (gid){
+            case "1":
+                return new Floor(position);
+            case "2":
+                return new Wall(position);
+            default:
+                return null;
+        }
+    }
 }

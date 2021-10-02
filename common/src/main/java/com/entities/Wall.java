@@ -6,6 +6,9 @@ public class Wall extends Tile {
         super(position);
     }
 
+    public Wall(Position position, float dimension){
+        super(position,dimension);
+    }
     @Override
     public String getTextureFile() {
         return "Wall";

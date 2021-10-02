@@ -24,7 +24,6 @@ public class Game {
     private State state;
     private Client client;
 
-
     private GameMap map;
 
     public Game(Client client){
@@ -57,7 +56,21 @@ public class Game {
     }
 
     public void DrawQuad(float x, float y, float width, float height) {
-        GL11.glColor3f(0, 255, 255);
+        GL11.glColor3f(0, 0, 255);
+
+        glBegin(GL_QUADS);
+
+        glVertex2f(x-width/2, y-height/2);
+        glVertex2f(x+width/2, y-height/2);
+
+        glVertex2f(x+width/2, y+height/2);
+        glVertex2f(x-width/2, y+height/2);
+
+        glEnd();
+    }
+
+    public void DrawTexturedQuad(float x, float y, float width, float height, float color) {
+        glColor3f(color, 255, 255);
 
         glBegin(GL_QUADS);
 
@@ -155,6 +168,22 @@ public class Game {
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+
+            // Rendering map
+            if(map != null){
+                map.getGameObjects().forEach(it->{
+                    boolean isWall = it instanceof Wall;
+                    DrawTexturedQuad(
+                            it.getPosition().getX(),
+                            it.getPosition().getY(),
+                            0.1f,
+                            0.1f,
+                            isWall ? 0.5f : 0.2f
+                    );
+
+                });
+            }
 
             //rendering
             if(state != null) {

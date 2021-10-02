@@ -21,7 +21,7 @@ public class ServerConnection {
     }
 
     public Client startListening(){
-        Client client = new Client();
+        Client client = new Client(1000000,1000000);
 
         // Kryo kryo = client.getKryo();
         // kryo.register(Object[].class);
