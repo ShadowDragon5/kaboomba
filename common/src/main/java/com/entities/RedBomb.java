@@ -9,6 +9,6 @@ public class RedBomb extends Bomb{
 
     @Override
     public Color getColor() {
-        return new Color(1f,0f,0f);
+        return new Color(1f,0.4f,0f);
     }
 }

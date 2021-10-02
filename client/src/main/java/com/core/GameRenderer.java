@@ -59,7 +59,7 @@ public class GameRenderer {
     }
 
     public void DrawQuad(float x, float y, float width, float height, Color color) {
-        GL11.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
+        GL11.glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
 
         glBegin(GL_QUADS);
 
