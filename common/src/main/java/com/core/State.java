@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class State {
 
     private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Bomb> bombs = new ArrayList<>();
 
     private State() {}
     private static State state;
@@ -38,5 +39,13 @@ public class State {
 
     public void removePlayer(String id) {
         getPlayers().removeIf(it->it.ID.equals(id));
+    }
+
+    public void addBomb(Bomb bomb){
+        bombs.add(bomb);
+    }
+
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
     }
 }

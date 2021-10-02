@@ -22,15 +22,17 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Game {
+public class GameRenderer {
 
     private State state;
-    private Client client;
 
     private GameMap map;
+    private Client client;
+    private GameController gameController;
 
-    public Game(Client client){
+    public GameRenderer(Client client){
         this.client = client;
+        this.gameController = new GameController();
     }
 
     public void setState(State state){
@@ -92,6 +94,19 @@ public class Game {
         glEnd();
     }
 
+    public void DrawTriangle(float x, float y, float size, Color color) {
+        GL11.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
+
+        glBegin(GL_QUADS);
+
+        glVertex2f(x/2, y/2);
+
+        glVertex2f(x+size/2, y+size/2);
+        glVertex2f(x-size/2, y+size/2);
+
+        glEnd();
+    }
+
     private void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -111,28 +126,7 @@ public class Game {
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if(action == GLFW_PRESS) {
-                switch (key){
-                    case GLFW_KEY_ESCAPE:
-                        glfwSetWindowShouldClose(window, true);
-                        break;
-                    case GLFW_KEY_UP:
-                        client.sendTCP(ClientAction.MOVE_UP + ";");
-                        break;
-                    case GLFW_KEY_DOWN:
-                        client.sendTCP(ClientAction.MOVE_DOWN + ";");
-                        break;
-                    case GLFW_KEY_RIGHT:
-                        client.sendTCP(ClientAction.MOVE_RIGHT + ";");
-                        break;
-                    case GLFW_KEY_LEFT:
-                        client.sendTCP(ClientAction.MOVE_LEFT + ";");
-                        break;
-                }
-            }
-        });
+        gameController.listenControls(client, window);
 
         // Get the thread stack and push a new frame
         try ( MemoryStack stack = stackPush() ) {
@@ -178,7 +172,6 @@ public class Game {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-
             // Rendering map
             if(map != null){
                 map.getGameObjects().forEach(it->{
@@ -199,9 +192,15 @@ public class Game {
                 });
             }
 
-            //rendering
+
             if(state != null) {
+                //Rendering players
                 state.getPlayers().forEach(it->{
+                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), 0.1f, 0.1f, it.getColor());
+                });
+
+                //Rendering bombs
+                state.getBombs().forEach(it->{
                     DrawQuad(it.getPosition().getX(), it.getPosition().getY(), 0.1f, 0.1f, it.getColor());
                 });
             }

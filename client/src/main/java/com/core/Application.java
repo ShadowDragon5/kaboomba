@@ -24,28 +24,30 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        //Select team
-        Scanner sc= new Scanner(System.in);
-        System.out.print("Select team: RED | GREEN | BLUE");
-        String color = sc.nextLine();
-        PlayerColors playerColor = PlayerColors.valueOf(color);
-
+        // Get client
         Application application = new Application();
+        Client appClient = application.client;
 
+        // Register gson custom serializers/deserializers
         GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(GameObject.class, new GameObjectAdapter())
                 .registerTypeAdapter(Player.class, new PlayerAdapter());
         Gson gson = gsonBuilder.create();
 
-        Client appClient = application.client;
+        //Select team - should be refactored to menu
+        Scanner sc= new Scanner(System.in);
+        System.out.print("Select team: RED | GREEN | BLUE");
+        String color = sc.nextLine();
+        PlayerColors playerColor = PlayerColors.valueOf(color);
 
-        Game game = new Game(appClient);
+        // Initialize game renderer and controls listener
+        GameRenderer game = new GameRenderer(appClient);
 
-
-
+        // Create player using abstract factory
         PlayerCreator playerCreator = new DefaultPlayerCreator();
         Player player = playerCreator.createFactory(playerColor);
 
+        // Server callbacks listener
         appClient.addListener(new Listener() {
             public void received (Connection connection, Object object) {
                 if (!(object instanceof String)) {
@@ -71,6 +73,7 @@ public class Application {
         String playerString = String.format("%s;%s", ClientAction.CONNECTED, gson.toJson(player, Player.class));
         appClient.sendTCP(playerString);
 
+        // Launch game
         game.run();
     }
 

@@ -1,8 +1,6 @@
 package com.core;
 
-import com.entities.GameMap;
-import com.entities.GameObject;
-import com.entities.Player;
+import com.entities.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -58,18 +56,18 @@ public class ServerApplication {
                         case MOVE_UP:
                             playerToUpdate.move(Direction.UP);
                             break;
-
                         case MOVE_DOWN:
                             playerToUpdate.move(Direction.DOWN);
                             break;
-
                         case MOVE_LEFT:
                             playerToUpdate.move(Direction.LEFT);
                             break;
-
                         case MOVE_RIGHT:
                             playerToUpdate.move(Direction.RIGHT);
                             break;
+                        case PLANT_BOMB:
+                            Bomb bomb = playerToUpdate.getFactory().createBomb(playerToUpdate);
+                            state.addBomb(bomb);
                     }
                     state.updateStatePlayer(id, playerToUpdate);
                 }
