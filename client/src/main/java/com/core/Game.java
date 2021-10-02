@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
 
@@ -57,8 +58,8 @@ public class Game {
         glfwSetErrorCallback(null).free();
     }
 
-    public void DrawQuad(float x, float y, float width, float height) {
-        GL11.glColor3f(0, 0, 255);
+    public void DrawQuad(float x, float y, float width, float height, Color color) {
+        GL11.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
 
         glBegin(GL_QUADS);
 
@@ -201,7 +202,7 @@ public class Game {
             //rendering
             if(state != null) {
                 state.getPlayers().forEach(it->{
-                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), 0.1f, 0.1f);
+                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), 0.1f, 0.1f, it.getColor());
                 });
             }
 

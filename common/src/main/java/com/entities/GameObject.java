@@ -1,11 +1,14 @@
 package com.entities;
 
+import java.awt.*;
 import java.util.UUID;
 
 public abstract class GameObject {
     public final String ID = UUID.randomUUID().toString();
     protected Position position;
     protected float dimensions;
+    protected Color color;
+
 
     public GameObject(Position position, float dimensions) {
         this.position = position;
@@ -30,6 +33,10 @@ public abstract class GameObject {
         return dimensions;
     }
 
+    public void setDimensions(float dimensions) {
+        this.dimensions = dimensions;
+    }
+
     public void setPosition(Position p) {
         this.position = p;
     }
@@ -50,4 +57,7 @@ public abstract class GameObject {
     }
 
     public abstract String getTextureFile();
+    public Color getColor(){
+        return new Color(1f,1f,1f);
+    }
 }

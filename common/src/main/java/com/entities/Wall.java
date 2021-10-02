@@ -2,6 +2,7 @@ package com.entities;
 
 public class Wall extends Tile {
 
+    public Wall(){}
     public Wall(Position position) {
         super(position);
     }

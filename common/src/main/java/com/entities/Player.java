@@ -1,8 +1,9 @@
 package com.entities;
 
 import com.core.Direction;
+import com.utils.PlayersAbstractFactory;
 
-public class Player extends GameObject {
+public abstract class Player extends GameObject {
 
     private final float speed = 0.1f;
 
@@ -10,9 +11,10 @@ public class Player extends GameObject {
         super(new Position());
     }
 
+
     @Override
     public String getTextureFile() {
-        return "Player";
+        return "src/main/player";
     }
 
     public void move(Direction direction) {
@@ -35,4 +37,5 @@ public class Player extends GameObject {
         }
     }
 
+    public abstract PlayersAbstractFactory getFactory();
 }

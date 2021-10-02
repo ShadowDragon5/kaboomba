@@ -8,6 +8,11 @@ import com.esotericsoftware.kryonet.Listener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gsonParsers.GameObjectAdapter;
+import com.gsonParsers.PlayerAdapter;
+import com.utils.DefaultPlayerCreator;
+import com.utils.PlayerCreator;
+
+import java.util.Scanner;
 
 public class Application {
 
@@ -19,16 +24,27 @@ public class Application {
     }
 
     public static void main(String[] args) {
+        //Select team
+        Scanner sc= new Scanner(System.in);
+        System.out.print("Select team: RED | GREEN | BLUE");
+        String color = sc.nextLine();
+        PlayerColors playerColor = PlayerColors.valueOf(color);
+
         Application application = new Application();
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(GameObject.class, new GameObjectAdapter());
+        GsonBuilder gsonBuilder = new GsonBuilder()
+                .registerTypeAdapter(GameObject.class, new GameObjectAdapter())
+                .registerTypeAdapter(Player.class, new PlayerAdapter());
         Gson gson = gsonBuilder.create();
 
         Client appClient = application.client;
 
         Game game = new Game(appClient);
-        Player player = new Player();
+
+
+
+        PlayerCreator playerCreator = new DefaultPlayerCreator();
+        Player player = playerCreator.createFactory(playerColor);
 
         appClient.addListener(new Listener() {
             public void received (Connection connection, Object object) {
@@ -52,7 +68,7 @@ public class Application {
             }
         });
 
-        String playerString = String.format("%s;%s", ClientAction.CONNECTED, gson.toJson(player));
+        String playerString = String.format("%s;%s", ClientAction.CONNECTED, gson.toJson(player, Player.class));
         appClient.sendTCP(playerString);
 
         game.run();

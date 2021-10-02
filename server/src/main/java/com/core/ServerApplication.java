@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.Server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gsonParsers.GameObjectAdapter;
+import com.gsonParsers.PlayerAdapter;
 
 import java.util.HashMap;
 
@@ -17,8 +18,9 @@ public class ServerApplication {
     private static State state = State.getInstance();
 
     public static void main(String... args) throws Exception {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(GameObject.class, new GameObjectAdapter());
+        GsonBuilder gsonBuilder = new GsonBuilder()
+                .registerTypeAdapter(GameObject.class, new GameObjectAdapter())
+                .registerTypeAdapter(Player.class, new PlayerAdapter());
         Gson gson = gsonBuilder.create();
 
         GameMap gameMap = new GameMap();

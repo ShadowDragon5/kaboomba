@@ -49,7 +49,7 @@ public class GameMap {
                 }
             }
 
-            Creator creator = new TileCreator();
+            TileCreator creator = new DefaultTileCreator();
             double dimension = Math.sqrt(gids.size());
             float dd = 2f/(float)dimension;
             float x = -1.05f;
