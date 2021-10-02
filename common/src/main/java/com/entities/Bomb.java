@@ -1,5 +1,7 @@
 package com.entities;
 
+import java.awt.*;
+
 public class Bomb extends GameObject{
     public String initiatorId;
 
@@ -15,4 +17,5 @@ public class Bomb extends GameObject{
     public String getTextureFile() {
         return "src/resources/bomb";
     }
+
 }

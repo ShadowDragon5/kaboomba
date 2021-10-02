@@ -11,6 +11,7 @@ import com.gsonParsers.GameObjectAdapter;
 import com.gsonParsers.PlayerAdapter;
 import com.utils.DefaultPlayerCreator;
 import com.utils.PlayerCreator;
+import com.utils.UtilityMethods;
 
 import java.util.Scanner;
 
@@ -38,14 +39,11 @@ public class Application {
         Scanner sc= new Scanner(System.in);
         System.out.print("Select team: RED | GREEN | BLUE");
         String color = sc.nextLine();
-        PlayerColors playerColor = PlayerColors.valueOf(color);
+        if(color.equals(""))
+            color = Globals.defaultPlayerColor.toString();
 
         // Initialize game renderer and controls listener
         GameRenderer game = new GameRenderer(appClient);
-
-        // Create player using abstract factory
-        PlayerCreator playerCreator = new DefaultPlayerCreator();
-        Player player = playerCreator.createFactory(playerColor);
 
         // Server callbacks listener
         appClient.addListener(new Listener() {
@@ -70,8 +68,8 @@ public class Application {
             }
         });
 
-        String playerString = String.format("%s;%s", ClientAction.CONNECTED, gson.toJson(player, Player.class));
-        appClient.sendTCP(playerString);
+        String playerColorString = String.format("%s;%s", ClientAction.CONNECTED, color);
+        appClient.sendTCP(playerColorString);
 
         // Launch game
         game.run();

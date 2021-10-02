@@ -1,6 +1,7 @@
 package com.entities;
 
 import com.core.Direction;
+import com.core.Globals;
 import com.utils.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
@@ -8,7 +9,7 @@ public abstract class Player extends GameObject {
     private final float speed = 0.1f;
 
     public Player() {
-        super(new Position());
+        super();
     }
 
 

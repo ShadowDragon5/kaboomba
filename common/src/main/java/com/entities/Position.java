@@ -31,10 +31,12 @@ public class Position {
     }
 
     public void addX(float dx) {
-        this.x += dx;
+        if(this.x + dx <= 1f && this.x + dx >= -1f)
+            this.x += dx;
     }
 
     public void addY(float dy) {
-        this.y += dy;
+        if(this.y + dy <= 1f && this.y + dy >= -1f)
+            this.y += dy;
     }
 }

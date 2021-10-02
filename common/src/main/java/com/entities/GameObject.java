@@ -1,5 +1,7 @@
 package com.entities;
 
+import com.core.Globals;
+
 import java.awt.*;
 import java.util.UUID;
 
@@ -8,7 +10,6 @@ public abstract class GameObject {
     protected Position position;
     protected float dimensions;
     protected Color color;
-
 
     public GameObject(Position position, float dimensions) {
         this.position = position;
@@ -21,9 +22,13 @@ public abstract class GameObject {
 
     public GameObject(Position position) {
         this.position = position;
+        this.dimensions = Globals.getDefaultDimension();
     }
 
-    public GameObject() {}
+    public GameObject() {
+        this.dimensions = Globals.getDefaultDimension();
+        this.position = new Position();
+    }
 
     public Position getPosition() {
         return this.position;

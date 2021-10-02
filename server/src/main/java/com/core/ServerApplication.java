@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gsonParsers.GameObjectAdapter;
 import com.gsonParsers.PlayerAdapter;
+import com.utils.DefaultPlayerCreator;
+import com.utils.PlayerCreator;
+import com.utils.UtilityMethods;
 
 import java.util.HashMap;
 
@@ -42,7 +45,19 @@ public class ServerApplication {
 
                 if (clientAction == ClientAction.CONNECTED) {
                     String payload = contents[1];
-                    Player player = gson.fromJson(payload, Player.class);
+                    PlayerColors playerColor = UtilityMethods.getPlayerColorOrDefault(payload);
+
+                    // Create player using abstract factory
+                    PlayerCreator playerCreator = new DefaultPlayerCreator();
+                    Player player = playerCreator.createFactory(playerColor);
+
+                    int playerCount = state.getPlayers().size() + 1;
+                    float xPos = playerCount == 1 || playerCount == 4 ?
+                            -1f + 1.5f * player.getDimensions() : 1f - 1.5f * player.getDimensions();
+                    float yPos = playerCount == 1 || playerCount == 3 ?
+                            1f - 1.5f * player.getDimensions() : -1f + 1.5f * player.getDimensions();
+                    player.setPosition(new Position(xPos, yPos));
+
                     connections.put(connection, player.ID);
                     state.addPlayer(player);
 
@@ -66,8 +81,8 @@ public class ServerApplication {
                             playerToUpdate.move(Direction.RIGHT);
                             break;
                         case PLANT_BOMB:
-                            Bomb bomb = playerToUpdate.getFactory().createBomb(playerToUpdate);
-                            state.addBomb(bomb);
+                            state.addBomb(playerToUpdate.getFactory().createBomb(playerToUpdate));
+                            break;
                     }
                     state.updateStatePlayer(id, playerToUpdate);
                 }

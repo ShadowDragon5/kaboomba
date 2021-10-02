@@ -1,5 +1,6 @@
 package com.entities;
 
+import com.core.Globals;
 import com.core.State;
 import com.utils.*;
 import org.w3c.dom.Document;
@@ -50,20 +51,23 @@ public class GameMap {
             }
 
             TileCreator creator = new DefaultTileCreator();
-            double dimension = Math.sqrt(gids.size());
-            float dd = 2f/(float)dimension;
-            float x = -1.05f;
-            float y = 0.95f;
-            for(int i = 0; i<gids.size(); i++){
-                x += dd;
+            double tileColumnCount = Math.sqrt(gids.size());
+            float dimension = 2f/(float)tileColumnCount;
+            Globals.setDefaultDimension(0.1f);           // Set defaultDimension to fit tiles
 
-                if((i%dimension == 0 && i!=0)){
-                    x = -0.95f;
-                    y -= dd;
+            float x = -1f - dimension / 2;
+            float y = 1f - dimension / 2;
+
+            for(int i = 0; i<gids.size(); i++){
+                x += dimension;
+
+                if((i%tileColumnCount == 0 && i!=0)){
+                    x = -1 + dimension / 2;
+                    y -= dimension;
                 }
 
                 Position position = new Position(x,y);
-                Tile tile = creator.createFactory(gids.get(i), position, (float)dimension);
+                Tile tile = creator.createFactory(gids.get(i), position, dimension);
                 gameObjects.add(tile);
             }
 

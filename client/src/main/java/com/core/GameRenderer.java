@@ -3,7 +3,6 @@ package com.core;
 import com.entities.*;
 
 import com.esotericsoftware.kryonet.Client;
-import com.google.gson.Gson;
 import com.utils.TextureLoader;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -13,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -74,8 +72,8 @@ public class GameRenderer {
         glEnd();
     }
 
-    public void DrawTexturedQuad(float x, float y, float width, float height, float color) {
-        glColor3f(color, 255, 255);
+    public void DrawTexturedQuad(float x, float y, float width, float height) {
+        glColor3f(1f, 1f, 1f);
 
         glBegin(GL_QUADS);
 
@@ -184,9 +182,8 @@ public class GameRenderer {
                     DrawTexturedQuad(
                             it.getPosition().getX(),
                             it.getPosition().getY(),
-                            0.1f,
-                            0.1f,
-                            isWall ? 0.5f : 0.2f
+                            it.getDimensions(),
+                            it.getDimensions()
                     );
 
                 });
@@ -194,14 +191,16 @@ public class GameRenderer {
 
 
             if(state != null) {
-                //Rendering players
-                state.getPlayers().forEach(it->{
-                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), 0.1f, 0.1f, it.getColor());
-                });
-
                 //Rendering bombs
                 state.getBombs().forEach(it->{
-                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), 0.1f, 0.1f, it.getColor());
+                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), it.getDimensions(),
+                            it.getDimensions(), it.getColor());
+                });
+
+                //Rendering players
+                state.getPlayers().forEach(it->{
+                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), it.getDimensions(),
+                            it.getDimensions(), it.getColor());
                 });
             }
 
