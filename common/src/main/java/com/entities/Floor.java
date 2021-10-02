@@ -15,6 +15,6 @@ public class Floor extends Tile{
 
     @Override
     public String getTextureFile() {
-        return "floor";
+        return "src/main/resources/path.png";
     }
 }

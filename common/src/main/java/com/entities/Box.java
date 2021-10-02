@@ -8,6 +8,6 @@ public class Box extends Tile {
 
     @Override
     public String getTextureFile() {
-        return "Box";
+        return "src/box";
     }
 }

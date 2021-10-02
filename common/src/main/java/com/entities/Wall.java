@@ -11,7 +11,7 @@ public class Wall extends Tile {
     }
     @Override
     public String getTextureFile() {
-        return "Wall";
+        return "src/main/resources/wall.png";
     }
 }
 

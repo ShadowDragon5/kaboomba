@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gsonParsers.GameObjectAdapter;
 
+import java.awt.image.BufferedImage;
+
 public class Test {
     public static void main(String[] args){
         GameMap gameMap = new GameMap();

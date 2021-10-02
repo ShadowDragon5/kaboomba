@@ -35,4 +35,8 @@ public class State {
         getPlayer(id)
             .setPosition(newPlayer.getPosition());
     }
+
+    public void removePlayer(String id) {
+        getPlayers().removeIf(it->it.ID.equals(id));
+    }
 }

@@ -52,14 +52,14 @@ public class GameMap {
             Creator creator = new TileCreator();
             double dimension = Math.sqrt(gids.size());
             float dd = 2f/(float)dimension;
-            float x = -1f;
-            float y = -0.95f;
+            float x = -1.05f;
+            float y = 0.95f;
             for(int i = 0; i<gids.size(); i++){
                 x += dd;
 
                 if((i%dimension == 0 && i!=0)){
                     x = -0.95f;
-                    y += dd;
+                    y -= dd;
                 }
 
                 Position position = new Position(x,y);

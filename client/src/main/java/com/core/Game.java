@@ -4,6 +4,7 @@ import com.entities.*;
 
 import com.esotericsoftware.kryonet.Client;
 import com.google.gson.Gson;
+import com.utils.TextureLoader;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -11,6 +12,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
+import java.awt.image.BufferedImage;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -74,10 +76,16 @@ public class Game {
 
         glBegin(GL_QUADS);
 
+        glTexCoord2f(0, 0); // top left
         glVertex2f(x-width/2, y-height/2);
+
+        glTexCoord2f(0, 1); // bottom left
         glVertex2f(x+width/2, y-height/2);
 
+        glTexCoord2f(1, 1); // bottom right
         glVertex2f(x+width/2, y+height/2);
+
+        glTexCoord2f(1, 0); // top right
         glVertex2f(x-width/2, y+height/2);
 
         glEnd();
@@ -174,6 +182,11 @@ public class Game {
             if(map != null){
                 map.getGameObjects().forEach(it->{
                     boolean isWall = it instanceof Wall;
+                    int textureId = TextureLoader.getTexture(it);
+
+                    glEnable(GL_TEXTURE_2D);
+                    glBindTexture(GL_TEXTURE_2D, textureId);
+
                     DrawTexturedQuad(
                             it.getPosition().getX(),
                             it.getPosition().getY(),
