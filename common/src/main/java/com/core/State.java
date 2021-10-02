@@ -36,5 +36,7 @@ public class State {
             .setPosition(newPlayer.getPosition());
     }
 
-
+    public void removePlayer(String id) {
+        getPlayers().removeIf(it->it.ID.equals(id));
+    }
 }

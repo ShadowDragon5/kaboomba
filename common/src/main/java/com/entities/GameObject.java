@@ -26,6 +26,10 @@ public abstract class GameObject {
         return this.position;
     }
 
+    public float getDimensions() {
+        return dimensions;
+    }
+
     public void setPosition(Position p) {
         this.position = p;
     }
