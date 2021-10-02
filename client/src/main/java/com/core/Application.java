@@ -7,11 +7,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.gsonParsers.GameObjectAdapter;
-import com.gsonParsers.PlayerAdapter;
-import com.utils.DefaultPlayerCreator;
-import com.utils.PlayerCreator;
-import com.utils.UtilityMethods;
+import com.gsonParsers.CustomJsonAdapter;
 
 import java.util.Scanner;
 
@@ -31,8 +27,10 @@ public class Application {
 
         // Register gson custom serializers/deserializers
         GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapter(GameObject.class, new GameObjectAdapter())
-                .registerTypeAdapter(Player.class, new PlayerAdapter());
+                .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
+                .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
+                .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>());
+
         Gson gson = gsonBuilder.create();
 
         //Select team - should be refactored to menu

@@ -6,8 +6,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.gsonParsers.GameObjectAdapter;
-import com.gsonParsers.PlayerAdapter;
+import com.gsonParsers.CustomJsonAdapter;
 import com.utils.DefaultPlayerCreator;
 import com.utils.PlayerCreator;
 import com.utils.UtilityMethods;
@@ -20,8 +19,9 @@ public class ServerApplication {
 
     public static void main(String... args) throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapter(GameObject.class, new GameObjectAdapter())
-                .registerTypeAdapter(Player.class, new PlayerAdapter());
+                .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
+                .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
+                .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>());
         Gson gson = gsonBuilder.create();
 
         GameMap gameMap = new GameMap();

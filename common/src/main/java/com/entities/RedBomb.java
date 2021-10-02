@@ -9,7 +9,6 @@ public class RedBomb extends Bomb{
 
     @Override
     public Color getColor() {
-        System.out.println("I am red");
         return new Color(1f,0f,0f);
     }
 }
