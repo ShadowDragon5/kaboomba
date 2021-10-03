@@ -67,7 +67,7 @@ public class GameMap {
                 }
 
                 Position position = new Position(x,y);
-                Tile tile = creator.createFactory(gids.get(i), position, dimension);
+                Tile tile = creator.createTile(gids.get(i), position, dimension);
                 gameObjects.add(tile);
             }
 

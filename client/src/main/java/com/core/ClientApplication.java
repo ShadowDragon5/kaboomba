@@ -11,18 +11,18 @@ import com.gsonParsers.CustomJsonAdapter;
 
 import java.util.Scanner;
 
-public class Application {
+public class ClientApplication {
 
     private final ServerConnection connection = ServerConnection.getInstance();
     private final Client client;
 
-    public Application() {
+    public ClientApplication() {
         this.client = connection.startListening();
     }
 
     public static void main(String[] args) {
         // Get client
-        Application application = new Application();
+        ClientApplication application = new ClientApplication();
         Client appClient = application.client;
 
         // Register gson custom serializers/deserializers
@@ -35,7 +35,7 @@ public class Application {
 
         //Select team - should be refactored to menu
         Scanner sc= new Scanner(System.in);
-        System.out.print("Select team: RED | GREEN | BLUE");
+        System.out.print("Select team: GREEN | BLUE");
         String color = sc.nextLine();
         if(color.equals(""))
             color = Globals.defaultPlayerColor.toString();

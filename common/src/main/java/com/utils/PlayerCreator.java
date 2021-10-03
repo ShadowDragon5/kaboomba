@@ -5,5 +5,5 @@ import com.entities.Player;
 
 public abstract class PlayerCreator {
 
-    public abstract Player createFactory(PlayerColors color);
+    public abstract Player createPlayer(PlayerColors color);
 }

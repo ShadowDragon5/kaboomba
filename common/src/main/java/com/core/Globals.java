@@ -9,5 +9,5 @@ public class Globals {
         Globals.defaultDimension = dimension;
     }
 
-    public static PlayerColors defaultPlayerColor = PlayerColors.RED;
+    public static PlayerColors defaultPlayerColor = PlayerColors.BLUE;
 }

@@ -8,7 +8,7 @@ import com.entities.Wall;
 public class DefaultTileCreator extends TileCreator {
 
     @Override
-    public Tile createFactory(String gid, Position position, float dimension) {
+    public Tile createTile(String gid, Position position, float dimension) {
         switch (gid){
             case "1":
                 return new Floor(position, dimension);

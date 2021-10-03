@@ -49,7 +49,7 @@ public class ServerApplication {
 
                     // Create player using abstract factory
                     PlayerCreator playerCreator = new DefaultPlayerCreator();
-                    Player player = playerCreator.createFactory(playerColor);
+                    Player player = playerCreator.createPlayer(playerColor);
 
                     int playerCount = state.getPlayers().size() + 1;
                     float xPos = playerCount == 1 || playerCount == 4 ?
