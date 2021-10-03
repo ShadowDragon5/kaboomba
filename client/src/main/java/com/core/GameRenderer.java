@@ -78,16 +78,16 @@ public class GameRenderer {
         glBegin(GL_QUADS);
 
         glTexCoord2f(0, 0); // top left
-        glVertex2f(x-width/2, y-height/2);
+        glVertex2f(x-width/2, y+height/2);
 
         glTexCoord2f(0, 1); // bottom left
-        glVertex2f(x+width/2, y-height/2);
+        glVertex2f(x-width/2, y-height/2);
 
         glTexCoord2f(1, 1); // bottom right
-        glVertex2f(x+width/2, y+height/2);
+        glVertex2f(x+width/2, y-height/2);
 
         glTexCoord2f(1, 0); // top right
-        glVertex2f(x-width/2, y+height/2);
+        glVertex2f(x+width/2, y+height/2);
 
         glEnd();
     }
