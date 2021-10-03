@@ -11,7 +11,7 @@ public class State {
     private State() {}
     private static State state;
 
-    public static State getInstance() {
+    public synchronized static State getInstance() {
         if(state == null) {
             return new State();
         }
