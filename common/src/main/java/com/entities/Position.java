@@ -1,5 +1,8 @@
 package com.entities;
 
+import com.core.ArithmeticActions;
+import com.utils.UtilityMethods;
+
 public class Position {
     private float x;
     private float y;
@@ -31,12 +34,14 @@ public class Position {
     }
 
     public void addX(float dx) {
-        if(this.x + dx <= 1f && this.x + dx >= -1f)
-            this.x += dx;
+        if(UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.MIN) <= 1f
+                && UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM) >= -1f)
+            this.x = UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM);
     }
 
     public void addY(float dy) {
-        if(this.y + dy <= 1f && this.y + dy >= -1f)
-            this.y += dy;
+        if(UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.MIN) <= 1f
+                && UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM) >= -1f)
+            this.y = UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM);
     }
 }

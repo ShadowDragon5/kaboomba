@@ -8,15 +8,19 @@ import com.gsonParsers.CustomJsonAdapter;
 
 public class Test {
     public static void main(String[] args){
-        GameMap gameMap = new GameMap();
-        gameMap.loadMap("/Users/mi/Desktop/kaboomba/server/src/main/resources/map1.tmx", null);
 
-        GsonBuilder gsonBilder = new GsonBuilder();
-        gsonBilder.registerTypeAdapter(GameObject.class, new CustomJsonAdapter());
-        Gson gson = gsonBilder.create();
+        //Bad
+        System.out.println(0.05f - 0.001f);
+        System.out.println(0.9f - 0.1f);
 
-        String mapJson = String.format(gson.toJson(gameMap));
+        System.out.println("==================");
 
-        GameMap map = gson.fromJson(mapJson, GameMap.class);
+        //Good
+        System.out.println((0.05f*1000 - 0.001f*1000)/1000);
+        System.out.println((0.9f*1000-0.1f*1000)/1000);
+
+        System.out.println(1.5f * 0.1f);
+        System.out.println(0.1f/2);
+
     }
 }

@@ -47,18 +47,18 @@ public abstract class GameObject {
     }
 
     public boolean collides(GameObject other) {
-        float tdh = this.dimensions / 2;
-        float odh = other.dimensions / 2;
+//        float tdh = this.dimensions / 2;
+//        float odh = other.dimensions / 2;
+//
+//        if (other.position.getX() + odh <= this.position.getX() - tdh &&// other right vs this left
+//            other.position.getX() - odh >= this.position.getX() + tdh)  // other left vs this right
+//            return true;
+//
+//        if (other.position.getY() + odh <= this.position.getY() - tdh &&// other right vs this left
+//            other.position.getY() - odh >= this.position.getY() + tdh)  // other left vs this right
+//            return true;
 
-        if (other.position.getX() + odh <= this.position.getX() - tdh &&// other right vs this left
-            other.position.getX() - odh >= this.position.getX() + tdh)  // other left vs this right
-            return true;
-
-        if (other.position.getY() + odh <= this.position.getY() - tdh &&// other right vs this left
-            other.position.getY() - odh >= this.position.getY() + tdh)  // other left vs this right
-            return true;
-
-        return false;
+        return other.position.getX() == this.position.getX() && other.position.getY() == this.position.getY();
     }
 
     public abstract String getTextureFile();
