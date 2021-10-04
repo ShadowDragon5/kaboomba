@@ -50,10 +50,18 @@ public class ServerApplication {
                     Player player = playerCreator.createPlayer(playerColor);
 
                     int playerCount = state.getPlayers().size() + 1;
+                    float playerDim = 1.5f *  player.getDimensions();
+
                     float xPos = playerCount == 1 || playerCount == 4 ?
-                            -1f + 1.5f * player.getDimensions() : 1f - 1.5f * player.getDimensions();
+                            UtilityMethods.preciseArithmetics(-1f, playerDim, ArithmeticActions.SUM)
+                            :
+                            UtilityMethods.preciseArithmetics(1f, playerDim, ArithmeticActions.MIN);
+
                     float yPos = playerCount == 1 || playerCount == 3 ?
-                            1f - 1.5f * player.getDimensions() : -1f + 1.5f * player.getDimensions();
+                            UtilityMethods.preciseArithmetics(1f, playerDim, ArithmeticActions.MIN)
+                            :
+                            UtilityMethods.preciseArithmetics(-1f, playerDim, ArithmeticActions.SUM);
+
                     player.setPosition(new Position(xPos, yPos));
 
                     connections.put(connection, player.ID);
@@ -64,6 +72,8 @@ public class ServerApplication {
                 } else {
                     id = connections.get(connection);
                     playerToUpdate = state.getPlayer(id);
+
+                    Position oldPosition = new Position(playerToUpdate.getPosition().getX(), playerToUpdate.getPosition().getY());
 
                     switch (clientAction) {
                         case MOVE_UP:
@@ -82,7 +92,12 @@ public class ServerApplication {
                             state.addBomb(playerToUpdate.getFactory().createBomb(playerToUpdate));
                             break;
                     }
-                    state.updateStatePlayer(id, playerToUpdate);
+
+                    if(playerCollides(gameMap, playerToUpdate)){
+                        playerToUpdate.setPosition(oldPosition);
+                    }else{
+                        state.updateStatePlayer(id, playerToUpdate);
+                    }
                 }
 
                 sendState(gson);
@@ -104,6 +119,11 @@ public class ServerApplication {
         });
     }
 
+    private static boolean playerCollides(GameMap map, GameObject obj){
+        return map.getGameObjects().stream()
+                .filter(it->it instanceof Wall)
+                .filter(it->it.collides(obj)).count() >= 1;
+    }
 
     private static void sendState(Gson gson) {
         String stateJson = gson.toJson(state);
