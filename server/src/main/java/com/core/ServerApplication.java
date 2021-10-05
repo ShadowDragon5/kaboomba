@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class ServerApplication {
     private static final HashMap<Connection, String> connections = new HashMap<>();
-    private static State state = State.getInstance();
+    private static ServerState serverState = new ServerState();
 
     public static void main(String... args) throws Exception {
         GsonBuilder gsonBuilder = new GsonBuilder()
@@ -26,7 +26,7 @@ public class ServerApplication {
         Gson gson = gsonBuilder.create();
 
         GameMap gameMap = new GameMap();
-        gameMap.loadMap("src/main/resources/map1.tmx", state);
+        gameMap.loadMap("src/main/resources/map1.tmx", serverState.getState());
 
         Server server = new Server(1000000, 1000000);
 
@@ -52,7 +52,7 @@ public class ServerApplication {
                     PlayerCreator playerCreator = new DefaultPlayerCreator();
                     Player player = playerCreator.createPlayer(playerColor);
 
-                    int playerCount = state.getPlayers().size() + 1;
+                    int playerCount = serverState.getState().getPlayers().size() + 1;
                     float playerDim = 1.5f *  player.getDimensions();
 
                     float xPos = playerCount == 1 || playerCount == 4 ?
@@ -68,13 +68,14 @@ public class ServerApplication {
                     player.setPosition(new Position(xPos, yPos));
 
                     connections.put(connection, player.ID);
-                    state.addPlayer(player);
+                    serverState.attach(new Client(serverState, connection, player.ID));
+                    serverState.getState().addPlayer(player);
 
                     String mapJson = String.format("%s;%s", ServerAction.MAP_INIT, gson.toJson(gameMap));
                     connection.sendTCP(mapJson);
                 } else {
                     id = connections.get(connection);
-                    playerToUpdate = state.getPlayer(id);
+                    playerToUpdate = serverState.getState().getPlayer(id);
 
                     Position oldPosition = new Position(playerToUpdate.getPosition().getX(), playerToUpdate.getPosition().getY());
                     PlayersAbstractFactory playerFactory = playerToUpdate.getFactory();
@@ -93,24 +94,24 @@ public class ServerApplication {
                             playerToUpdate.move(Direction.RIGHT);
                             break;
                         case PLANT_BOMB:
-                            state.addBomb(playerFactory.createBomb(playerToUpdate));
+                            serverState.getState().addBomb(playerFactory.createBomb(playerToUpdate));
                             break;
                         case PLANT_PIT:
-                            state.addPit(playerFactory.createPit(playerToUpdate));
+                            serverState.getState().addPit(playerFactory.createPit(playerToUpdate));
                             break;
                         case PLANT_SHIELD:
-                            state.addShield(playerFactory.createShield(playerToUpdate));
+                            serverState.getState().addShield(playerFactory.createShield(playerToUpdate));
 
                     }
 
                     if(playerCollides(gameMap, playerToUpdate)){
                         playerToUpdate.setPosition(oldPosition);
                     }else{
-                        state.updateStatePlayer(id, playerToUpdate);
+                        serverState.getState().updateStatePlayer(id, playerToUpdate);
                     }
                 }
 
-                sendState(gson);
+                serverState.notifyObservers(gson);
             }
 
             @Override
@@ -122,8 +123,8 @@ public class ServerApplication {
             @Override
             public void disconnected(Connection outGoingConnection) {
                 String id = connections.get(outGoingConnection);
-                state.removePlayer(id);
-                sendState(gson);
+                serverState.getState().removePlayer(id);
+                serverState.notifyObservers(gson);
                 System.out.println("Disconnected" + outGoingConnection.getID());
             }
         });
@@ -135,11 +136,11 @@ public class ServerApplication {
                 .filter(it->it.collides(obj)).count() >= 1;
     }
 
-    private static void sendState(Gson gson) {
-        String stateJson = gson.toJson(state);
-
-        for (Connection client : connections.keySet()) {
-            client.sendTCP(String.format("%s;%s", ServerAction.STATE_UPDATE, stateJson));
-        }
-    }
+    // private static void sendState(Gson gson) {
+    //     String stateJson = gson.toJson(state);
+    //
+    //     for (Connection client : connections.keySet()) {
+    //         client.sendTCP(String.format("%s;%s", ServerAction.STATE_UPDATE, stateJson));
+    //     }
+    // }
 }
