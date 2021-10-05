@@ -19,7 +19,7 @@ public class GameMap {
     public GameMap() {
     }
 
-    public void loadMap(String filePath, State state) {
+    public void loadMap(String filePath) {
         var dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -72,7 +72,6 @@ public class GameMap {
                 Tile tile = creator.createTile(gids.get(i), position, dimension);
                 gameObjects.add(tile);
             }
-            System.out.println("s");
 
         } catch (Exception e) {
             e.printStackTrace();

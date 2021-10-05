@@ -8,6 +8,10 @@ public class Box extends Tile {
         super(position);
     }
 
+    public Box(Position position, float dimension) {
+        super(position, dimension);
+    }
+
     private BoxExplodable boxExplodable;
 
     public BoxExplodable getBoxExplodable() {
@@ -24,6 +28,6 @@ public class Box extends Tile {
 
     @Override
     public String getTextureFile() {
-        return "src/box";
+        return "src/main/resources/box.png";
     }
 }

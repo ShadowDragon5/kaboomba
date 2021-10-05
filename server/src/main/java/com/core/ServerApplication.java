@@ -23,7 +23,7 @@ public class ServerApplication {
         Gson gson = gsonBuilder.create();
 
         GameMap gameMap = new GameMap();
-        gameMap.loadMap("src/main/resources/map1.tmx", state);
+        gameMap.loadMap("src/main/resources/map1.tmx");
 
         Server server = new Server(1000000, 1000000);
 
