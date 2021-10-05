@@ -13,11 +13,17 @@ public class BluePlayerFactory extends PlayersAbstractFactory {
 
     @Override
     public Shield createShield(Player player) {
-        return null;
+        BlueShield blueShield = new BlueShield(new Position(player.getPosition().getX(), player.getPosition().getY()));
+        blueShield.initiatorId = player.ID;
+
+        return blueShield;
     }
 
     @Override
     public Pit createPit(Player player) {
-        return null;
+        BluePit bluePit = new BluePit(new Position(player.getPosition().getX(), player.getPosition().getY()));
+        bluePit.initiatorId = player.ID;
+
+        return bluePit;
     }
 }

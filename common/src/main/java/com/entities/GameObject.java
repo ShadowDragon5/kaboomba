@@ -10,6 +10,8 @@ public abstract class GameObject {
     protected Position position;
     protected float dimensions;
     protected Color color;
+    public String initiatorId;
+
 
     public GameObject(Position position, float dimensions) {
         this.position = position;
@@ -65,4 +67,9 @@ public abstract class GameObject {
     public Color getColor(){
         return new Color(1f,1f,1f);
     }
+
+    public void setInitiatorId(String initiatorId) {
+        this.initiatorId = initiatorId;
+    }
+
 }

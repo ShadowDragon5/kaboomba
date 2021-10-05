@@ -6,7 +6,11 @@ import java.util.ArrayList;
 public class State {
 
     private final ArrayList<Player> players = new ArrayList<>();
+
+    // Player droppable entities
     private final ArrayList<Bomb> bombs = new ArrayList<>();
+    private final ArrayList<Shield> shields = new ArrayList<>();
+    private final ArrayList<Pit> pits = new ArrayList<>();
 
     private State() {}
     private static State state;
@@ -34,7 +38,7 @@ public class State {
 
     public void updateStatePlayer(String id, Player newPlayer) {
         getPlayer(id)
-            .setPosition(newPlayer.getPosition());
+                .setPosition(newPlayer.getPosition());
     }
 
     public void removePlayer(String id) {
@@ -48,4 +52,21 @@ public class State {
     public ArrayList<Bomb> getBombs() {
         return bombs;
     }
+
+    public void addShield(Shield shield) {
+        shields.add(shield);
+    }
+
+    public ArrayList<Shield> getShields() {
+        return shields;
+    }
+
+    public void addPit(Pit pit){
+        pits.add(pit);
+    }
+
+    public ArrayList<Pit> getPits() {
+        return pits;
+    }
+
 }
