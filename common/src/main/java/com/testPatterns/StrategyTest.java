@@ -1,9 +1,9 @@
-package com;
+package com.testPatterns;
 
 import com.entities.Box;
 import com.entities.Position;
 
-public class Test {
+public class StrategyTest {
     public static void main(String[] args){
         testStrategy();
     }
