@@ -19,7 +19,10 @@ public class ServerApplication {
         GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
                 .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
-                .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>());
+                .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>())
+                .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>())
+                .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>());
+
         Gson gson = gsonBuilder.create();
 
         GameMap gameMap = new GameMap();
@@ -74,6 +77,7 @@ public class ServerApplication {
                     playerToUpdate = state.getPlayer(id);
 
                     Position oldPosition = new Position(playerToUpdate.getPosition().getX(), playerToUpdate.getPosition().getY());
+                    PlayersAbstractFactory playerFactory = playerToUpdate.getFactory();
 
                     switch (clientAction) {
                         case MOVE_UP:
@@ -89,8 +93,14 @@ public class ServerApplication {
                             playerToUpdate.move(Direction.RIGHT);
                             break;
                         case PLANT_BOMB:
-                            state.addBomb(playerToUpdate.getFactory().createBomb(playerToUpdate));
+                            state.addBomb(playerFactory.createBomb(playerToUpdate));
                             break;
+                        case PLANT_PIT:
+                            state.addPit(playerFactory.createPit(playerToUpdate));
+                            break;
+                        case PLANT_SHIELD:
+                            state.addShield(playerFactory.createShield(playerToUpdate));
+
                     }
 
                     if(playerCollides(gameMap, playerToUpdate)){

@@ -28,6 +28,13 @@ public class GameController {
                         break;
                     case GLFW_KEY_SPACE:
                         client.sendTCP(ClientAction.PLANT_BOMB + ";");
+                        break;
+                    case GLFW_KEY_Z:
+                        client.sendTCP(ClientAction.PLANT_SHIELD + ";");
+                        break;
+                    case GLFW_KEY_X:
+                        client.sendTCP(ClientAction.PLANT_PIT + ";");
+                        break;
                 }
             }
         });

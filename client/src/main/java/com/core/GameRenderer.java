@@ -14,6 +14,7 @@ import org.lwjgl.system.MemoryStack;
 import java.awt.*;
 import java.nio.IntBuffer;
 
+import static java.lang.Math.*;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -58,7 +59,10 @@ public class GameRenderer {
         glfwSetErrorCallback(null).free();
     }
 
-    public void DrawQuad(float x, float y, float width, float height, Color color) {
+    public void DrawQuad(Position position, float width, float height, Color color) {
+        float x = position.getX();
+        float y = position.getY();
+
         GL11.glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
 
         glBegin(GL_QUADS);
@@ -72,7 +76,10 @@ public class GameRenderer {
         glEnd();
     }
 
-    public void DrawTexturedQuad(float x, float y, float width, float height) {
+    public void DrawTexturedQuad(Position position, float width, float height) {
+        float x = position.getX();
+        float y = position.getY();
+
         glColor3f(1f, 1f, 1f);
 
         glBegin(GL_QUADS);
@@ -92,16 +99,36 @@ public class GameRenderer {
         glEnd();
     }
 
-    public void DrawTriangle(float x, float y, float size, Color color) {
-        GL11.glColor3f(color.getRed(), color.getGreen(), color.getBlue());
+    public void DrawTriangle(Position position, float size, Color color) {
+        float x = position.getX();
+        float y = position.getY();
 
-        glBegin(GL_QUADS);
+        GL11.glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
 
-        glVertex2f(x/2, y/2);
+        glBegin(GL_POLYGON);
 
-        glVertex2f(x+size/2, y+size/2);
-        glVertex2f(x-size/2, y+size/2);
+        glVertex2f(x, y+size/2);
 
+        glVertex2f(x+size/2, y-size/2);
+        glVertex2f(x-size/2, y-size/2);
+
+        glEnd();
+    }
+
+    public void DrawCircle(Position position, float radius, Color color){
+        GL11.glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+
+        glBegin(GL_POLYGON);
+
+        double ori_x = position.getX();
+        double ori_y = position.getY();
+        float r = radius / 2;
+        for (int i = 0; i <= 300; i++) {
+            double angle = 2 * PI * i / 300;
+            double x = cos(angle) * r;
+            double y = sin(angle) * r;
+            glVertex2d(ori_x + x, ori_y + y);
+        }
         glEnd();
     }
 
@@ -170,38 +197,15 @@ public class GameRenderer {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            // Rendering map
             if(map != null){
-                map.getGameObjects().forEach(it->{
-                    boolean isWall = it instanceof Wall;
-                    int textureId = TextureLoader.getTexture(it);
-
-                    glEnable(GL_TEXTURE_2D);
-                    glBindTexture(GL_TEXTURE_2D, textureId);
-
-                    DrawTexturedQuad(
-                            it.getPosition().getX(),
-                            it.getPosition().getY(),
-                            it.getDimensions(),
-                            it.getDimensions()
-                    );
-
-                });
+                renderMap();
             }
 
-
             if(state != null) {
-                //Rendering bombs
-                state.getBombs().forEach(it->{
-                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), it.getDimensions(),
-                            it.getDimensions(), it.getColor());
-                });
-
-                //Rendering players
-                state.getPlayers().forEach(it->{
-                    DrawQuad(it.getPosition().getX(), it.getPosition().getY(), it.getDimensions(),
-                            it.getDimensions(), it.getColor());
-                });
+                renderBombs();
+                renderShields();
+                renderPits();
+                renderPlayers();
             }
 
             glfwSwapBuffers(window); // swap the color buffers
@@ -210,6 +214,47 @@ public class GameRenderer {
             // invoked during this call.
             glfwPollEvents();
         }
+    }
+
+    public void renderPits() {
+        state.getPits().forEach(it-> {
+            DrawCircle(it.getPosition(), it.getDimensions(), it.getColor());
+        });
+    }
+
+    public void renderShields() {
+        state.getShields().forEach(it->{
+            DrawTriangle(it.getPosition(), it.getDimensions(), it.getColor());
+        });
+    }
+
+    public void renderBombs() {
+        state.getBombs().forEach(it->{
+            DrawQuad(it.getPosition(), it.getDimensions(), it.getDimensions(), it.getColor());
+        });
+    }
+
+    public void renderPlayers() {
+        state.getPlayers().forEach(it->{
+            DrawQuad(it.getPosition(), it.getDimensions(),
+                    it.getDimensions(), it.getColor());
+        });
+    }
+
+    public void renderMap() {
+        map.getGameObjects().forEach(it->{
+            int textureId = TextureLoader.getTexture(it);
+
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, textureId);
+
+            DrawTexturedQuad(
+                    it.getPosition(),
+                    it.getDimensions(),
+                    it.getDimensions()
+            );
+
+        });
     }
 
     public boolean isReady() {

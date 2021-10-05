@@ -13,11 +13,17 @@ public class GreenPlayerFactory extends PlayersAbstractFactory{
 
     @Override
     public Shield createShield(Player player) {
-        return null;
+        GreenShield greenShield = new GreenShield(new Position(player.getPosition().getX(), player.getPosition().getY()));
+        greenShield.initiatorId = player.ID;
+
+        return greenShield;
     }
 
     @Override
     public Pit createPit(Player player) {
-        return null;
+        GreenPit greenPit = new GreenPit(new Position(player.getPosition().getX(), player.getPosition().getY()));
+        greenPit.initiatorId = player.ID;
+
+        return greenPit;
     }
 }
