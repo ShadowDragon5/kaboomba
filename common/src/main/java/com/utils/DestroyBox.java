@@ -1,9 +1,9 @@
 package com.utils;
 
-public class ExplodeAlgorithm implements BoxExplodable{
+public class DestroyBox extends BoxExplosion {
 
     @Override
-    public void explode() {
+    public void explosionEffect() {
         System.out.println("Box explodes");
     }
 }
