@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class State {
 
     private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<GameObject> boxes = new ArrayList<>();
 
     // Player droppable entities
     private final ArrayList<Bomb> bombs = new ArrayList<>();
@@ -17,7 +18,7 @@ public class State {
 
     public synchronized static State getInstance() {
         if(state == null) {
-            return new State();
+            state = new State();
         }
         return state;
     }
@@ -28,6 +29,15 @@ public class State {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+
+    public ArrayList<GameObject> getBoxes() {
+        return boxes;
+    }
+
+    public void addBox(GameObject boxObject) {
+        boxes.add(boxObject);
     }
 
     public Player getPlayer(String id) {
@@ -69,4 +79,8 @@ public class State {
         return pits;
     }
 
+    public void removeBox(GameObject box){
+        ((Box) box).explode();
+        getBoxes().removeIf(it->it.ID.equals(box.ID));
+    }
 }
