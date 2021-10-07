@@ -10,7 +10,7 @@ public class StrategyTest {
 
     public static void testStrategy(){
         for (int i = 0; i < 15; i++) {
-            var box = new Box(new Position());
+            var box = new Box.BoxBuilder(new Position()).build();
             box.explode();
         }
     }
