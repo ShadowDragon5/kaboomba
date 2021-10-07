@@ -12,7 +12,7 @@ public class DefaultTileCreator extends TileCreator {
             case "2":
                 return new Wall(position, dimension);
             case "3":
-                return new Box.BoxBuilder(position).build();
+                return new Box.BoxBuilder(position).dimension(dimension).build();
             default:
                 return null;
         }
