@@ -6,6 +6,10 @@ public class Box extends Tile {
     private BoxExplosion boxExplosion;
     private float dimension;
 
+    public Box(Position position, float dimension){
+        super(position, dimension);
+    }
+
     public Box(BoxBuilder builder) {
         super(builder.position, builder.dimension);
         randomizeExplosion();

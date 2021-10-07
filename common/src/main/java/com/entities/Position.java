@@ -44,4 +44,9 @@ public class Position {
                 && UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM) >= -1f)
             this.y = UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM);
     }
+
+    @Override
+    public String toString() {
+        return String.format("x: %s, y:%s", getX(), getY());
+    }
 }
