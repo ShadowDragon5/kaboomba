@@ -7,6 +7,16 @@ import java.lang.reflect.Type;
 
 public class CustomJsonAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
 
+    private String classPath;
+
+    public CustomJsonAdapter(String classPath) {
+        this.classPath = classPath;
+    }
+
+    public CustomJsonAdapter() {
+        this.classPath = "com.entities.";
+    }
+
     @Override
     public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -24,7 +34,7 @@ public class CustomJsonAdapter<T> implements JsonSerializer<T>, JsonDeserializer
         JsonElement element = jsonObject.get("properties");
 
         try {
-            return context.deserialize(element, Class.forName("com.entities." + type));
+            return context.deserialize(element, Class.forName(classPath + type));
         } catch (ClassNotFoundException cnfe) {
             throw new JsonParseException("Unknown element type: " + type, cnfe);
         }

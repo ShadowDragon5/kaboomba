@@ -4,16 +4,13 @@ import com.utils.*;
 
 public class Box extends Tile {
     private BoxExplosion boxExplosion;
+    private float dimension;
 
-    public Box(Position position) {
-        super(position);
+    public Box(BoxBuilder builder) {
+        super(builder.position, builder.dimension);
         randomizeExplosion();
     }
 
-    public Box(Position position, float dimension) {
-        super(position, dimension);
-        randomizeExplosion();
-    }
     public void explode() {
         boxExplosion.explosionEffect();
     }
@@ -37,5 +34,31 @@ public class Box extends Tile {
             this.setBoxExplosion(new DamageBox());
         else                                            // 10% chance to drop bomb
             this.setBoxExplosion(new DropBomb());
+    }
+
+    public static class BoxBuilder
+    {
+        private final Position position;
+        private float dimension;
+        private BoxExplosion boxExplosion;
+
+        public BoxBuilder(Position position) {
+            this.position = position;
+        }
+
+        public BoxBuilder boxExplosion(BoxExplosion boxExplosion) {
+            this.boxExplosion = boxExplosion;
+            return this;
+        }
+
+        public BoxBuilder dimension(float dimension) {
+            this.dimension = dimension;
+            return this;
+        }
+
+        public Box build() {
+            Box box = new Box(this);
+            return box;
+        }
     }
 }
