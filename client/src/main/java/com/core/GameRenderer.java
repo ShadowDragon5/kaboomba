@@ -13,6 +13,7 @@ import org.lwjgl.system.MemoryStack;
 
 import java.awt.*;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import static java.lang.Math.*;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -63,7 +64,7 @@ public class GameRenderer {
         float x = position.getX();
         float y = position.getY();
 
-        glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+        glColor4f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1f);
 
         glBegin(GL_QUADS);
 
@@ -79,6 +80,8 @@ public class GameRenderer {
     public void DrawTexturedQuad(Position position, float width, float height, int textureId) {
         float x = position.getX();
         float y = position.getY();
+
+        glColor4f(1f, 1f, 1f, 1f);
 
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, textureId);
@@ -97,7 +100,8 @@ public class GameRenderer {
         glTexCoord2f(1, 0); // top right
         glVertex2f(x+width/2, y+height/2);
 
-        glColor3f (1.0f, 1.0f, 1.0f);
+        glDisable(GL_TEXTURE_2D);
+        glDeleteTextures(textureId);
         glEnd();
     }
 
@@ -192,7 +196,6 @@ public class GameRenderer {
         GL.createCapabilities();
 
 //        // Set the clear color
-//        glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -204,10 +207,10 @@ public class GameRenderer {
             }
 
             if(state != null) {
-                renderBombs();
-                renderShields();
-                renderPits();
-                renderPlayers();
+                drawTexturedElements(state.getBombs());
+                drawTexturedElements(state.getShields());
+                drawTexturedElements(state.getPits());
+                drawTexturedElements(state.getPlayers());
             }
 
             glfwSwapBuffers(window); // swap the color buffers
@@ -218,22 +221,9 @@ public class GameRenderer {
         }
     }
 
-    public void renderPits() {
-        state.getPits().forEach(it-> {
-            DrawCircle(it.getPosition(), it.getDimensions(), it.getColor());
-        });
-    }
-
-    public void renderShields() {
-        state.getShields().forEach(it->{
-            DrawTriangle(it.getPosition(), it.getDimensions(), it.getColor());
-        });
-    }
-
-    public void renderBombs() {
-        state.getBombs().forEach(it->{
+    public void drawTexturedElements(ArrayList<? extends GameObject> objects){
+        objects.forEach(it->{
             int textureId = TextureLoader.getTexture(it);
-
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             DrawTexturedQuad(it.getPosition(), it.getDimensions(), it.getDimensions(), textureId);
@@ -241,27 +231,15 @@ public class GameRenderer {
         });
     }
 
-    public void renderPlayers() {
-        state.getPlayers().forEach(it->{
-            DrawQuad(it.getPosition(), it.getDimensions(),
-                    it.getDimensions(), it.getColor());
-        });
-    }
-
     public void renderMap() {
         map.getGameObjects().forEach(it->{
             int textureId = TextureLoader.getTexture(it);
-
-            glEnable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, textureId);
-
             DrawTexturedQuad(
                     it.getPosition(),
                     it.getDimensions(),
                     it.getDimensions(),
                     textureId
             );
-
         });
     }
 

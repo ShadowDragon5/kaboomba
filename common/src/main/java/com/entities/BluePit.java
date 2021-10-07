@@ -11,4 +11,9 @@ public class BluePit extends Pit{
     public Color getColor(){
         return new Color(0f,0.5f,1f);
     }
+
+    @Override
+    public String getTextureFile() {
+        return "src/main/resources/trap_blue.png";
+    }
 }
