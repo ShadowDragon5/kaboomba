@@ -7,7 +7,6 @@ public class Bomb extends GameObject{
 
     @Override
     public String getTextureFile() {
-        return "src/resources/bomb";
+        return "src/main/resources/bomb.png";
     }
-
 }

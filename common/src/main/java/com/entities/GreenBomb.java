@@ -11,4 +11,9 @@ public class GreenBomb extends Bomb{
     public Color getColor() {
         return new Color(0.5f,1f,0f);
     }
+
+    @Override
+    public String getTextureFile() {
+        return "src/main/resources/bomb_green.png";
+    }
 }
