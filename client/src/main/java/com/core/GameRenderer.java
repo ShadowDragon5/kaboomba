@@ -63,7 +63,7 @@ public class GameRenderer {
         float x = position.getX();
         float y = position.getY();
 
-        GL11.glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+        glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
 
         glBegin(GL_QUADS);
 
@@ -76,11 +76,12 @@ public class GameRenderer {
         glEnd();
     }
 
-    public void DrawTexturedQuad(Position position, float width, float height) {
+    public void DrawTexturedQuad(Position position, float width, float height, int textureId) {
         float x = position.getX();
         float y = position.getY();
 
-        glColor3f(1f, 1f, 1f);
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, textureId);
 
         glBegin(GL_QUADS);
 
@@ -96,6 +97,7 @@ public class GameRenderer {
         glTexCoord2f(1, 0); // top right
         glVertex2f(x+width/2, y+height/2);
 
+        glColor3f (1.0f, 1.0f, 1.0f);
         glEnd();
     }
 
@@ -189,8 +191,8 @@ public class GameRenderer {
         // bindings available for use.
         GL.createCapabilities();
 
-        // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
+//        // Set the clear color
+//        glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -230,7 +232,12 @@ public class GameRenderer {
 
     public void renderBombs() {
         state.getBombs().forEach(it->{
-            DrawQuad(it.getPosition(), it.getDimensions(), it.getDimensions(), it.getColor());
+            int textureId = TextureLoader.getTexture(it);
+
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            DrawTexturedQuad(it.getPosition(), it.getDimensions(), it.getDimensions(), textureId);
+            glDisable(GL_BLEND);
         });
     }
 
@@ -251,7 +258,8 @@ public class GameRenderer {
             DrawTexturedQuad(
                     it.getPosition(),
                     it.getDimensions(),
-                    it.getDimensions()
+                    it.getDimensions(),
+                    textureId
             );
 
         });
