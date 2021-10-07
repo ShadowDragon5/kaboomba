@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import javax.xml.parsers.*;
 
 public class GameMap {
-    private ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private ArrayList<GameObject> mapTiles = new ArrayList<>();
+    private State state = State.getInstance();
 
     public GameMap() {
     }
@@ -30,54 +31,90 @@ public class GameMap {
 
             Element mapElement = (Element)doc.getElementsByTagName("map").item(0);
 
+            // map dimensions in tiles
             int mapWidth = Integer.parseInt(mapElement.getAttribute("width"));
             int mapHeight = Integer.parseInt(mapElement.getAttribute("height"));
 
-            System.out.println(mapWidth + "x" + mapHeight);
+            int tileWidth = Integer.parseInt(mapElement.getAttribute("tilewidth"));
+            int tileHeight = Integer.parseInt(mapElement.getAttribute("tileheight"));
 
-            NodeList tileset = ((Element)doc.getElementsByTagName("tileset").item(0)).getElementsByTagName("image");
+            Globals.setDefaultDimension(tileWidth);
+
+            // System.out.println(tileWidth + "x" + tileHeight);
+            // System.out.println(mapWidth + "x" + mapHeight);
+
+            NodeList tileset =
+                ((Element)doc.getElementsByTagName("tileset").item(0)).getElementsByTagName("image");
             for (int i = 0; i < tileset.getLength(); i++) {
                 Node node = tileset.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    System.out.println(element.getAttribute("source"));
-                    // i+1 == gid
-                }
+                if (node.getNodeType() != Node.ELEMENT_NODE)
+                    continue;
+
+                Element element = (Element) node;
+                // System.out.println(element.getAttribute("source"));
+                // i+1 == gid
             }
 
-            // Layer 0 - background
-            NodeList list = ((Element)doc.getElementsByTagName("data").item(0)).getChildNodes();
-            ArrayList<String> gids = new ArrayList<>();
-
-            for (int i = 0; i < list.getLength(); i++) {
-                Node node = list.item(i);
-
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    gids.add(element.getAttribute("gid"));
-                }
-            }
+            NodeList data = doc.getElementsByTagName("data");
 
             TileCreator creator = new DefaultTileCreator();
-            double tileColumnCount = Math.sqrt(gids.size());
-            float dimension = UtilityMethods.preciseArithmetics(2f,(float)tileColumnCount, ArithmeticActions.DIV);
-            float hDim = UtilityMethods.preciseArithmetics(dimension, 2, ArithmeticActions.DIV);
-            Globals.setDefaultDimension(0.1f);
 
-            float x = UtilityMethods.preciseArithmetics(-1f, hDim, ArithmeticActions.MIN);
-            float y = UtilityMethods.preciseArithmetics(1f, hDim, ArithmeticActions.MIN);
+            // Layer 0 - background
+            NodeList layer0 = ((Element)data.item(0)).getChildNodes();
 
-            for(int i = 0; i<gids.size(); i++){
-                x = UtilityMethods.preciseArithmetics(x, dimension, ArithmeticActions.SUM);
+            final float x = (1 - mapWidth);
+            final float y = (mapHeight - 1);
+            int c = 0;
 
-                if((i%tileColumnCount == 0 && i!=0)){
-                    x = UtilityMethods.preciseArithmetics(-1 ,hDim, ArithmeticActions.SUM);
-                    y = UtilityMethods.preciseArithmetics(y, dimension, ArithmeticActions.MIN);
+            // TODO fix loop to use i as counter
+            for (int i = 0; i < layer0.getLength(); i++) {
+                Node node = layer0.item(i);
+                if (node.getNodeType() != Node.ELEMENT_NODE)
+                    continue;
+
+                Element element = (Element) node;
+
+                Tile tile = creator.createTile(
+                        element.getAttribute("gid"),
+                        new Position(
+                            UtilityMethods.preciseArithmetics(x + (c % mapWidth) * 2,
+                                mapWidth, ArithmeticActions.DIV),
+                            UtilityMethods.preciseArithmetics(y - (c / mapHeight) * 2,
+                                mapHeight, ArithmeticActions.DIV)),
+                        // tileWidth
+                        UtilityMethods.preciseArithmetics(2f,
+                            mapWidth, ArithmeticActions.DIV)
+                    );
+                mapTiles.add(tile);
+                c++;
+            }
+
+            // Layer 1 - boxes
+            NodeList layer1 = ((Element)data.item(1)).getChildNodes();
+            c = 0;
+            for (int i = 0; i < layer1.getLength(); i++) {
+                Node node = layer1.item(i);
+                if (node.getNodeType() != Node.ELEMENT_NODE)
+                    continue;
+
+                Element element = (Element) node;
+                String gid = element.getAttribute("gid");
+
+                if (gid != "") {
+                    Tile tile = creator.createTile(
+                            gid,
+                            // new Position(x + (c % mapWidth) * tileWidth, y + (c / mapHeight) * tileHeight),
+                            new Position(
+                                UtilityMethods.preciseArithmetics(x + (c % mapWidth) * 2,
+                                    mapWidth, ArithmeticActions.DIV),
+                                UtilityMethods.preciseArithmetics(y - (c / mapHeight) * 2,
+                                    mapHeight, ArithmeticActions.DIV)),
+                            UtilityMethods.preciseArithmetics(2f,
+                                mapWidth, ArithmeticActions.DIV)
+                        );
+                    state.getBoxes().add(tile);
                 }
-
-                Position position = new Position(x,y);
-                Tile tile = creator.createTile(gids.get(i), position, dimension);
-                gameObjects.add(tile);
+                c++;
             }
 
         } catch (Exception e) {
@@ -86,6 +123,6 @@ public class GameMap {
     }
 
     public ArrayList<GameObject> getGameObjects() {
-        return gameObjects;
+        return mapTiles;
     }
 }

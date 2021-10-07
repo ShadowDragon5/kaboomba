@@ -4,7 +4,6 @@ import com.entities.*;
 
 import com.esotericsoftware.kryonet.Client;
 import com.utils.TextureLoader;
-import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -30,12 +29,12 @@ public class GameRenderer {
     private Client client;
     private GameController gameController;
 
-    public GameRenderer(Client client){
+    public GameRenderer(Client client) {
         this.client = client;
         this.gameController = new GameController();
     }
 
-    public void setState(State state){
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -46,8 +45,6 @@ public class GameRenderer {
     private long window;
 
     public void run() {
-        System.out.println("Hello LWJGL " + Version.getVersion() + "!");
-
         init();
         loop();
 
@@ -68,11 +65,11 @@ public class GameRenderer {
 
         glBegin(GL_QUADS);
 
-        glVertex2f(x-width/2, y-height/2);
-        glVertex2f(x+width/2, y-height/2);
+        glVertex2f(x - width / 2, y - height / 2);
+        glVertex2f(x + width / 2, y - height / 2);
 
-        glVertex2f(x+width/2, y+height/2);
-        glVertex2f(x-width/2, y+height/2);
+        glVertex2f(x + width / 2, y + height / 2);
+        glVertex2f(x - width / 2, y + height / 2);
 
         glEnd();
     }
@@ -89,16 +86,16 @@ public class GameRenderer {
         glBegin(GL_QUADS);
 
         glTexCoord2f(0, 0); // top left
-        glVertex2f(x-width/2, y+height/2);
+        glVertex2f(x - width / 2, y + height / 2);
 
         glTexCoord2f(0, 1); // bottom left
-        glVertex2f(x-width/2, y-height/2);
+        glVertex2f(x - width / 2, y - height / 2);
 
         glTexCoord2f(1, 1); // bottom right
-        glVertex2f(x+width/2, y-height/2);
+        glVertex2f(x + width / 2, y - height / 2);
 
         glTexCoord2f(1, 0); // top right
-        glVertex2f(x+width/2, y+height/2);
+        glVertex2f(x + width / 2, y + height / 2);
 
         glDisable(GL_TEXTURE_2D);
         glDeleteTextures(textureId);
@@ -150,10 +147,10 @@ public class GameRenderer {
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizablE
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_FALSE);
         // Create the window
-        window = glfwCreateWindow(600, 600, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(600, 600, "KABOOMBA", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -195,7 +192,6 @@ public class GameRenderer {
         // bindings available for use.
         GL.createCapabilities();
 
-//        // Set the clear color
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -232,7 +228,7 @@ public class GameRenderer {
     }
 
     public void renderMap() {
-        map.getGameObjects().forEach(it->{
+        map.getGameObjects().forEach(it-> {
             int textureId = TextureLoader.getTexture(it);
             DrawTexturedQuad(
                     it.getPosition(),

@@ -7,6 +7,8 @@ public class State {
 
     private final ArrayList<Player> players = new ArrayList<>();
 
+    private final ArrayList<GameObject> boxes = new ArrayList<>();
+
     // Player droppable entities
     private final ArrayList<Bomb> bombs = new ArrayList<>();
     private final ArrayList<Shield> shields = new ArrayList<>();
@@ -28,6 +30,10 @@ public class State {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public ArrayList<GameObject> getBoxes() {
+        return boxes;
     }
 
     public Player getPlayer(String id) {
