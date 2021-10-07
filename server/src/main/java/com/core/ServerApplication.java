@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ServerApplication {
@@ -92,10 +93,16 @@ public class ServerApplication {
 
                     }
 
-                    if (playerCollides(gameMap, playerToUpdate)) {
+                    // Collision with wall
+                    if (playerCollidesWithWall(gameMap, playerToUpdate)){
                         playerToUpdate.setPosition(oldPosition);
                     } else {
                         serverState.getState().updateStatePlayer(id, playerToUpdate);
+                    }
+
+                    GameObject box = playerCollidesWithBox(serverState.getState().getBoxes(), playerToUpdate);
+                    if(box != null){
+                       serverState.getState().removeBox(box);
                     }
                 }
 
@@ -118,9 +125,13 @@ public class ServerApplication {
         });
     }
 
-    private static boolean playerCollides(GameMap map, GameObject obj){
+    private static boolean playerCollidesWithWall(GameMap map, GameObject obj){
         return map.getGameObjects().stream()
                 .filter(it->it instanceof Wall)
                 .filter(it->it.collides(obj)).count() >= 1;
+    }
+
+    private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player){
+        return boxes.stream().filter(it->it.collides(player)).findFirst().orElse(null);
     }
 }

@@ -38,7 +38,7 @@ public class GameMap {
             int tileWidth = Integer.parseInt(mapElement.getAttribute("tilewidth"));
             int tileHeight = Integer.parseInt(mapElement.getAttribute("tileheight"));
 
-            Globals.setDefaultDimension(tileWidth);
+            Globals.setDefaultDimension(0.1f);
 
             // System.out.println(tileWidth + "x" + tileHeight);
             // System.out.println(mapWidth + "x" + mapHeight);
@@ -100,7 +100,7 @@ public class GameMap {
                 Element element = (Element) node;
                 String gid = element.getAttribute("gid");
 
-                if (gid != "") {
+                if (!gid.equals("")) {
                     Tile tile = creator.createTile(
                             gid,
                             // new Position(x + (c % mapWidth) * tileWidth, y + (c / mapHeight) * tileHeight),
@@ -112,7 +112,7 @@ public class GameMap {
                             UtilityMethods.preciseArithmetics(2f,
                                 mapWidth, ArithmeticActions.DIV)
                         );
-                    state.getBoxes().add(tile);
+                    state.addBox(tile);
                 }
                 c++;
             }

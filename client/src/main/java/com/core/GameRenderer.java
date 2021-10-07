@@ -207,6 +207,7 @@ public class GameRenderer {
                 drawTexturedElements(state.getShields());
                 drawTexturedElements(state.getPits());
                 drawTexturedElements(state.getPlayers());
+                drawTexturedElements(state.getBoxes());
             }
 
             glfwSwapBuffers(window); // swap the color buffers
