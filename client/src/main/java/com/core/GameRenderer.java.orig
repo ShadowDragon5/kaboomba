@@ -150,7 +150,7 @@ public class GameRenderer {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizablE
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_FALSE);
         // Create the window
-        window = glfwCreateWindow(640, 640, "KABOOMBA", NULL, NULL);
+        window = glfwCreateWindow(600, 600, "KABOOMBA", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -192,6 +192,12 @@ public class GameRenderer {
         // bindings available for use.
         GL.createCapabilities();
 
+<<<<<<< HEAD
+//        // Set the clear color
+=======
+        // Set the clear color
+        // glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
+>>>>>>> 493df95 (Fix map reading)
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -203,11 +209,18 @@ public class GameRenderer {
             }
 
             if(state != null) {
+<<<<<<< HEAD
                 drawTexturedElements(state.getBombs());
                 drawTexturedElements(state.getShields());
                 drawTexturedElements(state.getPits());
                 drawTexturedElements(state.getPlayers());
-                drawTexturedElements(state.getBoxes());
+=======
+                renderBombs();
+                renderShields();
+                renderPits();
+                renderBoxes();
+                renderPlayers();
+>>>>>>> 493df95 (Fix map reading)
             }
 
             glfwSwapBuffers(window); // swap the color buffers
@@ -218,6 +231,7 @@ public class GameRenderer {
         }
     }
 
+<<<<<<< HEAD
     public void drawTexturedElements(ArrayList<? extends GameObject> objects){
         objects.forEach(it->{
             int textureId = TextureLoader.getTexture(it);
@@ -225,6 +239,45 @@ public class GameRenderer {
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             DrawTexturedQuad(it.getPosition(), it.getDimensions(), it.getDimensions(), textureId);
             glDisable(GL_BLEND);
+=======
+    public void renderBoxes() {
+        state.getBoxes().forEach(it-> {
+            int textureId = TextureLoader.getTexture(it);
+
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, textureId);
+
+            DrawTexturedQuad(
+                    it.getPosition(),
+                    it.getDimensions(),
+                    it.getDimensions()
+            );
+        });
+    }
+
+    public void renderPits() {
+        state.getPits().forEach(it-> {
+            DrawCircle(it.getPosition(), it.getDimensions(), it.getColor());
+        });
+    }
+
+    public void renderShields() {
+        state.getShields().forEach(it-> {
+            DrawTriangle(it.getPosition(), it.getDimensions(), it.getColor());
+        });
+    }
+
+    public void renderBombs() {
+        state.getBombs().forEach(it-> {
+            DrawQuad(it.getPosition(), it.getDimensions(), it.getDimensions(), it.getColor());
+        });
+    }
+
+    public void renderPlayers() {
+        state.getPlayers().forEach(it-> {
+            DrawQuad(it.getPosition(), it.getDimensions(),
+                    it.getDimensions(), it.getColor());
+>>>>>>> 493df95 (Fix map reading)
         });
     }
 
