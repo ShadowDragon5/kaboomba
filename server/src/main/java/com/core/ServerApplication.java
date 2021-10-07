@@ -1,13 +1,10 @@
 package com.core;
 
 import com.entities.*;
+import com.utils.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.gsonParsers.CustomJsonAdapter;
-import com.utils.*;
 
 import java.util.HashMap;
 
@@ -16,16 +13,6 @@ public class ServerApplication {
     private static ServerState serverState = new ServerState();
 
     public static void main(String... args) throws Exception {
-        GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
-                .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
-                .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>())
-                .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>())
-                .registerTypeAdapter(BoxExplosion.class, new CustomJsonAdapter<BoxExplosion>("com.utils."))
-                .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>());
-
-        Gson gson = gsonBuilder.create();
-
         GameMap gameMap = new GameMap();
         gameMap.loadMap("src/main/resources/map1.tmx");
 
@@ -72,7 +59,7 @@ public class ServerApplication {
                     serverState.attach(new Client(serverState, connection, player.ID));
                     serverState.getState().addPlayer(player);
 
-                    String mapJson = String.format("%s;%s", ServerAction.MAP_INIT, gson.toJson(gameMap));
+                    String mapJson = String.format("%s;%s", ServerAction.MAP_INIT, Globals.gson.toJson(gameMap));
                     connection.sendTCP(mapJson);
                 } else {
                     id = connections.get(connection);
@@ -105,14 +92,14 @@ public class ServerApplication {
 
                     }
 
-                    if(playerCollides(gameMap, playerToUpdate)){
+                    if (playerCollides(gameMap, playerToUpdate)) {
                         playerToUpdate.setPosition(oldPosition);
-                    }else{
+                    } else {
                         serverState.getState().updateStatePlayer(id, playerToUpdate);
                     }
                 }
 
-                serverState.notifyObservers(gson);
+                serverState.notifyObservers();
             }
 
             @Override
@@ -125,7 +112,7 @@ public class ServerApplication {
             public void disconnected(Connection outGoingConnection) {
                 String id = connections.get(outGoingConnection);
                 serverState.getState().removePlayer(id);
-                serverState.notifyObservers(gson);
+                serverState.notifyObservers();
                 System.out.println("Disconnected" + outGoingConnection.getID());
             }
         });

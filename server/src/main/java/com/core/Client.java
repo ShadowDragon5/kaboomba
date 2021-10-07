@@ -1,6 +1,5 @@
 package com.core;
 
-import com.google.gson.Gson;
 import com.esotericsoftware.kryonet.Connection;
 
 public class Client implements Observer {
@@ -23,8 +22,8 @@ public class Client implements Observer {
     }
 
     @Override
-    public void update(Gson gson) {
-        String stateJson = gson.toJson(sub.getState());
+    public void update() {
+        String stateJson = Globals.gson.toJson(sub.getState());
         connection.sendTCP(String.format("%s;%s", ServerAction.STATE_UPDATE, stateJson));
     }
 

@@ -14,7 +14,7 @@ public class CustomJsonAdapter<T> implements JsonSerializer<T>, JsonDeserializer
     }
 
     public CustomJsonAdapter() {
-         this.classPath = "com.entities.";
+        this.classPath = "com.entities.";
     }
 
     @Override
