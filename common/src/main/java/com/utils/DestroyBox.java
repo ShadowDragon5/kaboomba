@@ -1,6 +1,7 @@
 package com.utils;
 
 public class DestroyBox extends BoxExplosion {
+    public DestroyBox() {}
 
     @Override
     public void explosionEffect() {

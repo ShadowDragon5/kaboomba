@@ -21,6 +21,7 @@ public class ServerApplication {
                 .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
                 .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>())
                 .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>())
+                .registerTypeAdapter(BoxExplosion.class, new CustomJsonAdapter<BoxExplosion>("com.utils."))
                 .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>());
 
         Gson gson = gsonBuilder.create();

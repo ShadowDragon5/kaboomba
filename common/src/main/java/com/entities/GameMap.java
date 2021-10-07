@@ -28,6 +28,13 @@ public class GameMap {
 
             doc.getDocumentElement().normalize();
 
+            Element mapElement = (Element)doc.getElementsByTagName("map").item(0);
+
+            int mapWidth = Integer.parseInt(mapElement.getAttribute("width"));
+            int mapHeight = Integer.parseInt(mapElement.getAttribute("height"));
+
+            System.out.println(mapWidth + "x" + mapHeight);
+
             NodeList tileset = ((Element)doc.getElementsByTagName("tileset").item(0)).getElementsByTagName("image");
             for (int i = 0; i < tileset.getLength(); i++) {
                 Node node = tileset.item(i);
@@ -38,7 +45,7 @@ public class GameMap {
                 }
             }
 
-            // Layer 0
+            // Layer 0 - background
             NodeList list = ((Element)doc.getElementsByTagName("data").item(0)).getChildNodes();
             ArrayList<String> gids = new ArrayList<>();
 

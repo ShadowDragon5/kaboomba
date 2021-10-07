@@ -1,6 +1,7 @@
 package com.core;
 
 import com.entities.*;
+import com.utils.*;
 import com.entities.Player;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -31,15 +32,17 @@ public class ClientApplication {
                 .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
                 .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>())
                 .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>())
+                .registerTypeAdapter(BoxExplosion.class, new CustomJsonAdapter<BoxExplosion>("com.utils."))
                 .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>());
 
         Gson gson = gsonBuilder.create();
 
-        //Select team - should be refactored to menu
-        Scanner sc= new Scanner(System.in);
+        //TODO should be refactored to menu
+        // Select team
+        Scanner sc = new Scanner(System.in);
         System.out.print("Select team: GREEN | BLUE");
         String color = sc.nextLine();
-        if(color.equals(""))
+        if (color.equals(""))
             color = Globals.defaultPlayerColor.toString();
 
         // Initialize game renderer and controls listener
