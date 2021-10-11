@@ -23,6 +23,10 @@ public class State {
         return state;
     }
 
+    public static void setNewInstance(State newState) {
+        state = newState;
+    }
+
     public void addPlayer(Player player) {
         players.add(player);
     }
@@ -83,4 +87,5 @@ public class State {
         ((Box) box).explode();
         getBoxes().removeIf(it->it.ID.equals(box.ID));
     }
+
 }
