@@ -95,6 +95,7 @@ public class ServerApplication {
 
                     // Collision with wall
                     if (playerCollidesWithWall(gameMap, playerToUpdate)){
+                        System.out.println("Collides!");
                         playerToUpdate.setPosition(oldPosition);
                     } else {
                         serverState.getState().updateStatePlayer(id, playerToUpdate);
@@ -125,13 +126,13 @@ public class ServerApplication {
         });
     }
 
-    private static boolean playerCollidesWithWall(GameMap map, GameObject obj){
+    private static boolean playerCollidesWithWall(GameMap map, GameObject obj) {
         return map.getGameObjects().stream()
                 .filter(it->it instanceof Wall)
                 .filter(it->it.collides(obj)).count() >= 1;
     }
 
-    private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player){
+    private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player) {
         return boxes.stream().filter(it->it.collides(player)).findFirst().orElse(null);
     }
 }

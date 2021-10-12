@@ -32,7 +32,7 @@ public class InputController {
 
 
     public ClientAction selectClientAction(long window , int key) {
-        switch (key){
+        switch (key) {
             case GLFW_KEY_ESCAPE:
                 glfwSetWindowShouldClose(window, true);
                 return ClientAction.QUIT;
@@ -51,7 +51,7 @@ public class InputController {
             case GLFW_KEY_X:
                 return ClientAction.PLANT_PIT;
         }
-        return null;
+        return ClientAction.NOOP;
     }
 
     public void keyActionHandler(long window) {
