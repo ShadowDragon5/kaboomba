@@ -21,16 +21,16 @@ public class ClientApplication {
         ClientApplication application = new ClientApplication();
         Client appClient = application.client;
 
-        //TODO should be refactored to menu
-        // Select team
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Select team: GREEN | BLUE");
-        String color = sc.nextLine();
-        if (color.equals(""))
-            color = Globals.defaultPlayerColor.toString();
+        //Select team
+        String color = application.selectTeam();
+
+        ClientActionListener inputListener = action -> appClient.sendTCP(action + ";");
+
+        InputController inputController = new InputController(inputListener);
+        GameRenderer gameRenderer = new GameRenderer();
 
         // Initialize game renderer and controls listener
-        GameRenderer game = new GameRenderer(appClient);
+        Game game = new Game(inputController, gameRenderer);
 
         // Server callbacks listener
         appClient.addListener(new Listener() {
@@ -45,11 +45,11 @@ public class ClientApplication {
                 switch (serverAction) {
                     case STATE_UPDATE:
                         State state = Globals.gson.fromJson(contents[1], State.class);
-                        game.setState(state);
+                        State.setNewInstance(state);
                         break;
                     case MAP_INIT:
                         GameMap map = Globals.gson.fromJson(contents[1], GameMap.class);
-                        game.setMap(map);
+                        gameRenderer.setMap(map);
                         break;
                 }
             }
@@ -62,4 +62,13 @@ public class ClientApplication {
         game.run();
     }
 
+    public String selectTeam() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Select team: GREEN | BLUE");
+        String color = sc.nextLine();
+        if (color.equals(""))
+            color = Globals.defaultPlayerColor.toString();
+
+        return color;
+    }
 }

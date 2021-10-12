@@ -90,18 +90,17 @@ public class ServerApplication {
                             break;
                         case PLANT_SHIELD:
                             serverState.getState().addShield(playerFactory.createShield(playerToUpdate));
-
                     }
 
                     // Collision with wall
-                    if (playerCollidesWithWall(gameMap, playerToUpdate)){
+                    if (playerCollidesWithWall(gameMap, playerToUpdate)) {
                         playerToUpdate.setPosition(oldPosition);
                     } else {
                         serverState.getState().updateStatePlayer(id, playerToUpdate);
                     }
 
                     GameObject box = playerCollidesWithBox(serverState.getState().getBoxes(), playerToUpdate);
-                    if(box != null){
+                    if (box != null) {
                        serverState.getState().removeBox(box);
                     }
                 }
@@ -125,13 +124,13 @@ public class ServerApplication {
         });
     }
 
-    private static boolean playerCollidesWithWall(GameMap map, GameObject obj){
+    private static boolean playerCollidesWithWall(GameMap map, GameObject obj) {
         return map.getGameObjects().stream()
                 .filter(it->it instanceof Wall)
                 .filter(it->it.collides(obj)).count() >= 1;
     }
 
-    private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player){
+    private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player) {
         return boxes.stream().filter(it->it.collides(player)).findFirst().orElse(null);
     }
 }

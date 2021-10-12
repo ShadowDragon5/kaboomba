@@ -6,7 +6,7 @@ import com.utils.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
 
-    private final float speed = 0.1f;
+    private final float speed = 0.01f;
 
     public Player() {
         super();

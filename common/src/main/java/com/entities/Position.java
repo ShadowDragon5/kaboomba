@@ -34,14 +34,14 @@ public class Position {
     }
 
     public void addX(float dx) {
-        if(UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.MIN) <= 1f
-                && UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM) >= -1f)
+        // if(UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.MIN) <= 1f
+        //         && UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM) >= -1f)
             this.x = UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM);
     }
 
     public void addY(float dy) {
-        if(UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.MIN) <= 1f
-                && UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM) >= -1f)
+        // if(UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.MIN) <= 1f
+        //         && UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM) >= -1f)
             this.y = UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM);
     }
 

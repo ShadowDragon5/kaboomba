@@ -1,6 +1,9 @@
 package com.entities;
 
+import com.core.ArithmeticActions;
 import com.core.Globals;
+import com.utils.UtilityMethods;
+import jdk.jshell.execution.Util;
 
 import java.awt.*;
 import java.util.UUID;
@@ -49,23 +52,28 @@ public abstract class GameObject {
     }
 
     public boolean collides(GameObject other) {
-//        float tdh = this.dimensions / 2;
-//        float odh = other.dimensions / 2;
-//
-//        if (other.position.getX() + odh <= this.position.getX() - tdh &&// other right vs this left
-//            other.position.getX() - odh >= this.position.getX() + tdh)  // other left vs this right
-//            return true;
-//
-//        if (other.position.getY() + odh <= this.position.getY() - tdh &&// other right vs this left
-//            other.position.getY() - odh >= this.position.getY() + tdh)  // other left vs this right
-//            return true;
+        float tdh = this.dimensions / 2;
+        float odh = other.dimensions / 2;
 
-        return other.position.getX() == this.position.getX() && other.position.getY() == this.position.getY();
+
+        if (UtilityMethods.preciseArithmetics(other.position.getX(), odh, ArithmeticActions.SUM) >
+            UtilityMethods.preciseArithmetics(this.position.getX(), tdh, ArithmeticActions.MIN) &&
+            UtilityMethods.preciseArithmetics(other.position.getX(), odh, ArithmeticActions.MIN) <
+            UtilityMethods.preciseArithmetics(this.position.getX(), tdh, ArithmeticActions.SUM) &&
+            UtilityMethods.preciseArithmetics(other.position.getY(), odh, ArithmeticActions.SUM) >
+            UtilityMethods.preciseArithmetics(this.position.getY(), tdh, ArithmeticActions.MIN) &&
+            UtilityMethods.preciseArithmetics(other.position.getY(), odh, ArithmeticActions.MIN) <
+            UtilityMethods.preciseArithmetics(this.position.getY(), tdh, ArithmeticActions.SUM))
+                return true;
+
+        return false;
+        // return other.position.getX() == this.position.getX() && other.position.getY() == this.position.getY();
     }
 
     public abstract String getTextureFile();
-    public Color getColor(){
-        return new Color(1f,1f,1f);
+
+    public Color getColor() {
+        return new Color(1f, 1f, 1f);
     }
 
     public void setInitiatorId(String initiatorId) {

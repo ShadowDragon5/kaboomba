@@ -8,6 +8,8 @@ public enum ClientAction {
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
-    CONNECTED
+    CONNECTED,
+    QUIT,
+    NOOP
 }
 
