@@ -1,6 +1,10 @@
 package com.entities;
 
-public class Bomb extends GameObject{
+import com.core.WithLifespan;
+
+public class Bomb extends GameObject implements WithLifespan {
+    private Long lifespan = 2000L;
+
     public Bomb(Position position) {
         super(position);
     }
@@ -8,5 +12,10 @@ public class Bomb extends GameObject{
     @Override
     public String getTextureFile() {
         return "src/main/resources/bomb.png";
+    }
+
+    @Override
+    public Long getLifespan() {
+        return lifespan;
     }
 }

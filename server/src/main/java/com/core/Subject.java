@@ -13,7 +13,7 @@ public abstract class Subject {
         observers.remove(p);
     }
 
-    public void notifyObservers() {
+    public synchronized void notifyObservers() {
         for (Observer o : observers) {
             o.update();
         }

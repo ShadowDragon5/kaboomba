@@ -6,8 +6,8 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.concurrent.Callable;
 
 public class ServerApplication {
     private static final HashMap<Connection, String> connections = new HashMap<>();
@@ -83,7 +83,13 @@ public class ServerApplication {
                             playerToUpdate.move(Direction.RIGHT);
                             break;
                         case PLANT_BOMB:
-                            serverState.getState().addBomb(playerFactory.createBomb(playerToUpdate));
+                            Bomb bomb = playerFactory.createBomb(playerToUpdate);
+                            serverState.getState().addBomb(bomb);
+                            scheduleTask(() -> {
+                                serverState.getState().removeBomb(bomb);
+                                serverState.notifyObservers();
+                                return null;
+                            }, "Bomb_Timer", bomb.getLifespan());
                             break;
                         case PLANT_PIT:
                             serverState.getState().addPit(playerFactory.createPit(playerToUpdate));
@@ -132,5 +138,19 @@ public class ServerApplication {
 
     private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player) {
         return boxes.stream().filter(it->it.collides(player)).findFirst().orElse(null);
+    }
+
+    private static void scheduleTask(Callable<Void> method, String name, Long duration) {
+        TimerTask task = new TimerTask() {
+            public void run() {
+                try {
+                    method.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Timer timer = new Timer(name);
+        timer.schedule(task, duration);
     }
 }

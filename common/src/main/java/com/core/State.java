@@ -2,6 +2,9 @@ package com.core;
 
 import com.entities.*;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class State {
 
@@ -59,12 +62,17 @@ public class State {
         getPlayers().removeIf(it->it.ID.equals(id));
     }
 
-    public void addBomb(Bomb bomb){
+    public synchronized void addBomb(Bomb bomb){
         bombs.add(bomb);
     }
 
     public ArrayList<Bomb> getBombs() {
-        return bombs;
+        ArrayList<Bomb> newBombs = new ArrayList<>();
+        bombs.forEach(it->{
+            if(it != null)
+                newBombs.add(it);
+        });
+        return newBombs;
     }
 
     public void addShield(Shield shield) {
@@ -86,6 +94,11 @@ public class State {
     public void removeBox(GameObject box){
         ((Box) box).explode();
         getBoxes().removeIf(it->it.ID.equals(box.ID));
+    }
+    public synchronized void removeBomb(GameObject bomb){
+//        bombs.removeIf(it->it.ID.equals(bomb.ID));
+//        bombs.remove(bomb);
+        bombs.set(bombs.indexOf(bomb), null);
     }
 
 }
