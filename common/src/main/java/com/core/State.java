@@ -2,14 +2,12 @@ package com.core;
 
 import com.entities.*;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class State {
 
     private final ArrayList<Player> players = new ArrayList<>();
     private final ArrayList<GameObject> boxes = new ArrayList<>();
+    private final ArrayList<GameObject> extras = new ArrayList<>();
 
     // Player droppable entities
     private final ArrayList<Bomb> bombs = new ArrayList<>();
@@ -30,14 +28,13 @@ public class State {
         state = newState;
     }
 
-    public void addPlayer(Player player) {
-        players.add(player);
-    }
-
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
 
     public ArrayList<GameObject> getBoxes() {
         return boxes;
@@ -45,6 +42,14 @@ public class State {
 
     public void addBox(GameObject boxObject) {
         boxes.add(boxObject);
+    }
+
+    public ArrayList<GameObject> getExtras() {
+        return extras;
+    }
+
+    public void addExtras(GameObject gameObject) {
+        extras.add(gameObject);
     }
 
     public Player getPlayer(String id) {
@@ -101,19 +106,21 @@ public class State {
         return newPits;
     }
 
-    public void removeBox(GameObject box){
+    public void removeBox(GameObject box) {
         ((Box) box).explode();
         getBoxes().removeIf(it->it.ID.equals(box.ID));
     }
-    public void removeBomb(GameObject bomb){
+
+    public void removeBomb(GameObject bomb) {
 //        bombs.removeIf(it->it.ID.equals(bomb.ID));
         bombs.set(bombs.indexOf(bomb), null);
     }
 
-    public void removeShield(GameObject shield){
+    public void removeShield(GameObject shield) {
         shields.set(shields.indexOf(shield), null);
     }
-    public void removePit(GameObject pit){
+
+    public void removePit(GameObject pit) {
         pits.set(pits.indexOf(pit), null);
     }
 

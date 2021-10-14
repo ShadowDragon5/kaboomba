@@ -149,7 +149,9 @@ public class ServerApplication {
     }
 
     private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player) {
-        return boxes.stream().filter(it->it.collides(player)).findFirst().orElse(null);
+        return boxes.stream()
+            .filter(it->it.collides(player))
+            .findFirst().orElse(null);
     }
 
     private static void scheduleTask(Callable<Void> method, String name, Long duration) {

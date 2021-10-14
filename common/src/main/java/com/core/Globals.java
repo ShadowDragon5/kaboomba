@@ -15,7 +15,6 @@ public class Globals {
     public static Gson gson = (new GsonBuilder()
         .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
         .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
-        .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>())
         .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>())
         .registerTypeAdapter(BoxExplosion.class, new CustomJsonAdapter<BoxExplosion>("com.utils."))
         .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>())

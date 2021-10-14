@@ -1,12 +1,17 @@
 package com.entities;
 
+import com.core.State;
 import com.utils.*;
 
 public class Box extends Tile {
     private BoxExplosion boxExplosion;
     private float dimension;
 
-    public Box(Position position, float dimension){
+    public Box() {
+        super();
+    }
+
+    public Box(Position position, float dimension) {
         super(position, dimension);
     }
 
@@ -16,7 +21,11 @@ public class Box extends Tile {
     }
 
     public void explode() {
-        boxExplosion.explosionEffect();
+        GameObject replacement = boxExplosion.explosionEffect();
+        if (replacement != null) {
+            replacement.setPosition(this.position);
+            State.getInstance().addExtras(replacement);
+        }
     }
 
     public void setBoxExplosion(BoxExplosion boxExplosion) {

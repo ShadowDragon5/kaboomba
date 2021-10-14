@@ -1,5 +1,7 @@
 package com.utils;
 
+import com.entities.GameObject;
+
 public abstract class BoxExplosion {
-    public abstract void explosionEffect();
+    public abstract GameObject explosionEffect();
 }

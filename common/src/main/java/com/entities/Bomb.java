@@ -5,6 +5,9 @@ import com.core.WithLifespan;
 public class Bomb extends GameObject implements WithLifespan {
     private Long lifespan = 2000L;
 
+    public Bomb() {
+    }
+
     public Bomb(Position position) {
         super(position);
     }
