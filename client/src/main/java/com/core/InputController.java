@@ -30,7 +30,6 @@ public class InputController {
         });
     }
 
-
     public ClientAction selectClientAction(long window , int key) {
         switch (key) {
             case GLFW_KEY_ESCAPE:
@@ -45,10 +44,13 @@ public class InputController {
             case GLFW_KEY_LEFT:
                 return ClientAction.MOVE_LEFT;
             case GLFW_KEY_SPACE:
+                keysPressed.put(key, false);
                 return ClientAction.PLANT_BOMB;
             case GLFW_KEY_Z:
+                keysPressed.put(key, false);
                 return ClientAction.PLANT_SHIELD;
             case GLFW_KEY_X:
+                keysPressed.put(key, false);
                 return ClientAction.PLANT_PIT;
         }
         return ClientAction.NOOP;

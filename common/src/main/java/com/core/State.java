@@ -2,6 +2,9 @@ package com.core;
 
 import com.entities.*;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class State {
 
@@ -64,7 +67,12 @@ public class State {
     }
 
     public ArrayList<Bomb> getBombs() {
-        return bombs;
+        ArrayList<Bomb> newBombs = new ArrayList<>();
+        bombs.forEach(it->{
+            if(it != null)
+                newBombs.add(it);
+        });
+        return newBombs;
     }
 
     public void addShield(Shield shield) {
@@ -72,7 +80,12 @@ public class State {
     }
 
     public ArrayList<Shield> getShields() {
-        return shields;
+        ArrayList<Shield> newShields = new ArrayList<>();
+        shields.forEach(it->{
+            if(it != null)
+                newShields.add(it);
+        });
+        return newShields;
     }
 
     public void addPit(Pit pit){
@@ -80,12 +93,28 @@ public class State {
     }
 
     public ArrayList<Pit> getPits() {
-        return pits;
+        ArrayList<Pit> newPits = new ArrayList<>();
+        pits.forEach(it->{
+            if(it != null)
+                newPits.add(it);
+        });
+        return newPits;
     }
 
     public void removeBox(GameObject box){
         ((Box) box).explode();
         getBoxes().removeIf(it->it.ID.equals(box.ID));
+    }
+    public void removeBomb(GameObject bomb){
+//        bombs.removeIf(it->it.ID.equals(bomb.ID));
+        bombs.set(bombs.indexOf(bomb), null);
+    }
+
+    public void removeShield(GameObject shield){
+        shields.set(shields.indexOf(shield), null);
+    }
+    public void removePit(GameObject pit){
+        pits.set(pits.indexOf(pit), null);
     }
 
 }

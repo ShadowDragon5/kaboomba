@@ -1,6 +1,9 @@
 package com.entities;
 
-public class Shield extends GameObject{
+import com.core.WithLifespan;
+
+public class Shield extends GameObject implements WithLifespan {
+    private Long lifespan = 1000L;
 
     public Shield(Position position) {
         super(position);
@@ -13,5 +16,10 @@ public class Shield extends GameObject{
     @Override
     public String getTextureFile() {
         return "src/shield";
+    }
+
+    @Override
+    public Long getLifespan() {
+        return lifespan;
     }
 }
