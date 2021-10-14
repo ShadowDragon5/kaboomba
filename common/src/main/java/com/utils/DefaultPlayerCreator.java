@@ -1,16 +1,17 @@
 package com.utils;
 
 import com.core.PlayerColors;
-import com.entities.BluePlayer;
-import com.entities.GreenPlayer;
-import com.entities.Player;
+import com.entities.*;
 
 public class DefaultPlayerCreator extends PlayerCreator{
     @Override
     public Player createPlayer(PlayerColors color) {
         switch (color){
             case BLUE:
-                return new BluePlayer();
+            {
+                return new BombPowerPowerUp(new SpeedPowerUp(new BluePlayer()));
+            }
+
             case GREEN:
                 return new GreenPlayer();
         }
