@@ -1,7 +1,6 @@
 package com.utils;
 
 import com.entities.GameObject;
-import com.entities.Player;
 import com.entities.Tile;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
@@ -19,23 +18,16 @@ public class TextureLoader {
     private static HashMap<String, Integer> textures = new HashMap<>();
 
     public static Integer getTexture(GameObject gameObject){
-        try {
-            String textureKey = gameObject.getTextureFile();
-            if(textures.containsKey(textureKey)){
-                return textures.get(textureKey);
-            }
-
-            BufferedImage image = TextureLoader.loadImage(gameObject.getTextureFile());
-            int textureId = TextureLoader.loadTexture(image);
-            textures.put(textureKey, textureId);
-
-            return textureId;
+        String textureKey = gameObject.getTextureFile();
+        if(textures.containsKey(textureKey)){
+            return textures.get(textureKey);
         }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
-        return 0;
+
+        BufferedImage image = TextureLoader.loadImage(gameObject.getTextureFile());
+        int textureId = TextureLoader.loadTexture(image);
+        textures.put(textureKey, textureId);
+
+        return textureId;
     }
 
 
