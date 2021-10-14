@@ -92,10 +92,22 @@ public class ServerApplication {
                             }, "Bomb_Timer", bomb.getLifespan());
                             break;
                         case PLANT_PIT:
-                            serverState.getState().addPit(playerFactory.createPit(playerToUpdate));
+                            Pit pit = playerFactory.createPit(playerToUpdate);
+                            serverState.getState().addPit(pit);
+                            scheduleTask(() -> {
+                                serverState.getState().removePit(pit);
+                                serverState.notifyObservers();
+                                return null;
+                            }, "Pit_Timer", pit.getLifespan());
                             break;
                         case PLANT_SHIELD:
-                            serverState.getState().addShield(playerFactory.createShield(playerToUpdate));
+                            Shield shield = playerFactory.createShield(playerToUpdate);
+                            serverState.getState().addShield(shield);
+                            scheduleTask(() -> {
+                                serverState.getState().removeShield(shield);
+                                serverState.notifyObservers();
+                                return null;
+                            }, "Shield_Timer", shield.getLifespan());
                     }
 
                     // Collision with wall

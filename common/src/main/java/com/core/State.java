@@ -62,7 +62,7 @@ public class State {
         getPlayers().removeIf(it->it.ID.equals(id));
     }
 
-    public synchronized void addBomb(Bomb bomb){
+    public void addBomb(Bomb bomb){
         bombs.add(bomb);
     }
 
@@ -80,7 +80,12 @@ public class State {
     }
 
     public ArrayList<Shield> getShields() {
-        return shields;
+        ArrayList<Shield> newShields = new ArrayList<>();
+        shields.forEach(it->{
+            if(it != null)
+                newShields.add(it);
+        });
+        return newShields;
     }
 
     public void addPit(Pit pit){
@@ -88,17 +93,28 @@ public class State {
     }
 
     public ArrayList<Pit> getPits() {
-        return pits;
+        ArrayList<Pit> newPits = new ArrayList<>();
+        pits.forEach(it->{
+            if(it != null)
+                newPits.add(it);
+        });
+        return newPits;
     }
 
     public void removeBox(GameObject box){
         ((Box) box).explode();
         getBoxes().removeIf(it->it.ID.equals(box.ID));
     }
-    public synchronized void removeBomb(GameObject bomb){
+    public void removeBomb(GameObject bomb){
 //        bombs.removeIf(it->it.ID.equals(bomb.ID));
-//        bombs.remove(bomb);
         bombs.set(bombs.indexOf(bomb), null);
+    }
+
+    public void removeShield(GameObject shield){
+        shields.set(shields.indexOf(shield), null);
+    }
+    public void removePit(GameObject pit){
+        pits.set(pits.indexOf(pit), null);
     }
 
 }
