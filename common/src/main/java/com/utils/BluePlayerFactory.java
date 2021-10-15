@@ -3,6 +3,10 @@ package com.utils;
 import com.entities.*;
 
 public class BluePlayerFactory extends PlayersAbstractFactory {
+    public BluePlayerFactory(Player player) {
+        super(player);
+    }
+
     @Override
     public Bomb createBomb(Player player) {
         BlueBomb blueBomb = new BlueBomb(new Position(player.getPosition().getX(), player.getPosition().getY()));

@@ -14,6 +14,9 @@ public class State {
     private final ArrayList<Shield> shields = new ArrayList<>();
     private final ArrayList<Pit> pits = new ArrayList<>();
 
+    // Explosion
+    private final ArrayList<BombExplosion> explosions = new ArrayList<>();
+
     private State() {}
     private static State state;
 
@@ -112,7 +115,6 @@ public class State {
     }
 
     public void removeBomb(GameObject bomb) {
-//        bombs.removeIf(it->it.ID.equals(bomb.ID));
         bombs.set(bombs.indexOf(bomb), null);
     }
 
@@ -124,4 +126,15 @@ public class State {
         pits.set(pits.indexOf(pit), null);
     }
 
+    public void addBombExplosion(ArrayList<BombExplosion> explosion) {
+        explosions.addAll(explosion);
+    }
+
+    public void removeExplosion(BombExplosion explosion) {
+        getExplosions().removeIf(it->it.ID.equals(explosion.ID));
+    }
+
+    public ArrayList<BombExplosion> getExplosions() {
+        return explosions;
+    }
 }

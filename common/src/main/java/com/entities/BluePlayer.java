@@ -8,7 +8,7 @@ import java.awt.*;
 public class BluePlayer extends Player {
     @Override
     public PlayersAbstractFactory getFactory() {
-        return new BluePlayerFactory();
+        return new BluePlayerFactory(this);
     }
 
     @Override

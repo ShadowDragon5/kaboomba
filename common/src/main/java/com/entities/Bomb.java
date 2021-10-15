@@ -2,10 +2,12 @@ package com.entities;
 
 import com.core.WithLifespan;
 
-public class Bomb extends GameObject implements WithLifespan {
-    private Long lifespan = 2000L;
+
+public abstract class Bomb extends GameObject implements WithLifespan {
+    private final Long lifespan = 2000L;
 
     public Bomb() {
+
     }
 
     public Bomb(Position position) {
@@ -21,4 +23,6 @@ public class Bomb extends GameObject implements WithLifespan {
     public Long getLifespan() {
         return lifespan;
     }
+
+    public abstract BombExplosion createExplosion(Position position);
 }

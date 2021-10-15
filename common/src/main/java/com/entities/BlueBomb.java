@@ -16,4 +16,9 @@ public class BlueBomb extends Bomb{
     public String getTextureFile() {
         return "src/main/resources/bomb_blue.png";
     }
+
+    @Override
+    public BombExplosion createExplosion(Position position) {
+        return new BlueBombExplosion(position);
+    }
 }

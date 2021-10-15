@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 // collection of global variables
 public class Globals {
     private static float defaultDimension = 0.1f;
+    private final static int defaultExplosionSize = 3;
 
     public static PlayerColors defaultPlayerColor = PlayerColors.BLUE;
     // Register gson custom serializers/deserializers
@@ -26,5 +27,9 @@ public class Globals {
 
     public static void setDefaultDimension(float dimension) {
         Globals.defaultDimension = dimension;
+    }
+
+    public static int getDefaultExplosionSize() {
+        return defaultExplosionSize;
     }
 }

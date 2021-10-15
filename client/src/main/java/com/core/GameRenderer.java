@@ -131,6 +131,7 @@ public class GameRenderer {
         State state = State.getInstance();
         if(state != null) {
             drawTexturedElements(state.getBombs());
+            //Render bomb explosions
             drawTexturedElements(state.getShields());
             drawTexturedElements(state.getPits());
             drawTexturedElements(state.getPlayers());

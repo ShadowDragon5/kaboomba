@@ -34,19 +34,21 @@ public class Position {
     }
 
     public void addX(float dx) {
-        // if(UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.MIN) <= 1f
-        //         && UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM) >= -1f)
             this.x = UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM);
     }
 
     public void addY(float dy) {
-        // if(UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.MIN) <= 1f
-        //         && UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM) >= -1f)
             this.y = UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM);
     }
 
     @Override
     public String toString() {
         return String.format("x: %s, y:%s", getX(), getY());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Position otherPosition = (Position) obj;
+        return otherPosition.getX() == this.getX() && otherPosition.getY() == this.getY();
     }
 }
