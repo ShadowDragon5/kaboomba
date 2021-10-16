@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 // collection of global variables
 public class Globals {
     private static float defaultDimension = 0.1f;
-    private final static int defaultExplosionSize = 3;
+    private final static int defaultExplosionSize = 1;
 
     public static PlayerColors defaultPlayerColor = PlayerColors.BLUE;
     // Register gson custom serializers/deserializers
@@ -17,8 +17,10 @@ public class Globals {
         .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
         .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
         .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>())
+        .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>())
         .registerTypeAdapter(BoxExplosion.class, new CustomJsonAdapter<BoxExplosion>("com.utils."))
         .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>())
+        .registerTypeAdapter(BombExplosion.class, new CustomJsonAdapter<BombExplosion>())
         ).create();
 
     public static float getDefaultDimension() {

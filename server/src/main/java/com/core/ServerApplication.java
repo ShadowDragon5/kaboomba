@@ -2,19 +2,25 @@ package com.core;
 
 import com.commands.*;
 import com.controllers.BombExplosionController;
-import com.entities.*;
+import com.entities.GameMap;
+import com.entities.Player;
+import com.entities.Position;
+import com.entities.Wall;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.utils.PlayersAbstractFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class ServerApplication {
     private static final HashMap<Connection, String> connections = new HashMap<>();
     private static final ServerState serverState = new ServerState();
-    private static final Queue<Command> queuedCommands = new ArrayBlockingQueue<Command>(20);
+    private static final Queue<Command> queuedCommands = new ArrayBlockingQueue<Command>(2000);
 
     private static BombExplosionController bombExplosionController;
 
@@ -35,6 +41,13 @@ public class ServerApplication {
             public void run() {
                 while (!queuedCommands.isEmpty()) {
                     queuedCommands.poll().execute();
+                    // Check player collisions wit boxes and explosions
+                    serverState.getState().getPlayers().forEach(player -> {
+                        serverState.getState().getBoxes().forEach(player::collides);
+                        serverState.getState().getExplosions().forEach(player::collides);
+                        gameMap.getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
+                    });
+
                 }
 
                 serverState.notifyObservers();
@@ -96,21 +109,8 @@ public class ServerApplication {
                         command = new PlantShieldCommand(playerFactory);
                         break;
                 }
-
-                queuedCommands.add(command);
-
-                // Collision with wall
-                if (playerCollidesWithWall(gameMap, playerToUpdate)) {
-                    playerToUpdate.setPosition(oldPosition);
-                } else {
-                    serverState.getState().updateStatePlayer(id, playerToUpdate);
-                }
-
-                // Collision with wall
-                GameObject box = playerCollidesWithBox(serverState.getState().getBoxes(), playerToUpdate);
-                if (box != null) {
-                    serverState.getState().removeBox(box);
-                }
+                if(command != null)
+                    queuedCommands.add(command);
             }
 
             @Override
@@ -126,17 +126,5 @@ public class ServerApplication {
                 System.out.println("Disconnected" + outGoingConnection.getID());
             }
         });
-    }
-
-    private static boolean playerCollidesWithWall(GameMap map, GameObject obj) {
-        return map.getGameObjects().stream()
-                .filter(it -> it instanceof Wall)
-                .filter(it -> it.collides(obj)).count() >= 1;
-    }
-
-    private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player) {
-        return boxes.stream()
-                .filter(it -> it.collides(player))
-                .findFirst().orElse(null);
     }
 }

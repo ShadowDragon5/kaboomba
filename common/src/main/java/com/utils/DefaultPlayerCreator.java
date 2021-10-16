@@ -9,7 +9,7 @@ public class DefaultPlayerCreator extends PlayerCreator{
         switch (color){
             case BLUE:
             {
-                return new BombPowerPowerUp(new SpeedPowerUp(new BluePlayer()));
+                return new BluePlayer();
             }
 
             case GREEN:

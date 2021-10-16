@@ -20,13 +20,15 @@ public class UtilityMethods {
         float a1 = a * precision;
         float b1 = b * precision;
 
-        switch (action){
+        switch (action) {
             case SUM:
-                return (a1 + b1)/precision;
+                return (a1 + b1) / precision;
             case MIN:
-                return (a1 - b1)/precision;
+                return (a1 - b1) / precision;
             case DIV:
                 return (a1 / b1);
+            case MUL:
+                return (a1 * b1) / precision / precision;
         }
         throw new ArithmeticException("Failed to do precise arithmetics");
     }

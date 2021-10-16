@@ -9,7 +9,7 @@ public class GreenPlayerFactory extends PlayersAbstractFactory{
 
     @Override
     public Bomb createBomb(Player player) {
-        GreenBomb greenBomb = new GreenBomb(new Position(player.getPosition().getX(), player.getPosition().getY()));
+        GreenBomb greenBomb = new GreenBomb(player.getPosition().clone().snap());
         greenBomb.initiatorId = player.ID;
 
         return greenBomb;
@@ -17,7 +17,7 @@ public class GreenPlayerFactory extends PlayersAbstractFactory{
 
     @Override
     public Shield createShield(Player player) {
-        GreenShield greenShield = new GreenShield(new Position(player.getPosition().getX(), player.getPosition().getY()));
+        GreenShield greenShield = new GreenShield(player.getPosition().clone().snap());
         greenShield.initiatorId = player.ID;
 
         return greenShield;
@@ -25,7 +25,7 @@ public class GreenPlayerFactory extends PlayersAbstractFactory{
 
     @Override
     public Pit createPit(Player player) {
-        GreenPit greenPit = new GreenPit(new Position(player.getPosition().getX(), player.getPosition().getY()));
+        GreenPit greenPit = new GreenPit(player.getPosition().clone().snap());
         greenPit.initiatorId = player.ID;
 
         return greenPit;

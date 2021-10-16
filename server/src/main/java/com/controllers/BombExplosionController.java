@@ -37,7 +37,6 @@ public class BombExplosionController {
         var explosions = new ArrayList<BombExplosion>();
         Position initialPosition = bomb.getPosition();
 
-
         for(int i = 1; i<explosionSize + 1; i++) {
             Position newPos = new Position(initialPosition.getX(), initialPosition.getY());
 
@@ -59,7 +58,9 @@ public class BombExplosionController {
             GameObject object = atPosition(newPos);
 
             if (object instanceof Box) {
-                explosions.add(bomb.createExplosion(newPos));
+                BombExplosion explosion = bomb.createExplosion(newPos);
+                object.onCollision(explosion);
+                explosions.add(explosion);
                 break;
             } else if (object instanceof Wall || object instanceof Shield) {
                 break;
@@ -86,12 +87,9 @@ public class BombExplosionController {
             return gameObject;
         }
 
-
         //Tile from GameMap
         return gameMap.getGameObjects().stream()
                 .filter(it -> it.getPosition().equals(position))
                 .findFirst().orElse(null);
     }
-
-
 }
