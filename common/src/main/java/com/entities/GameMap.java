@@ -15,10 +15,15 @@ import javax.xml.parsers.*;
 
 public class GameMap {
     private final ArrayList<GameObject> mapTiles = new ArrayList<>();
-    private final State state = State.getInstance();
 
-    public GameMap() {
+    private static GameMap instance = null;
+    private GameMap() { }
 
+    public static GameMap getInstance() {
+        if(instance == null) {
+            instance = new GameMap();
+        }
+        return instance;
     }
 
     public void loadMap(String filePath) {
@@ -40,9 +45,6 @@ public class GameMap {
             int tileHeight = Integer.parseInt(mapElement.getAttribute("tileheight"));
 
             Globals.setDefaultDimension(0.1f);
-
-            // System.out.println(tileWidth + "x" + tileHeight);
-            // System.out.println(mapWidth + "x" + mapHeight);
 
             NodeList tileset =
                 ((Element)doc.getElementsByTagName("tileset").item(0)).getElementsByTagName("image");
@@ -113,7 +115,7 @@ public class GameMap {
                             UtilityMethods.preciseArithmetics(2f,
                                 mapWidth, ArithmeticActions.DIV)
                         );
-                    state.addBox(tile);
+                    State.getInstance().addBox(tile);
                 }
                 c++;
             }

@@ -1,4 +1,4 @@
-package com.core;
+package com.utils;
 
 import java.util.Timer;
 import java.util.TimerTask;

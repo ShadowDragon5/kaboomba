@@ -28,6 +28,7 @@ public class Client implements Observer {
             String stateJson = Globals.gson.toJson(sub.getState());
             connection.sendTCP(String.format("%s;%s", ServerAction.STATE_UPDATE, stateJson));
         } catch (Exception exc) {
+            System.out.println(exc.getMessage());
         }
     }
 

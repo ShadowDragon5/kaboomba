@@ -92,7 +92,6 @@ public class State {
     }
 
     public void removeBox(GameObject box) {
-        ((Box) box).explode();
         removeFromList(getBoxes(), box.ID);
     }
 

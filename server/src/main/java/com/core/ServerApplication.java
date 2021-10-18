@@ -22,13 +22,9 @@ public class ServerApplication {
     private static final ServerState serverState = new ServerState();
     private static final Queue<Command> queuedCommands = new ArrayBlockingQueue<Command>(2000);
 
-    private static BombExplosionController bombExplosionController;
-
     public static void main(String... args) throws Exception {
-        GameMap gameMap = new GameMap();
+        GameMap gameMap = GameMap.getInstance();
         gameMap.loadMap("src/main/resources/map1.tmx");
-
-        BombExplosionController bombExplosionController = new BombExplosionController(gameMap);
 
         Server server = new Server(1000000, 1000000);
 
@@ -81,7 +77,6 @@ public class ServerApplication {
 
                 String id = connections.get(connection);
                 Player playerToUpdate = serverState.getState().getPlayer(id);
-                Position oldPosition = new Position(playerToUpdate.getPosition().getX(), playerToUpdate.getPosition().getY());
                 PlayersAbstractFactory playerFactory = playerToUpdate.getFactory();
 
                 Command command = null;
@@ -100,7 +95,7 @@ public class ServerApplication {
                         command = new MoveRightCommand(playerToUpdate);
                         break;
                     case PLANT_BOMB:
-                        command = new PlantBombCommand(playerFactory, bombExplosionController);
+                        command = new PlantBombCommand(playerFactory);
                         break;
                     case PLANT_PIT:
                         command = new PlantPitCommand(playerFactory);

@@ -4,21 +4,14 @@ import com.core.Direction;
 import com.core.Globals;
 import com.core.State;
 import com.entities.*;
-import com.utils.PlayersAbstractFactory;
 
 import java.util.ArrayList;
 
 public class BombExplosionController {
-
-    private final GameMap gameMap;
-    private final State state = State.getInstance();
+    private final GameMap gameMap = GameMap.getInstance();
 
     int explosionSize = Globals.getDefaultExplosionSize();
     float dim = Globals.getDefaultDimension();
-
-    public BombExplosionController(GameMap gameMap) {
-        this.gameMap = gameMap;
-    }
 
     public ArrayList<BombExplosion> createExplosion(Bomb bomb) {
 
@@ -74,6 +67,8 @@ public class BombExplosionController {
 
 
     private GameObject atPosition(Position position) {
+        var state = State.getInstance();
+
         // Check if at given position exists GameObject from state
         var gameObjects = new ArrayList<GameObject>();
         gameObjects.addAll(state.getBoxes());
