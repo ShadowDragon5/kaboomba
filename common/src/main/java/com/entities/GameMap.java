@@ -14,10 +14,11 @@ import java.util.ArrayList;
 import javax.xml.parsers.*;
 
 public class GameMap {
-    private ArrayList<GameObject> mapTiles = new ArrayList<>();
-    private State state = State.getInstance();
+    private final ArrayList<GameObject> mapTiles = new ArrayList<>();
+    private final State state = State.getInstance();
 
     public GameMap() {
+
     }
 
     public void loadMap(String filePath) {

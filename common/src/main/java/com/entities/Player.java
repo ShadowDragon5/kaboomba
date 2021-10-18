@@ -1,7 +1,6 @@
 package com.entities;
 
 import com.core.Direction;
-import com.core.Globals;
 import com.utils.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
@@ -11,8 +10,40 @@ public abstract class Player extends GameObject {
     private final float bombPower = 2;
     private final float bombAmmo = 2;
 
+    private Position oldPosition;
+
     public Player() {
         super();
+    }
+
+    public abstract PlayersAbstractFactory getFactory();
+
+    public void move(Direction direction) {
+        setOldPosition(new Position(this.getPosition().getX(), this.getPosition().getY()));
+
+        switch (direction) {
+            case UP:
+                this.position.addY(getSpeed());
+                break;
+            case DOWN:
+                this.position.addY(-getSpeed());
+                break;
+            case LEFT:
+                this.position.addX(-getSpeed());
+                break;
+            case RIGHT:
+                this.position.addX(getSpeed());
+                break;
+        }
+    }
+
+
+    public Position getOldPosition() {
+        return oldPosition;
+    }
+
+    public void setOldPosition(Position oldPosition) {
+        this.oldPosition = oldPosition;
     }
 
     public float getSpeed() {
@@ -31,31 +62,15 @@ public abstract class Player extends GameObject {
         return bombAmmo;
     }
 
-
     @Override
     public String getTextureFile() {
         return "src/main/player";
     }
 
-    public void move(Direction direction) {
-        switch (direction) {
-            case UP:
-                this.position.addY(getSpeed());
-                break;
-
-            case DOWN:
-                this.position.addY(-getSpeed());
-                break;
-
-            case LEFT:
-                this.position.addX(-getSpeed());
-                break;
-
-            case RIGHT:
-                this.position.addX(getSpeed());
-                break;
+    @Override
+    public void onCollision(GameObject object) {
+        if (object instanceof Box || object instanceof Wall) {
+            this.setPosition(new Position(oldPosition.getX(), oldPosition.getY()));
         }
     }
-
-    public abstract PlayersAbstractFactory getFactory();
 }

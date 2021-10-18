@@ -1,13 +1,14 @@
 package com.entities;
 
 import com.core.ArithmeticActions;
+import com.core.Globals;
 import com.utils.UtilityMethods;
 
 public class Position {
     private float x;
     private float y;
 
-    public Position(){
+    public Position() {
         this.x = 0;
         this.y = 0;
     }
@@ -16,6 +17,7 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+
 
     public float getX() {
         return x;
@@ -34,19 +36,36 @@ public class Position {
     }
 
     public void addX(float dx) {
-        // if(UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.MIN) <= 1f
-        //         && UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM) >= -1f)
-            this.x = UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM);
+        this.x = UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM);
     }
 
     public void addY(float dy) {
-        // if(UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.MIN) <= 1f
-        //         && UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM) >= -1f)
-            this.y = UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM);
+        this.y = UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM);
+    }
+
+    public Position clone() {
+        return new Position(this.getX(), this.getY());
+    }
+
+    public Position snap() {
+        float flooredX = (float) Math.floor(getX() / Globals.getDefaultDimension());
+        var snappedX = flooredX + 0.5f;
+        setX(UtilityMethods.preciseArithmetics(snappedX, Globals.getDefaultDimension(), ArithmeticActions.MUL));
+
+        float flooredY = (float) Math.floor(getY() / Globals.getDefaultDimension());
+        var snappedY = flooredY + 0.5f;
+        setY(UtilityMethods.preciseArithmetics(snappedY, Globals.getDefaultDimension(), ArithmeticActions.MUL));
+        return this;
     }
 
     @Override
     public String toString() {
         return String.format("x: %s, y:%s", getX(), getY());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Position otherPosition = (Position) obj;
+        return otherPosition.getX() == this.getX() && otherPosition.getY() == this.getY();
     }
 }

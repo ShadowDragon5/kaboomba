@@ -7,10 +7,9 @@ import com.utils.TextureLoader;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.*;
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -21,7 +20,7 @@ public class GameRenderer {
         this.map = map;
     }
 
-    public void drawTexturedElements(ArrayList<? extends GameObject> objects) {
+    public void drawTexturedElements(List<? extends GameObject> objects) {
         objects.forEach(it-> {
             int textureId = TextureLoader.getTexture(it);
             glEnable(GL_BLEND);
@@ -131,11 +130,13 @@ public class GameRenderer {
         State state = State.getInstance();
         if(state != null) {
             drawTexturedElements(state.getBombs());
+            //Render bomb explosions
             drawTexturedElements(state.getShields());
             drawTexturedElements(state.getPits());
-            drawTexturedElements(state.getPlayers());
             drawTexturedElements(state.getBoxes());
             drawTexturedElements(state.getExtras());
+            drawTexturedElements(state.getExplosions());
+            drawTexturedElements(state.getPlayers());
         }
 
         glfwSwapBuffers(window); // swap the color buffers

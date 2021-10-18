@@ -2,17 +2,22 @@ package com.core;
 
 import com.entities.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class State {
 
-    private final ArrayList<Player> players = new ArrayList<>();
-    private final ArrayList<GameObject> boxes = new ArrayList<>();
-    private final ArrayList<GameObject> extras = new ArrayList<>();
+    private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
+    private final List<GameObject> boxes = Collections.synchronizedList(new ArrayList<>());
+    private final List<GameObject> extras = Collections.synchronizedList(new ArrayList<>());
 
     // Player droppable entities
-    private final ArrayList<Bomb> bombs = new ArrayList<>();
-    private final ArrayList<Shield> shields = new ArrayList<>();
-    private final ArrayList<Pit> pits = new ArrayList<>();
+    private final List<GameObject> bombs = Collections.synchronizedList(new ArrayList<>());
+    private final List<GameObject> shields = Collections.synchronizedList(new ArrayList<>());
+    private final List<GameObject> pits = Collections.synchronizedList(new ArrayList<>());
+
+    // Explosion
+    private final List<GameObject> explosions = Collections.synchronizedList(new ArrayList<>());
 
     private State() {}
     private static State state;
@@ -28,7 +33,7 @@ public class State {
         state = newState;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -36,7 +41,7 @@ public class State {
         players.add(player);
     }
 
-    public ArrayList<GameObject> getBoxes() {
+    public List<GameObject> getBoxes() {
         return boxes;
     }
 
@@ -44,7 +49,7 @@ public class State {
         boxes.add(boxObject);
     }
 
-    public ArrayList<GameObject> getExtras() {
+    public List<GameObject> getExtras() {
         return extras;
     }
 
@@ -58,70 +63,66 @@ public class State {
                 .findFirst().get();
     }
 
-    public void updateStatePlayer(String id, Player newPlayer) {
-        getPlayer(id)
-                .setPosition(newPlayer.getPosition());
-    }
-
     public void removePlayer(String id) {
         getPlayers().removeIf(it->it.ID.equals(id));
     }
 
     public void addBomb(Bomb bomb){
-        bombs.add(bomb);
+        getBombs().add(bomb);
     }
 
-    public ArrayList<Bomb> getBombs() {
-        ArrayList<Bomb> newBombs = new ArrayList<>();
-        bombs.forEach(it->{
-            if(it != null)
-                newBombs.add(it);
-        });
-        return newBombs;
+    public List<GameObject> getBombs() {
+        return bombs;
     }
 
     public void addShield(Shield shield) {
-        shields.add(shield);
+        getShields().add(shield);
     }
 
-    public ArrayList<Shield> getShields() {
-        ArrayList<Shield> newShields = new ArrayList<>();
-        shields.forEach(it->{
-            if(it != null)
-                newShields.add(it);
-        });
-        return newShields;
+    public List<GameObject> getShields() {
+        return shields;
     }
 
     public void addPit(Pit pit){
-        pits.add(pit);
+        getPits().add((Pit) pit);
     }
 
-    public ArrayList<Pit> getPits() {
-        ArrayList<Pit> newPits = new ArrayList<>();
-        pits.forEach(it->{
-            if(it != null)
-                newPits.add(it);
-        });
-        return newPits;
+    public List<GameObject> getPits() {
+        return pits;
     }
 
     public void removeBox(GameObject box) {
         ((Box) box).explode();
-        getBoxes().removeIf(it->it.ID.equals(box.ID));
+        removeFromList(getBoxes(), box.ID);
     }
 
     public void removeBomb(GameObject bomb) {
-//        bombs.removeIf(it->it.ID.equals(bomb.ID));
-        bombs.set(bombs.indexOf(bomb), null);
+        removeFromList(getBombs(), bomb.ID);
     }
 
     public void removeShield(GameObject shield) {
-        shields.set(shields.indexOf(shield), null);
+        removeFromList(getShields(), shield.ID);
     }
 
     public void removePit(GameObject pit) {
-        pits.set(pits.indexOf(pit), null);
+        removeFromList(getPits(), pit.ID);
     }
 
+    public void addBombExplosion(ArrayList<BombExplosion> explosion) {
+        explosion.forEach(it->{
+            getExplosions().add(it);
+        });
+    }
+
+    public void removeExplosion(BombExplosion explosion) {
+        removeFromList(getExplosions(), explosion.ID);
+    }
+
+    public List<GameObject> getExplosions() {
+        return explosions;
+    }
+
+    public void removeFromList(List<GameObject> objects, String id) {
+        objects.removeIf(it->it.ID.equals(id));
+    }
 }

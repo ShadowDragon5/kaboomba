@@ -8,7 +8,7 @@ import java.awt.*;
 public class GreenPlayer extends Player{
     @Override
     public PlayersAbstractFactory getFactory() {
-        return new GreenPlayerFactory();
+        return new GreenPlayerFactory(this);
     }
 
     @Override

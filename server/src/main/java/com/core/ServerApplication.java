@@ -1,26 +1,58 @@
 package com.core;
 
-import com.entities.*;
-import com.utils.*;
+import com.commands.*;
+import com.controllers.BombExplosionController;
+import com.entities.GameMap;
+import com.entities.Player;
+import com.entities.Position;
+import com.entities.Wall;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.utils.PlayersAbstractFactory;
 
-import java.util.*;
-import java.util.concurrent.Callable;
+import java.util.HashMap;
+import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class ServerApplication {
     private static final HashMap<Connection, String> connections = new HashMap<>();
-    private static ServerState serverState = new ServerState();
+    private static final ServerState serverState = new ServerState();
+    private static final Queue<Command> queuedCommands = new ArrayBlockingQueue<Command>(2000);
+
+    private static BombExplosionController bombExplosionController;
 
     public static void main(String... args) throws Exception {
         GameMap gameMap = new GameMap();
         gameMap.loadMap("src/main/resources/map1.tmx");
 
+        BombExplosionController bombExplosionController = new BombExplosionController(gameMap);
+
         Server server = new Server(1000000, 1000000);
 
         server.start();
         server.bind(54555);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                while (!queuedCommands.isEmpty()) {
+                    queuedCommands.poll().execute();
+                    // Check player collisions wit boxes and explosions
+                    serverState.getState().getPlayers().forEach(player -> {
+                        serverState.getState().getBoxes().forEach(player::collides);
+                        serverState.getState().getExplosions().forEach(player::collides);
+                        gameMap.getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
+                    });
+
+                }
+
+                serverState.notifyObservers();
+            }
+        }, 0, 10);
 
         server.addListener(new Listener() {
             public void received(Connection connection, Object object) {
@@ -30,106 +62,60 @@ public class ServerApplication {
 
                 String[] contents = String.valueOf(object).split(";");
                 ClientAction clientAction = ClientAction.valueOf(contents[0]);
-                Player playerToUpdate;
-                String id;
 
+                // Connection flow
                 if (clientAction == ClientAction.CONNECTED) {
-                    String payload = contents[1];
-                    PlayerColors playerColor = UtilityMethods.getPlayerColorOrDefault(payload);
+                    String color = contents[0];
+                    ConnectedCommand command = new ConnectedCommand(color, object1 -> {
+                        Player player = (Player) object1;
+                        connections.put(connection, player.ID);
+                        serverState.attach(new Client(serverState, connection, player.ID));
+                        serverState.getState().addPlayer(player);
 
-                    // Create player using abstract factory
-                    PlayerCreator playerCreator = new DefaultPlayerCreator();
-                    Player player = playerCreator.createPlayer(playerColor);
-
-                    int playerCount = serverState.getState().getPlayers().size() + 1;
-                    float playerDim = 1.5f *  player.getDimensions();
-
-                    float xPos = playerCount == 1 || playerCount == 4 ?
-                            UtilityMethods.preciseArithmetics(-1f, playerDim, ArithmeticActions.SUM)
-                            :
-                            UtilityMethods.preciseArithmetics(1f, playerDim, ArithmeticActions.MIN);
-
-                    float yPos = playerCount == 1 || playerCount == 3 ?
-                            UtilityMethods.preciseArithmetics(1f, playerDim, ArithmeticActions.MIN)
-                            :
-                            UtilityMethods.preciseArithmetics(-1f, playerDim, ArithmeticActions.SUM);
-
-                    player.setPosition(new Position(xPos, yPos));
-
-                    connections.put(connection, player.ID);
-                    serverState.attach(new Client(serverState, connection, player.ID));
-                    serverState.getState().addPlayer(player);
-
-                    String mapJson = String.format("%s;%s", ServerAction.MAP_INIT, Globals.gson.toJson(gameMap));
-                    connection.sendTCP(mapJson);
-                } else {
-                    id = connections.get(connection);
-                    playerToUpdate = serverState.getState().getPlayer(id);
-
-                    Position oldPosition = new Position(playerToUpdate.getPosition().getX(), playerToUpdate.getPosition().getY());
-                    PlayersAbstractFactory playerFactory = playerToUpdate.getFactory();
-
-                    switch (clientAction) {
-                        case MOVE_UP:
-                            playerToUpdate.move(Direction.UP);
-                            break;
-                        case MOVE_DOWN:
-                            playerToUpdate.move(Direction.DOWN);
-                            break;
-                        case MOVE_LEFT:
-                            playerToUpdate.move(Direction.LEFT);
-                            break;
-                        case MOVE_RIGHT:
-                            playerToUpdate.move(Direction.RIGHT);
-                            break;
-                        case PLANT_BOMB:
-                            Bomb bomb = playerFactory.createBomb(playerToUpdate);
-                            serverState.getState().addBomb(bomb);
-                            scheduleTask(() -> {
-                                serverState.getState().removeBomb(bomb);
-                                serverState.notifyObservers();
-                                return null;
-                            }, "Bomb_Timer", bomb.getLifespan());
-                            break;
-                        case PLANT_PIT:
-                            Pit pit = playerFactory.createPit(playerToUpdate);
-                            serverState.getState().addPit(pit);
-                            scheduleTask(() -> {
-                                serverState.getState().removePit(pit);
-                                serverState.notifyObservers();
-                                return null;
-                            }, "Pit_Timer", pit.getLifespan());
-                            break;
-                        case PLANT_SHIELD:
-                            Shield shield = playerFactory.createShield(playerToUpdate);
-                            serverState.getState().addShield(shield);
-                            scheduleTask(() -> {
-                                serverState.getState().removeShield(shield);
-                                serverState.notifyObservers();
-                                return null;
-                            }, "Shield_Timer", shield.getLifespan());
-                    }
-
-                    // Collision with wall
-                    if (playerCollidesWithWall(gameMap, playerToUpdate)) {
-                        playerToUpdate.setPosition(oldPosition);
-                    } else {
-                        serverState.getState().updateStatePlayer(id, playerToUpdate);
-                    }
-
-                    GameObject box = playerCollidesWithBox(serverState.getState().getBoxes(), playerToUpdate);
-                    if (box != null) {
-                       serverState.getState().removeBox(box);
-                    }
+                        String mapJson = String.format("%s;%s", ServerAction.MAP_INIT, Globals.gson.toJson(gameMap));
+                        connection.sendTCP(mapJson);
+                    });
+                    queuedCommands.add(command);
+                    return;
                 }
 
-                serverState.notifyObservers();
+                String id = connections.get(connection);
+                Player playerToUpdate = serverState.getState().getPlayer(id);
+                Position oldPosition = new Position(playerToUpdate.getPosition().getX(), playerToUpdate.getPosition().getY());
+                PlayersAbstractFactory playerFactory = playerToUpdate.getFactory();
+
+                Command command = null;
+
+                switch (clientAction) {
+                    case MOVE_UP:
+                        command = new MoveUpCommand(playerToUpdate);
+                        break;
+                    case MOVE_DOWN:
+                        command = new MoveDownCommand(playerToUpdate);
+                        break;
+                    case MOVE_LEFT:
+                        command = new MoveLeftCommand(playerToUpdate);
+                        break;
+                    case MOVE_RIGHT:
+                        command = new MoveRightCommand(playerToUpdate);
+                        break;
+                    case PLANT_BOMB:
+                        command = new PlantBombCommand(playerFactory, bombExplosionController);
+                        break;
+                    case PLANT_PIT:
+                        command = new PlantPitCommand(playerFactory);
+                        break;
+                    case PLANT_SHIELD:
+                        command = new PlantShieldCommand(playerFactory);
+                        break;
+                }
+                if(command != null)
+                    queuedCommands.add(command);
             }
 
             @Override
             public void connected(Connection incomingConnection) {
                 System.out.println("Connected" + incomingConnection.getID());
-
             }
 
             @Override
@@ -140,31 +126,5 @@ public class ServerApplication {
                 System.out.println("Disconnected" + outGoingConnection.getID());
             }
         });
-    }
-
-    private static boolean playerCollidesWithWall(GameMap map, GameObject obj) {
-        return map.getGameObjects().stream()
-                .filter(it->it instanceof Wall)
-                .filter(it->it.collides(obj)).count() >= 1;
-    }
-
-    private static GameObject playerCollidesWithBox(ArrayList<GameObject> boxes, GameObject player) {
-        return boxes.stream()
-            .filter(it->it.collides(player))
-            .findFirst().orElse(null);
-    }
-
-    private static void scheduleTask(Callable<Void> method, String name, Long duration) {
-        TimerTask task = new TimerTask() {
-            public void run() {
-                try {
-                    method.call();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        Timer timer = new Timer(name);
-        timer.schedule(task, duration);
     }
 }

@@ -3,6 +3,8 @@ package com.entities;
 import com.core.State;
 import com.utils.*;
 
+import java.util.ArrayList;
+
 public class Box extends Tile {
     private BoxExplosion boxExplosion;
     private float dimension;
@@ -32,14 +34,15 @@ public class Box extends Tile {
         this.boxExplosion = boxExplosion;
     }
 
+
     @Override
     public String getTextureFile() {
         return "src/main/resources/box.png";
     }
 
-    private void randomizeExplosion(){
+    private void randomizeExplosion() {
         var random = Math.random();
-        if(random < 0.4f)                               // 40% chance to destroy box
+        if (random < 0.4f)                               // 40% chance to destroy box
             this.setBoxExplosion(new DestroyBox());
         else if (random < 0.65)                         // 25% chance to drop power up
             this.setBoxExplosion(new DropPowerUp());
@@ -49,8 +52,15 @@ public class Box extends Tile {
             this.setBoxExplosion(new DropBomb());
     }
 
-    public static class BoxBuilder
-    {
+    @Override
+    public void onCollision(GameObject object) {
+        if (object instanceof BombExplosion) {
+            explode();
+            State.getInstance().removeBox(this);
+        }
+    }
+
+    public static class BoxBuilder {
         private final Position position;
         private float dimension;
         private BoxExplosion boxExplosion;
