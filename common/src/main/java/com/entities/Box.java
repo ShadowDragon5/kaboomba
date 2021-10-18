@@ -7,18 +7,20 @@ import java.util.ArrayList;
 
 public class Box extends Tile {
     private BoxExplosion boxExplosion;
-    private float dimension;
 
     public Box(Position position) {
         super(position);
+        randomizeExplosion();
     }
 
     public Box() {
         super();
+        randomizeExplosion();
     }
 
     public Box(Position position, float dimension) {
         super(position, dimension);
+        randomizeExplosion();
     }
 
     public Box(BoxBuilder builder) {
@@ -44,9 +46,9 @@ public class Box extends Tile {
         var random = Math.random();
         if (random < 0.4f)
             this.setBoxExplosion(new DestroyBox());
-        else if (random < 0.65)
+        else if (random < 0.65f)
             this.setBoxExplosion(new DropPowerUp());
-        else if (random < 0.8)
+        else if (random < 0.90f)
             this.setBoxExplosion(new DamageBox());
         else
             this.setBoxExplosion(new DropBomb());
