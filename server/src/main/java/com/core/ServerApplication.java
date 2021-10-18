@@ -65,7 +65,7 @@ public class ServerApplication {
 
                 // Connection flow
                 if (clientAction == ClientAction.CONNECTED) {
-                    String color = contents[0];
+                    String color = contents[1];
                     ConnectedCommand command = new ConnectedCommand(color, object1 -> {
                         Player player = (Player) object1;
                         connections.put(connection, player.ID);
