@@ -7,14 +7,20 @@ import java.util.ArrayList;
 
 public class Box extends Tile {
     private BoxExplosion boxExplosion;
-    private float dimension;
+
+    public Box(Position position) {
+        super(position);
+        randomizeExplosion();
+    }
 
     public Box() {
         super();
+        randomizeExplosion();
     }
 
     public Box(Position position, float dimension) {
         super(position, dimension);
+        randomizeExplosion();
     }
 
     public Box(BoxBuilder builder) {
@@ -23,11 +29,7 @@ public class Box extends Tile {
     }
 
     public void explode() {
-        GameObject replacement = boxExplosion.explosionEffect();
-        if (replacement != null) {
-            replacement.setPosition(this.position);
-            State.getInstance().addExtras(replacement);
-        }
+        boxExplosion.explosionEffect(this);
     }
 
     public void setBoxExplosion(BoxExplosion boxExplosion) {
@@ -40,15 +42,15 @@ public class Box extends Tile {
         return "src/main/resources/box.png";
     }
 
-    private void randomizeExplosion() {
+    public void randomizeExplosion() {
         var random = Math.random();
-        if (random < 0.4f)                               // 40% chance to destroy box
+        if (random < 0.4f)
             this.setBoxExplosion(new DestroyBox());
-        else if (random < 0.65)                         // 25% chance to drop power up
+        else if (random < 0.65f)
             this.setBoxExplosion(new DropPowerUp());
-        else if (random < 0.90)                         // 25% chance to damage box
+        else if (random < 0.90f)
             this.setBoxExplosion(new DamageBox());
-        else                                            // 10% chance to drop bomb
+        else
             this.setBoxExplosion(new DropBomb());
     }
 

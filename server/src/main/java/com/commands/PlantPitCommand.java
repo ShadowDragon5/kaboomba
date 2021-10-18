@@ -5,7 +5,7 @@ import com.entities.Pit;
 import com.entities.Player;
 import com.utils.PlayersAbstractFactory;
 
-import static com.core.Scheduler.scheduleTask;
+import static com.utils.Scheduler.scheduleTask;
 
 public class PlantPitCommand implements Command {
 

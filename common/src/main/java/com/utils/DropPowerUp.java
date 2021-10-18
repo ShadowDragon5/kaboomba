@@ -1,5 +1,6 @@
 package com.utils;
 
+import com.entities.Box;
 import com.entities.GameObject;
 
 public class DropPowerUp extends BoxExplosion {
@@ -8,9 +9,7 @@ public class DropPowerUp extends BoxExplosion {
     }
 
     @Override
-    public GameObject explosionEffect() {
+    public void explosionEffect(Box box) {
         System.out.println("Box dropped power up");
-        // return new PowerUp();
-        return null;
     }
 }

@@ -5,7 +5,7 @@ import com.entities.Player;
 import com.entities.Shield;
 import com.utils.PlayersAbstractFactory;
 
-import static com.core.Scheduler.scheduleTask;
+import static com.utils.Scheduler.scheduleTask;
 
 public class PlantShieldCommand implements Command {
     private final State state = State.getInstance();
