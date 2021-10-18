@@ -23,9 +23,9 @@ public class PlantBombCommand implements Command {
     public void execute() {
         Bomb bomb = playerFactory.createBomb(player);
         state.addBomb(bomb);
-        scheduleTask(() -> {
-            bomb.explode();
-            return null;
-        }, "Bomb_Timer", bomb.getLifespan());
+         scheduleTask(() -> {
+             bomb.explode();
+             return null;
+         }, "Bomb_Timer", bomb.getLifespan());
     }
 }

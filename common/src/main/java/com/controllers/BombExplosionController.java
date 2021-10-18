@@ -8,8 +8,6 @@ import com.entities.*;
 import java.util.ArrayList;
 
 public class BombExplosionController {
-    private final GameMap gameMap = GameMap.getInstance();
-
     int explosionSize = Globals.getDefaultExplosionSize();
     float dim = Globals.getDefaultDimension();
 
@@ -83,7 +81,7 @@ public class BombExplosionController {
         }
 
         //Tile from GameMap
-        return gameMap.getGameObjects().stream()
+        return GameMap.getInstance().getGameObjects().stream()
                 .filter(it -> it.getPosition().equals(position))
                 .findFirst().orElse(null);
     }
