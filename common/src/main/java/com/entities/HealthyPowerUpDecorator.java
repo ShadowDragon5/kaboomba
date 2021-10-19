@@ -7,7 +7,7 @@ public class HealthyPowerUpDecorator extends PowerUpDecorator {
         super(player);
     }
 
-    public float getHealth() {
+    public int getHealth() {
         return player.getHealth() + 1;
     }
 

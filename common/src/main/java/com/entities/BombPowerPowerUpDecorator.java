@@ -8,7 +8,7 @@ public class BombPowerPowerUpDecorator extends PowerUpDecorator {
         super(player);
     }
 
-    public float getBombPower() {
+    public int getBombPower() {
         return player.getBombPower() + 1;
     }
 

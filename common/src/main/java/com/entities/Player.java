@@ -7,9 +7,9 @@ import com.utils.PlayersAbstractFactory;
 public abstract class Player extends GameObject {
 
     private final float speed = 0.01f;
-    private final float health = 1;
-    private final float bombPower = 2;
-    private final float bombAmmo = 2;
+    private final int health = 1;
+    private final int bombPower = 1;
+    private final int bombAmmo = 2;
 
     private Position oldPosition;
 
@@ -57,15 +57,15 @@ public abstract class Player extends GameObject {
         return speed;
     }
 
-    public float getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public float getBombPower() {
+    public int getBombPower() {
         return bombPower;
     }
 
-    public float getBombAmmo() {
+    public int getBombAmmo() {
         return bombAmmo;
     }
 

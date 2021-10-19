@@ -8,13 +8,12 @@ public class BombPowerPowerUp extends PowerUp {
 
     @Override
     public Player decorate(Player player) {
-        var newPlayer = new BombPowerPowerUpDecorator(player);
-        return newPlayer;
+        return new BombPowerPowerUpDecorator(player);
     }
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/powerup_speed.png";
+        return "src/main/resources/powerup_explosion.png";
     }
 
 }

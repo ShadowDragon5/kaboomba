@@ -8,8 +8,7 @@ public class SpeedPowerUp extends PowerUp {
 
     @Override
     public Player decorate(Player player) {
-        var newPlayer = new SpeedPowerUpDecorator(player);
-        return newPlayer;
+        return new SpeedPowerUpDecorator(player);
     }
 
     @Override
