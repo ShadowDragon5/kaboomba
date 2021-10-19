@@ -45,7 +45,6 @@ public abstract class Player extends GameObject {
         }
     }
 
-
     public Position getOldPosition() {
         return oldPosition;
     }

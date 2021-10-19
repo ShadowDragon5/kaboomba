@@ -9,7 +9,7 @@ public class BombPowerPowerUpDecorator extends PowerUpDecorator {
     }
 
     public float getBombPower() {
-        return super.getBombPower() + 1;
+        return player.getBombPower() + 1;
     }
 
     @Override

@@ -1,14 +1,14 @@
 package com.entities;
 
-public class SpeedPowerUp extends PowerUp {
+public class BombPowerPowerUp extends PowerUp {
 
-    public SpeedPowerUp(Position position) {
+    public BombPowerPowerUp(Position position) {
         super(position);
     }
 
     @Override
     public Player decorate(Player player) {
-        var newPlayer = new SpeedPowerUpDecorator(player);
+        var newPlayer = new BombPowerPowerUpDecorator(player);
         return newPlayer;
     }
 

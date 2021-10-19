@@ -8,7 +8,6 @@ import com.entities.*;
 import java.util.ArrayList;
 
 public class BombExplosionController {
-    int explosionSize = Globals.getDefaultExplosionSize();
     float dim = Globals.getDefaultDimension();
 
     public ArrayList<BombExplosion> createExplosion(Bomb bomb) {
@@ -28,7 +27,7 @@ public class BombExplosionController {
         var explosions = new ArrayList<BombExplosion>();
         Position initialPosition = bomb.getPosition();
 
-        for(int i = 1; i<explosionSize + 1; i++) {
+        for(int i = 1; i<bomb.getBombPower() + 1; i++) {
             Position newPos = new Position(initialPosition.getX(), initialPosition.getY());
 
             switch (direction) {

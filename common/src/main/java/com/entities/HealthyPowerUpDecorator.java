@@ -2,13 +2,13 @@ package com.entities;
 
 import com.utils.PlayersAbstractFactory;
 
-public class HealthyPowerUpDecorator extends PowerUpDecorator{
+public class HealthyPowerUpDecorator extends PowerUpDecorator {
     public HealthyPowerUpDecorator(Player player) {
         super(player);
     }
 
     public float getHealth() {
-        return super.getHealth() + 1;
+        return player.getHealth() + 1;
     }
 
     @Override

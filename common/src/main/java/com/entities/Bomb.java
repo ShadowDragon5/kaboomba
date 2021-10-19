@@ -11,6 +11,7 @@ import static com.utils.Scheduler.scheduleTask;
 
 public abstract class Bomb extends GameObject implements WithLifespan {
     BombExplosionController bombExplosionController = new BombExplosionController();
+    private float bombPower = 1;
 
     private final Long lifespan = 2000L;
 
@@ -49,6 +50,13 @@ public abstract class Bomb extends GameObject implements WithLifespan {
             explosion.forEach(state::removeExplosion);
             return null;
         }, "Explosion_Timer", explosion.get(0).getLifespan());
+    }
+
+    public void setBombPower(float bombPower) {
+        this.bombPower = bombPower;
+    }
+    public float getBombPower() {
+        return bombPower;
     }
 
 }
