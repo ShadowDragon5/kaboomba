@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public abstract class GameObject {
-    public final String ID = UUID.randomUUID().toString();
+    public String ID = UUID.randomUUID().toString();
     protected Position position;
     protected float dimensions;
     protected Color color;

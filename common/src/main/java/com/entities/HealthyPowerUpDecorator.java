@@ -2,8 +2,8 @@ package com.entities;
 
 import com.utils.PlayersAbstractFactory;
 
-public class HealthyPowerUp extends PowerUpDecorator{
-    public HealthyPowerUp(Player player) {
+public class HealthyPowerUpDecorator extends PowerUpDecorator{
+    public HealthyPowerUpDecorator(Player player) {
         super(player);
     }
 

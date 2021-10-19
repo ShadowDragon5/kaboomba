@@ -14,9 +14,9 @@ public class PlantBombCommand implements Command {
     private final PlayersAbstractFactory playerFactory;
     private final Player player;
 
-    public PlantBombCommand(PlayersAbstractFactory playerFactory) {
-        this.playerFactory = playerFactory;
-        this.player = playerFactory.getPlayer();
+    public PlantBombCommand(Player player) {
+        this.playerFactory = player.getFactory();
+        this.player = player;
     }
 
     @Override

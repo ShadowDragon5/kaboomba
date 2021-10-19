@@ -1,6 +1,7 @@
 package com.entities;
 
 import com.core.Direction;
+import com.core.State;
 import com.utils.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
@@ -14,6 +15,13 @@ public abstract class Player extends GameObject {
 
     public Player() {
         super();
+    }
+
+    public Player(Player player) {
+        super();
+        this.setPosition(player.getPosition().clone());
+        this.setOldPosition(player.oldPosition.clone());
+        this.ID = player.ID;
     }
 
     public abstract PlayersAbstractFactory getFactory();
@@ -70,7 +78,11 @@ public abstract class Player extends GameObject {
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Box || object instanceof Wall) {
-            this.setPosition(new Position(oldPosition.getX(), oldPosition.getY()));
+            this.setPosition(oldPosition.clone().snap());
+        }
+        if(object instanceof PowerUp) {
+            State.getInstance().removePowerup(object);
+            State.getInstance().replacePlayer(this, ((PowerUp) object).decorate(this));
         }
     }
 }

@@ -2,13 +2,14 @@ package com.entities;
 
 import com.utils.PlayersAbstractFactory;
 
-public class BombAmmoPowerUp extends PowerUpDecorator{
-    public BombAmmoPowerUp(Player player) {
+public class SpeedPowerUpDecorator extends PowerUpDecorator {
+    public SpeedPowerUpDecorator(Player player) {
         super(player);
     }
 
-    public float getBombPower() {
-        return super.getBombAmmo() + 1;
+    @Override
+    public float getSpeed() {
+        return player.getSpeed() + 0.005f;
     }
 
     @Override

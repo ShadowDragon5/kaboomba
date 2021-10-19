@@ -21,6 +21,8 @@ public class Globals {
         .registerTypeAdapter(BoxExplosion.class, new CustomJsonAdapter<BoxExplosion>("com.utils."))
         .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>())
         .registerTypeAdapter(BombExplosion.class, new CustomJsonAdapter<BombExplosion>())
+        .registerTypeAdapter(PowerUp.class, new CustomJsonAdapter<PowerUp>())
+        .registerTypeAdapter(PowerUpDecorator.class, new CustomJsonAdapter<PowerUpDecorator>())
         ).create();
 
     public static float getDefaultDimension() {

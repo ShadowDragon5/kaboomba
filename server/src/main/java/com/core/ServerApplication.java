@@ -2,19 +2,13 @@ package com.core;
 
 import com.commands.*;
 import com.controllers.BombExplosionController;
-import com.entities.GameMap;
-import com.entities.Player;
-import com.entities.Position;
-import com.entities.Wall;
+import com.entities.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.utils.PlayersAbstractFactory;
 
-import java.util.HashMap;
-import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class ServerApplication {
@@ -38,12 +32,13 @@ public class ServerApplication {
                 while (!queuedCommands.isEmpty()) {
                     queuedCommands.poll().execute();
                     // Check player collisions wit boxes and explosions
-                    serverState.getState().getPlayers().forEach(player -> {
+                    new ArrayList<GameObject>(serverState.getState().getPlayers()).forEach(player -> {
                         serverState.getState().getBoxes().forEach(player::collides);
                         serverState.getState().getExplosions().forEach(player::collides);
                         gameMap.getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
-                    });
+                        new ArrayList<GameObject>(serverState.getState().getPowerups()).forEach(player::collides);
 
+                    });
                 }
 
                 serverState.notifyObservers();
@@ -95,13 +90,13 @@ public class ServerApplication {
                         command = new MoveRightCommand(playerToUpdate);
                         break;
                     case PLANT_BOMB:
-                        command = new PlantBombCommand(playerFactory);
+                        command = new PlantBombCommand(playerToUpdate);
                         break;
                     case PLANT_PIT:
-                        command = new PlantPitCommand(playerFactory);
+                        command = new PlantPitCommand(playerToUpdate);
                         break;
                     case PLANT_SHIELD:
-                        command = new PlantShieldCommand(playerFactory);
+                        command = new PlantShieldCommand(playerToUpdate);
                         break;
                 }
                 if(command != null)

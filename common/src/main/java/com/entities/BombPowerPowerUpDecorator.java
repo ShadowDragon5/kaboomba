@@ -2,9 +2,9 @@ package com.entities;
 
 import com.utils.PlayersAbstractFactory;
 
-public class BombPowerPowerUp extends PowerUpDecorator {
+public class BombPowerPowerUpDecorator extends PowerUpDecorator {
 
-    public BombPowerPowerUp(Player player) {
+    public BombPowerPowerUpDecorator(Player player) {
         super(player);
     }
 
