@@ -1,6 +1,7 @@
 package com.controllers;
 
 import com.core.Direction;
+import com.core.ExplosionDirection;
 import com.core.Globals;
 import com.core.State;
 import com.entities.*;
@@ -13,7 +14,7 @@ public class BombExplosionController {
     public ArrayList<BombExplosion> createExplosion(Bomb bomb) {
 
         var explosions = new ArrayList<BombExplosion>();
-        explosions.add(bomb.createExplosion(bomb.getPosition()));
+        explosions.add(bomb.createExplosion(bomb.getPosition(), ExplosionDirection.CENTER));
 
         explosions.addAll(generateExplosions(Direction.UP, bomb));
         explosions.addAll(generateExplosions(Direction.LEFT, bomb));
@@ -47,15 +48,17 @@ public class BombExplosionController {
 
             GameObject object = atPosition(newPos);
 
+            var explosionDirection = direction == Direction.DOWN || direction == Direction.UP ?
+                ExplosionDirection.VERTICAL : ExplosionDirection.HORIZONTAL;
             if (object instanceof Box) {
-                BombExplosion explosion = bomb.createExplosion(newPos);
+                BombExplosion explosion = bomb.createExplosion(newPos, explosionDirection);
                 object.onCollision(explosion);
                 explosions.add(explosion);
                 break;
             } else if (object instanceof Wall || object instanceof Shield) {
                 break;
             } else {
-                explosions.add(bomb.createExplosion(newPos));
+                explosions.add(bomb.createExplosion(newPos, explosionDirection));
             }
         }
 

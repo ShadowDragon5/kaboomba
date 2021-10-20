@@ -1,6 +1,7 @@
 package com.entities;
 
 import com.controllers.BombExplosionController;
+import com.core.ExplosionDirection;
 import com.core.State;
 import com.core.WithLifespan;
 
@@ -33,7 +34,7 @@ public abstract class Bomb extends GameObject implements WithLifespan {
         return lifespan;
     }
 
-    public abstract BombExplosion createExplosion(Position position);
+    public abstract BombExplosion createExplosion(Position position, ExplosionDirection direction);
 
     public ArrayList<BombExplosion> createBombExplosion(){
         return bombExplosionController.createExplosion(this);

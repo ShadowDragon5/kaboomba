@@ -7,12 +7,8 @@ public class BombAmmoPowerUpDecorator extends PowerUpDecorator{
         super(player);
     }
 
+    @Override
     public int getBombAmmo() {
         return player.getBombAmmo() + 1;
-    }
-
-    @Override
-    public PlayersAbstractFactory getFactory() {
-        return player.getFactory();
     }
 }

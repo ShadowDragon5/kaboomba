@@ -11,9 +11,4 @@ public class SpeedPowerUpDecorator extends PowerUpDecorator {
     public float getSpeed() {
         return player.getSpeed() + 0.005f;
     }
-
-    @Override
-    public PlayersAbstractFactory getFactory() {
-        return player.getFactory();
-    }
 }

@@ -7,12 +7,8 @@ public class HealthyPowerUpDecorator extends PowerUpDecorator {
         super(player);
     }
 
+    @Override
     public int getHealth() {
         return player.getHealth() + 1;
-    }
-
-    @Override
-    public PlayersAbstractFactory getFactory() {
-        return player.getFactory();
     }
 }

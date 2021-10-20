@@ -1,5 +1,7 @@
 package com.entities;
 
+import com.core.ExplosionDirection;
+
 import java.awt.*;
 
 public class BlueBomb extends Bomb{
@@ -18,7 +20,7 @@ public class BlueBomb extends Bomb{
     }
 
     @Override
-    public BombExplosion createExplosion(Position position) {
-        return new BlueBombExplosion(position);
+    public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
+        return new BlueBombExplosion(position, direction);
     }
 }
