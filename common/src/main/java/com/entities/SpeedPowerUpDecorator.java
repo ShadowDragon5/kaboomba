@@ -8,6 +8,11 @@ public class SpeedPowerUpDecorator extends PowerUpDecorator {
     }
 
     @Override
+    public Player clone() {
+        return new SpeedPowerUpDecorator(this);
+    }
+
+    @Override
     public float getSpeed() {
         return player.getSpeed() + 0.005f;
     }

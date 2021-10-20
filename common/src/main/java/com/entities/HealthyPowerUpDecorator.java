@@ -8,6 +8,11 @@ public class HealthyPowerUpDecorator extends PowerUpDecorator {
     }
 
     @Override
+    public Player clone() {
+        return new HealthyPowerUpDecorator(this);
+    }
+
+    @Override
     public int getHealth() {
         return player.getHealth() + 1;
     }

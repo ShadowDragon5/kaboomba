@@ -10,6 +10,9 @@ public enum ClientAction {
     MOVE_RIGHT,
     CONNECTED,
     QUIT,
+    SAVE,
+    LOAD,
+    UNDO,
     NOOP
 }
 

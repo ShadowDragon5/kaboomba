@@ -6,6 +6,20 @@ import com.utils.PlayersAbstractFactory;
 import java.awt.*;
 
 public class BluePlayer extends Player {
+
+    public BluePlayer() {
+        super();
+    }
+
+    public BluePlayer(Player player) {
+        super(player);
+    }
+
+    @Override
+    public Player clone() {
+        return new BluePlayer(this);
+    }
+
     @Override
     public PlayersAbstractFactory getFactory() {
         return new BluePlayerFactory(this);

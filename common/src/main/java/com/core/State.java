@@ -29,6 +29,19 @@ public class State {
         return state;
     }
 
+    public void loadState(State newState) {
+        this.state = newState;
+    }
+
+    public State clone() {
+        var newState = new State();
+        this.players.forEach(it->newState.addPlayer(it.clone()));
+        this.boxes.forEach(it->newState.addBox(it));
+        this.powerups.forEach(it->newState.addPowerup(it));
+
+        return newState;
+    }
+
     public static void setNewInstance(State newState) {
         state = newState;
     }
@@ -72,7 +85,7 @@ public class State {
         getPlayers().removeIf(it->it.ID.equals(id));
     }
 
-    public void addBomb(Bomb bomb){
+    public void addBomb(GameObject bomb){
         getBombs().add(bomb);
     }
 
@@ -88,7 +101,7 @@ public class State {
         return shields;
     }
 
-    public void addPit(Pit pit){
+    public void addPit(GameObject pit){
         getPits().add((Pit) pit);
     }
 

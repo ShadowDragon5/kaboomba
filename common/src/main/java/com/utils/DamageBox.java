@@ -11,6 +11,5 @@ public class DamageBox extends BoxExplosion {
         var damagedBox = new DamagedBox(box.getPosition().clone().snap());
         State.getInstance().removeBox(box);
         State.getInstance().addBox(damagedBox);
-        System.out.println("Box is only damaged");
     }
 }

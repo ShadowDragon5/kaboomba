@@ -52,6 +52,15 @@ public class InputController {
             case GLFW_KEY_X:
                 keysPressed.put(key, false);
                 return ClientAction.PLANT_PIT;
+            case GLFW_KEY_S:
+                keysPressed.put(key, false);
+                return ClientAction.SAVE;
+            case GLFW_KEY_L:
+                keysPressed.put(key, false);
+                return ClientAction.LOAD;
+            case GLFW_KEY_U:
+                keysPressed.put(key, false);
+                return ClientAction.UNDO;
         }
         return ClientAction.NOOP;
     }

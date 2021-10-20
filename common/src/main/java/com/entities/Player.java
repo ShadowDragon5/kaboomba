@@ -4,6 +4,8 @@ import com.core.Direction;
 import com.core.State;
 import com.utils.PlayersAbstractFactory;
 
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class Player extends GameObject {
 
     private final float speed = 0.01f;
@@ -21,7 +23,7 @@ public abstract class Player extends GameObject {
     public Player(Player player) {
         super();
         this.setPosition(player.getPosition().clone());
-        this.setOldPosition(player.oldPosition.clone());
+        this.setOldPosition(player.getOldPosition().clone());
         this.ID = player.ID;
     }
 
@@ -46,7 +48,11 @@ public abstract class Player extends GameObject {
         }
     }
 
+    public abstract Player clone();
+
     public Position getOldPosition() {
+        if (this.oldPosition == null)
+            this.oldPosition = this.position.clone();
         return oldPosition;
     }
 

@@ -6,7 +6,6 @@ import com.entities.*;
 public class DropPowerUp extends BoxExplosion {
     @Override
     public void explosionEffect(Box box) {
-        System.out.println("Box dropped power up");
         PowerUp powerup;
 
         var random = Math.random();

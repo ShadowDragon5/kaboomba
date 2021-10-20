@@ -1,7 +1,6 @@
 package com.core;
 
 import com.commands.*;
-import com.controllers.BombExplosionController;
 import com.entities.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -15,6 +14,8 @@ public class ServerApplication {
     private static final HashMap<Connection, String> connections = new HashMap<>();
     private static final ServerState serverState = new ServerState();
     private static final Queue<Command> queuedCommands = new ArrayBlockingQueue<Command>(2000);
+    private static final Stack<Command> unduableCommands = new Stack<>();
+    private static final ArrayList<State> stateSaves = new ArrayList<>();
 
     public static void main(String... args) throws Exception {
         GameMap gameMap = GameMap.getInstance();
@@ -30,7 +31,10 @@ public class ServerApplication {
             @Override
             public void run() {
                 while (!queuedCommands.isEmpty()) {
-                    queuedCommands.poll().execute();
+                    var command = queuedCommands.poll();
+                    command.execute();
+                    if(command instanceof LoadCommand)
+                        queuedCommands.clear();
                     // Check player collisions wit boxes and explosions
                     new ArrayList<GameObject>(serverState.getState().getPlayers()).forEach(player -> {
                         serverState.getState().getBoxes().forEach(player::collides);
@@ -97,6 +101,18 @@ public class ServerApplication {
                         break;
                     case PLANT_SHIELD:
                         command = new PlantShieldCommand(playerToUpdate);
+                        break;
+                    case SAVE:
+                        command = new SaveCommand(stateSaves);
+                        unduableCommands.add(command);
+                        break;
+                    case LOAD:
+                        command = new LoadCommand(stateSaves);
+                        unduableCommands.add(command);
+                        break;
+                    case UNDO:
+                        if(!unduableCommands.isEmpty())
+                            unduableCommands.pop().undo();
                         break;
                 }
                 if(command != null)

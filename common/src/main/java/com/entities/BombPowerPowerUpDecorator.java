@@ -9,6 +9,11 @@ public class BombPowerPowerUpDecorator extends PowerUpDecorator {
     }
 
     @Override
+    public Player clone() {
+        return new BombPowerPowerUpDecorator(this);
+    }
+
+    @Override
     public int getBombPower() {
         return player.getBombPower() + 1;
     }
