@@ -1,18 +1,19 @@
 package com.entities;
 
-import com.utils.PlayersAbstractFactory;
+public class BombAmmoPowerUp extends PowerUp {
 
-public class BombAmmoPowerUp extends PowerUpDecorator{
-    public BombAmmoPowerUp(Player player) {
-        super(player);
-    }
-
-    public float getBombPower() {
-        return super.getBombAmmo() + 1;
+    public BombAmmoPowerUp(Position position) {
+        super(position);
     }
 
     @Override
-    public PlayersAbstractFactory getFactory() {
-        return player.getFactory();
+    public Player decorate(Player player) {
+        return new BombAmmoPowerUpDecorator(player);
     }
+
+    @Override
+    public String getTextureFile() {
+        return "src/main/resources/powerup_ammo.png";
+    }
+
 }

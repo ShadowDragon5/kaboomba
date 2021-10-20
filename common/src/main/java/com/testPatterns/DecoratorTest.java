@@ -10,20 +10,20 @@ public class DecoratorTest {
     public static void testDecorator(){
         var Player = new BluePlayer();
 
-        var PlayerWithHigherSpeed = new SpeedPowerUp(new BluePlayer());
-        var PlayerWithEvenHigherSpeed = new SpeedPowerUp(new SpeedPowerUp(new BluePlayer()));
+        var PlayerWithHigherSpeed = new SpeedPowerUpDecorator(new BluePlayer());
+        var PlayerWithEvenHigherSpeed = new SpeedPowerUpDecorator(new SpeedPowerUpDecorator(new BluePlayer()));
         System.out.println("Default speed: " + Player.getSpeed() + ",Player higher Speed: " + PlayerWithHigherSpeed.getSpeed() + ",Player even higher Speed: " + PlayerWithEvenHigherSpeed.getSpeed() +"\n");
 
-        var PlayerWithHigherBombPower = new BombPowerPowerUp(new BluePlayer());
-        var PlayerWithEvenHigherBombPower = new BombPowerPowerUp(new BombPowerPowerUp(new BluePlayer()));
+        var PlayerWithHigherBombPower = new BombPowerPowerUpDecorator(new BluePlayer());
+        var PlayerWithEvenHigherBombPower = new BombPowerPowerUpDecorator(new BombPowerPowerUpDecorator(new BluePlayer()));
         System.out.println("Default bomb power: " + Player.getBombPower() + ",Player higher bomb power: " + PlayerWithHigherBombPower.getBombPower() + ",Player even higher bomb power: " + PlayerWithEvenHigherBombPower.getBombPower() +"\n");
 
-        var PlayerWithHigherBombAmmo = new BombAmmoPowerUp(new BluePlayer());
-        var PlayerWithEvenHigherBombAmmo = new BombAmmoPowerUp(new BombAmmoPowerUp(new BluePlayer()));
+        var PlayerWithHigherBombAmmo = new BombAmmoPowerUpDecorator(new BluePlayer());
+        var PlayerWithEvenHigherBombAmmo = new BombAmmoPowerUpDecorator(new BombAmmoPowerUpDecorator(new BluePlayer()));
         System.out.println("Default bomb ammo: " + Player.getBombAmmo() + ",Player higher bomb ammo: " + PlayerWithHigherBombAmmo.getBombAmmo() + ",Player even higher bomb ammo: " + PlayerWithEvenHigherBombAmmo.getBombAmmo() +"\n");
 
-        var PlayerWithHigherHealth = new HealthyPowerUp(new BluePlayer());
-        var PlayerWithEvenHigherHealth = new HealthyPowerUp(new HealthyPowerUp(new BluePlayer()));
+        var PlayerWithHigherHealth = new HealthyPowerUpDecorator(new BluePlayer());
+        var PlayerWithEvenHigherHealth = new HealthyPowerUpDecorator(new HealthyPowerUpDecorator(new BluePlayer()));
         System.out.println("Default health: " + Player.getHealth() + ",Player higher bomb power: " + PlayerWithHigherHealth.getHealth() + ",Player even higher bomb power: " + PlayerWithEvenHigherHealth.getHealth() +"\n");
 
     }

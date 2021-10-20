@@ -12,9 +12,9 @@ public class PlantShieldCommand implements Command {
     private final PlayersAbstractFactory playerFactory;
     private final Player player;
 
-    public PlantShieldCommand(PlayersAbstractFactory playerFactory) {
-        this.playerFactory = playerFactory;
-        this.player = playerFactory.getPlayer();
+    public PlantShieldCommand(Player player) {
+        this.playerFactory = player.getFactory();
+        this.player = player;
     }
 
     @Override

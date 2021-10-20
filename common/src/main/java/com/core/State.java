@@ -9,7 +9,7 @@ public class State {
 
     private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
     private final List<GameObject> boxes = Collections.synchronizedList(new ArrayList<>());
-    private final List<GameObject> extras = Collections.synchronizedList(new ArrayList<>());
+    private final List<GameObject> powerups = Collections.synchronizedList(new ArrayList<>());
 
     // Player droppable entities
     private final List<GameObject> bombs = Collections.synchronizedList(new ArrayList<>());
@@ -49,18 +49,23 @@ public class State {
         boxes.add(boxObject);
     }
 
-    public List<GameObject> getExtras() {
-        return extras;
+    public List<GameObject> getPowerups() {
+        return powerups;
     }
 
-    public void addExtras(GameObject gameObject) {
-        extras.add(gameObject);
+    public void addPowerup(GameObject gameObject) {
+        powerups.add(gameObject);
     }
 
     public Player getPlayer(String id) {
         return getPlayers().stream()
                 .filter(it -> it.ID.equals(id))
                 .findFirst().get();
+    }
+
+    public void replacePlayer(Player oldPlayer, Player newPlayer) {
+        removePlayer(oldPlayer.ID);
+        addPlayer(newPlayer);
     }
 
     public void removePlayer(String id) {
@@ -105,6 +110,10 @@ public class State {
 
     public void removePit(GameObject pit) {
         removeFromList(getPits(), pit.ID);
+    }
+
+    public void removePowerup(GameObject powerup) {
+        removeFromList(getPowerups(), powerup.ID);
     }
 
     public void addBombExplosion(ArrayList<BombExplosion> explosion) {

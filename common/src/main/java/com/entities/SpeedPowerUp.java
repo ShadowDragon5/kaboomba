@@ -1,20 +1,19 @@
 package com.entities;
 
-import com.utils.PlayersAbstractFactory;
+public class SpeedPowerUp extends PowerUp {
 
-public class SpeedPowerUp extends PowerUpDecorator {
-
-
-    public SpeedPowerUp(Player player) {
-        super(player);
-    }
-
-    public float getSpeed() {
-        return super.getSpeed() + 0.01f;
+    public SpeedPowerUp(Position position) {
+        super(position);
     }
 
     @Override
-    public PlayersAbstractFactory getFactory() {
-        return player.getFactory();
+    public Player decorate(Player player) {
+        return new SpeedPowerUpDecorator(player);
     }
+
+    @Override
+    public String getTextureFile() {
+        return "src/main/resources/powerup_speed.png";
+    }
+
 }

@@ -1,19 +1,28 @@
 package com.entities;
 
 import com.core.Direction;
+import com.core.State;
 import com.utils.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
 
     private final float speed = 0.01f;
-    private final float health = 1;
-    private final float bombPower = 2;
-    private final float bombAmmo = 2;
+    private final int health = 1;
+    private final int bombPower = 1;
+    private final int bombAmmo = 1;
+    private int bombsPlanted = 0;
 
     private Position oldPosition;
 
     public Player() {
         super();
+    }
+
+    public Player(Player player) {
+        super();
+        this.setPosition(player.getPosition().clone());
+        this.setOldPosition(player.oldPosition.clone());
+        this.ID = player.ID;
     }
 
     public abstract PlayersAbstractFactory getFactory();
@@ -37,7 +46,6 @@ public abstract class Player extends GameObject {
         }
     }
 
-
     public Position getOldPosition() {
         return oldPosition;
     }
@@ -50,16 +58,24 @@ public abstract class Player extends GameObject {
         return speed;
     }
 
-    public float getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public float getBombPower() {
+    public int getBombPower() {
         return bombPower;
     }
 
-    public float getBombAmmo() {
+    public int getBombAmmo() {
         return bombAmmo;
+    }
+
+    public int getBombsPlanted() {
+        return bombsPlanted;
+    }
+
+    public void setBombsPlanted(int bombsPlanted) {
+        this.bombsPlanted = bombsPlanted;
     }
 
     @Override
@@ -70,7 +86,11 @@ public abstract class Player extends GameObject {
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Box || object instanceof Wall) {
-            this.setPosition(new Position(oldPosition.getX(), oldPosition.getY()));
+            this.setPosition(oldPosition.clone().snap());
+        }
+        if(object instanceof PowerUp) {
+            State.getInstance().removePowerup(object);
+            State.getInstance().replacePlayer(this, ((PowerUp) object).decorate(this));
         }
     }
 }

@@ -1,18 +1,19 @@
 package com.entities;
 
-import com.utils.PlayersAbstractFactory;
+public class HealthyPowerUp extends PowerUp {
 
-public class HealthyPowerUp extends PowerUpDecorator{
-    public HealthyPowerUp(Player player) {
-        super(player);
-    }
-
-    public float getHealth() {
-        return super.getHealth() + 1;
+    public HealthyPowerUp(Position position) {
+        super(position);
     }
 
     @Override
-    public PlayersAbstractFactory getFactory() {
-        return player.getFactory();
+    public Player decorate(Player player) {
+        return new HealthyPowerUpDecorator(player);
     }
+
+    @Override
+    public String getTextureFile() {
+        return "src/main/resources/powerup_health.png";
+    }
+
 }

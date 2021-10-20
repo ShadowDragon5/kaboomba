@@ -1,31 +1,43 @@
 package com.entities;
 
+import com.utils.PlayersAbstractFactory;
+
 public abstract class PowerUpDecorator extends Player {
     protected Player player;
 
     public PowerUpDecorator(Player player) {
+        super(player);
         this.player = player;
     }
 
+    @Override
+    public int getBombPower() {
+        return player.getBombPower();
+    }
+
+    @Override
+    public int getHealth() {
+        return player.getHealth();
+    }
+
+    @Override
+    public int getBombAmmo() {
+        return player.getBombAmmo();
+    }
+
+    @Override
     public float getSpeed() {
-        return super.getSpeed();
-    }
-
-    public float getBombAmmo() {
-        return super.getBombAmmo();
-    }
-
-    public float getBombPower() {
-        return super.getBombPower();
-    }
-
-    public float getHealth() {
-        return super.getHealth();
+        return player.getSpeed();
     }
 
     @Override
     public String getTextureFile() {
         return player.getTextureFile();
+    }
+
+    @Override
+    public PlayersAbstractFactory getFactory() {
+        return player.getFactory();
     }
 
 }

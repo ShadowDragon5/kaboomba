@@ -11,6 +11,7 @@ public class BluePlayerFactory extends PlayersAbstractFactory {
     public Bomb createBomb(Player player) {
         BlueBomb blueBomb = new BlueBomb(player.getPosition().clone().snap());
         blueBomb.initiatorId = player.ID;
+        blueBomb.setBombPower(player.getBombPower());
 
         return blueBomb;
     }

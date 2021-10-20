@@ -11,6 +11,7 @@ public class GreenPlayerFactory extends PlayersAbstractFactory{
     public Bomb createBomb(Player player) {
         GreenBomb greenBomb = new GreenBomb(player.getPosition().clone().snap());
         greenBomb.initiatorId = player.ID;
+        greenBomb.setBombPower(player.getBombPower());
 
         return greenBomb;
     }

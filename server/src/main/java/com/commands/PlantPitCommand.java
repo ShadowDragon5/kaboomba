@@ -13,9 +13,9 @@ public class PlantPitCommand implements Command {
     private final Player player;
     private final State state = State.getInstance();
 
-    public PlantPitCommand(PlayersAbstractFactory playersAbstractFactory) {
-        this.playerFactory = playersAbstractFactory;
-        this.player = playersAbstractFactory.getPlayer();
+    public PlantPitCommand(Player player) {
+        this.playerFactory = player.getFactory();
+        this.player = player;
     }
 
     @Override
