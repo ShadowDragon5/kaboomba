@@ -9,7 +9,8 @@ public abstract class Player extends GameObject {
     private final float speed = 0.01f;
     private final int health = 1;
     private final int bombPower = 1;
-    private final int bombAmmo = 2;
+    private final int bombAmmo = 1;
+    private int bombsPlanted = 0;
 
     private Position oldPosition;
 
@@ -67,6 +68,14 @@ public abstract class Player extends GameObject {
 
     public int getBombAmmo() {
         return bombAmmo;
+    }
+
+    public int getBombsPlanted() {
+        return bombsPlanted;
+    }
+
+    public void setBombsPlanted(int bombsPlanted) {
+        this.bombsPlanted = bombsPlanted;
     }
 
     @Override
