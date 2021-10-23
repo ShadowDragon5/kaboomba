@@ -1,5 +1,7 @@
 package com.core;
 
+import com.core.enums.ClientAction;
+import com.core.enums.ServerAction;
 import com.entities.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;

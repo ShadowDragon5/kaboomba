@@ -1,9 +1,9 @@
 package com.commands;
 
 import com.core.State;
-import com.entities.Player;
-import com.entities.Shield;
-import com.utils.PlayersAbstractFactory;
+import com.entities.players.Player;
+import com.entities.shields.Shield;
+import com.factories.player.PlayersAbstractFactory;
 
 import static com.utils.Scheduler.scheduleTask;
 

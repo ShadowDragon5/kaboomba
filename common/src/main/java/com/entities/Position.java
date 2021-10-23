@@ -1,6 +1,6 @@
 package com.entities;
 
-import com.core.ArithmeticActions;
+import com.core.enums.ArithmeticActions;
 import com.core.Globals;
 import com.utils.UtilityMethods;
 

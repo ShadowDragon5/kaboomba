@@ -1,6 +1,10 @@
 package com.testPatterns;
 
-import com.entities.*;
+import com.entities.players.BluePlayer;
+import com.entities.powerups.BombAmmoPowerUpDecorator;
+import com.entities.powerups.BombPowerPowerUpDecorator;
+import com.entities.powerups.HealthyPowerUpDecorator;
+import com.entities.powerups.SpeedPowerUpDecorator;
 
 public class DecoratorTest {
     public static void main(String[] args){

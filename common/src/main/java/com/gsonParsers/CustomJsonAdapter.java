@@ -13,14 +13,10 @@ public class CustomJsonAdapter<T> implements JsonSerializer<T>, JsonDeserializer
         this.classPath = classPath;
     }
 
-    public CustomJsonAdapter() {
-        this.classPath = "com.entities.";
-    }
-
     @Override
     public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
-        result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
+        result.add("classPath", new JsonPrimitive(src.getClass().getName()));
         result.add("properties", context.serialize(src, src.getClass()));
 
         return result;
@@ -30,13 +26,21 @@ public class CustomJsonAdapter<T> implements JsonSerializer<T>, JsonDeserializer
     public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
-        String type = jsonObject.get("type").getAsString();
+        String packagePath = jsonObject.get("classPath").getAsString();
         JsonElement element = jsonObject.get("properties");
-
         try {
-            return context.deserialize(element, Class.forName(classPath + type));
+            return context.deserialize(element, Class.forName(packagePath));
         } catch (ClassNotFoundException cnfe) {
-            throw new JsonParseException("Unknown element type: " + type, cnfe);
+            throw new JsonParseException("Unknown element type: " + packagePath, cnfe);
         }
     }
+
+
+//    public String getClassPathByType(String type) {
+//        switch (type){
+//            case "BlueBomb":
+//            case "BlueBombExplosion":
+//                return "com.entities.bomb.";
+//        }
+//    }
 }

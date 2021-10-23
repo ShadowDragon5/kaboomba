@@ -1,9 +1,9 @@
 package com.testPatterns;
 
 import com.entities.Position;
-import com.entities.Tile;
-import com.utils.DefaultTileCreator;
-import com.utils.TileCreator;
+import com.entities.tiles.Tile;
+import com.factories.tile.DefaultTileCreator;
+import com.factories.tile.TileCreator;
 
 public class FactoryTest {
     public static void main(String[] args){

@@ -1,13 +1,13 @@
 package com.testPatterns;
 
-import com.core.PlayerColors;
-import com.entities.Bomb;
-import com.entities.Pit;
-import com.entities.Player;
-import com.entities.Shield;
-import com.utils.DefaultPlayerCreator;
-import com.utils.PlayerCreator;
-import com.utils.PlayersAbstractFactory;
+import com.core.enums.PlayerColors;
+import com.entities.bomb.Bomb;
+import com.entities.pits.Pit;
+import com.entities.players.Player;
+import com.entities.shields.Shield;
+import com.factories.player.DefaultPlayerCreator;
+import com.factories.player.PlayerCreator;
+import com.factories.player.PlayersAbstractFactory;
 
 public class AbstractFactoryTest {
     public static void main(String[] args){

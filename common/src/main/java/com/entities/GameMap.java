@@ -1,8 +1,11 @@
 package com.entities;
 
-import com.core.ArithmeticActions;
+import com.core.enums.ArithmeticActions;
 import com.core.Globals;
 import com.core.State;
+import com.entities.tiles.Tile;
+import com.factories.tile.DefaultTileCreator;
+import com.factories.tile.TileCreator;
 import com.utils.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

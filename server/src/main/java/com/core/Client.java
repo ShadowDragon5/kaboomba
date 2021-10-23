@@ -1,5 +1,6 @@
 package com.core;
 
+import com.core.enums.ServerAction;
 import com.esotericsoftware.kryonet.Connection;
 
 public class Client implements Observer {

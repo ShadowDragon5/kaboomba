@@ -1,9 +1,9 @@
 package com.commands;
 
 import com.core.State;
-import com.entities.Bomb;
-import com.entities.Player;
-import com.utils.PlayersAbstractFactory;
+import com.entities.bomb.Bomb;
+import com.entities.players.Player;
+import com.factories.player.PlayersAbstractFactory;
 
 import static com.utils.Scheduler.scheduleTask;
 

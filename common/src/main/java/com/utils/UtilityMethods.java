@@ -1,8 +1,8 @@
 package com.utils;
 
-import com.core.ArithmeticActions;
+import com.core.enums.ArithmeticActions;
 import com.core.Globals;
-import com.core.PlayerColors;
+import com.core.enums.PlayerColors;
 
 public class UtilityMethods {
     public static PlayerColors getPlayerColorOrDefault(String color) {

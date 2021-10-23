@@ -1,6 +1,6 @@
 package com.testPatterns;
 
-import com.entities.Box;
+import com.entities.tiles.Box;
 import com.entities.Position;
 
 public class BuilderTest {

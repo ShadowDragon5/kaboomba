@@ -1,7 +1,6 @@
 package com.utils;
 
 import com.entities.GameObject;
-import com.entities.Tile;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
 

@@ -1,11 +1,15 @@
 package com.core;
 
 import com.commands.*;
+import com.core.enums.ClientAction;
+import com.core.enums.ServerAction;
 import com.entities.*;
+import com.entities.players.Player;
+import com.entities.tiles.Wall;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.utils.PlayersAbstractFactory;
+import com.factories.player.PlayersAbstractFactory;
 
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -76,7 +80,6 @@ public class ServerApplication {
 
                 String id = connections.get(connection);
                 Player playerToUpdate = serverState.getState().getPlayer(id);
-                PlayersAbstractFactory playerFactory = playerToUpdate.getFactory();
 
                 Command command = null;
 

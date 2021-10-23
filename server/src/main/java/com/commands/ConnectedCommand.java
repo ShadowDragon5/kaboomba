@@ -1,13 +1,12 @@
 package com.commands;
 
-import com.core.ArithmeticActions;
-import com.core.PlayerColors;
-import com.core.ServerState;
+import com.core.enums.ArithmeticActions;
+import com.core.enums.PlayerColors;
 import com.core.State;
-import com.entities.Player;
+import com.entities.players.Player;
 import com.entities.Position;
-import com.utils.DefaultPlayerCreator;
-import com.utils.PlayerCreator;
+import com.factories.player.DefaultPlayerCreator;
+import com.factories.player.PlayerCreator;
 import com.utils.UtilityMethods;
 
 public class ConnectedCommand implements Command {

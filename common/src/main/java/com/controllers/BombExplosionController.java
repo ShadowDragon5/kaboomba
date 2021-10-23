@@ -1,10 +1,15 @@
 package com.controllers;
 
-import com.core.Direction;
-import com.core.ExplosionDirection;
+import com.core.enums.Direction;
+import com.core.enums.ExplosionDirection;
 import com.core.Globals;
 import com.core.State;
 import com.entities.*;
+import com.entities.bomb.Bomb;
+import com.entities.bomb.BombExplosion;
+import com.entities.shields.Shield;
+import com.entities.tiles.Box;
+import com.entities.tiles.Wall;
 
 import java.util.ArrayList;
 

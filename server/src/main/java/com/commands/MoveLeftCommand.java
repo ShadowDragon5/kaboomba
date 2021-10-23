@@ -1,7 +1,7 @@
 package com.commands;
 
-import com.core.Direction;
-import com.entities.Player;
+import com.core.enums.Direction;
+import com.entities.players.Player;
 
 public class MoveLeftCommand implements Command {
     private final Player player;

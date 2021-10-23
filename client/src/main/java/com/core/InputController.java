@@ -1,9 +1,7 @@
 package com.core;
 
-import com.esotericsoftware.kryonet.Client;
+import com.core.enums.ClientAction;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import static org.lwjgl.glfw.GLFW.*;

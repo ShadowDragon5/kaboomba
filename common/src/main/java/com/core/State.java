@@ -1,6 +1,11 @@
 package com.core;
 
 import com.entities.*;
+import com.entities.bomb.BombExplosion;
+import com.entities.pits.Pit;
+import com.entities.players.Player;
+import com.entities.shields.Shield;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
