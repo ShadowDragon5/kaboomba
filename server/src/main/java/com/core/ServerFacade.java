@@ -40,6 +40,7 @@ public class ServerFacade {
         connections.put(connection, player.ID);
         serverState.attach(new Client(serverState, connection, player.ID));
         serverState.getState().addPlayer(player);
+        addCommand(ClientAction.SAVE, player);
 
         String mapJson = String.format("%s;%s", ServerAction.MAP_INIT, Globals.gson.toJson(gameMap));
         connection.sendTCP(mapJson);
@@ -71,30 +72,41 @@ public class ServerFacade {
         }, 0, 10);
     }
 
-    public Command addCommand(ClientAction clientAction, Player playerToUpdate) {
+    public void addCommand(ClientAction clientAction, Player playerToUpdate) {
+        Command command = null;
         switch (clientAction) {
             case MOVE_UP:
-                return new MoveUpCommand(playerToUpdate);
+                command = new MoveUpCommand(playerToUpdate);
+                break;
             case MOVE_DOWN:
-                return new MoveDownCommand(playerToUpdate);
+                command = new MoveDownCommand(playerToUpdate);
+                break;
             case MOVE_LEFT:
-                return new MoveLeftCommand(playerToUpdate);
+                command = new MoveLeftCommand(playerToUpdate);
+                break;
             case MOVE_RIGHT:
-                return new MoveRightCommand(playerToUpdate);
+                command = new MoveRightCommand(playerToUpdate);
+                break;
             case PLANT_BOMB:
-                return new PlantBombCommand(playerToUpdate);
+                command = new PlantBombCommand(playerToUpdate);
+                break;
             case PLANT_PIT:
-                return new PlantPitCommand(playerToUpdate);
+                command = new PlantPitCommand(playerToUpdate);
+                break;
             case PLANT_SHIELD:
-                return new PlantShieldCommand(playerToUpdate);
+                command = new PlantShieldCommand(playerToUpdate);
+                break;
             case SAVE:
-                return new SaveCommand(stateSaves);
+                command = new SaveCommand(stateSaves);
+                break;
             case LOAD:
-                return new LoadCommand(stateSaves);
+                command = new LoadCommand(stateSaves);
+                break;
             case UNDO:
-                return new UndoCommand(undoableCommands);
-            default:
-                return null;
+                command = new UndoCommand(undoableCommands);
+                break;
         }
+        if (command != null)
+            queuedCommands.add(command);
     }
 }

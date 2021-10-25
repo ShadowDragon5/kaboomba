@@ -2,6 +2,7 @@ package com.core;
 
 import com.commands.Command;
 import com.commands.ConnectedCommand;
+import com.commands.SaveCommand;
 import com.core.enums.ClientAction;
 import com.entities.players.Player;
 import com.esotericsoftware.kryonet.Connection;
@@ -42,9 +43,7 @@ public class ServerListener extends Listener {
         String id = connections.get(connection);
         Player playerToUpdate = serverState.getState().getPlayer(id);
 
-        Command command = facade.addCommand(clientAction, playerToUpdate);
-        if(command != null)
-            queuedCommands.add(command);
+        facade.addCommand(clientAction, playerToUpdate);
     }
 
     @Override
@@ -57,6 +56,7 @@ public class ServerListener extends Listener {
         String id = connections.get(outGoingConnection);
         serverState.getState().removePlayer(id);
         serverState.notifyObservers();
+        facade.addCommand(ClientAction.SAVE, null);
         System.out.println("Disconnected" + outGoingConnection.getID());
     }
 }

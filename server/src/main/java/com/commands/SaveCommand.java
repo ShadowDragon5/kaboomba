@@ -13,8 +13,12 @@ public class SaveCommand implements UndoableCommand {
     }
     @Override
     public void execute() {
-        if(stateSaves.size() >= 5)
-        {
+        if (!stateSaves.isEmpty() &&
+                State.getInstance().getPlayers().size() != stateSaves.getLast().getPlayers().size()) {
+            stateSaves.clear();
+            System.out.println("All state saves removed!");
+        }
+        if (stateSaves.size() >= 5) {
             System.out.println("State save capacity reached. Oldest save deleted.");
             stateSaves.pollFirst();
         }
