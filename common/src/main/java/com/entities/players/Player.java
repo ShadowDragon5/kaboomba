@@ -17,6 +17,8 @@ public abstract class Player extends GameObject {
     private final int bombAmmo = 1;
     private int bombsPlanted = 0;
 
+    private float lastTimeTeleported;
+
     private Position oldPosition;
 
     public Player() {
@@ -85,6 +87,15 @@ public abstract class Player extends GameObject {
 
     public void setBombsPlanted(int bombsPlanted) {
         this.bombsPlanted = bombsPlanted;
+    }
+
+    public void setLastTimeTeleported(float lastTimeTeleported) {
+        this.lastTimeTeleported = lastTimeTeleported;
+    }
+
+    public boolean canTeleport() {
+        float currentTime = System.currentTimeMillis();
+        return (currentTime - this.lastTimeTeleported) >= 5000L ;
     }
 
     @Override
