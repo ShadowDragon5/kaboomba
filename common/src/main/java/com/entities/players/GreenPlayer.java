@@ -31,6 +31,6 @@ public class GreenPlayer extends Player {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/player_green.png";
+        return "src/main/resources/green_player.png";
     }
 }
