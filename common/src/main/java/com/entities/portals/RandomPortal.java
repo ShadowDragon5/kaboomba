@@ -19,6 +19,6 @@ public class RandomPortal extends Portal{
 
     @Override
     public String getTextureFile() {
-        return null;
+        return "src/main/resources/powerup_explosion.png";
     }
 }

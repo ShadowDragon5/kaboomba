@@ -42,7 +42,7 @@ public abstract class Portal extends Tile {
 
         teleport(object);
         Scheduler.scheduleTask(() -> {
-            portalEffect.portalEffect();
+            portalEffect.portalEffect(player);
             return null;
         }, "Portal_effect", 1000L);
     }

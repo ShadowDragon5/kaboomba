@@ -3,6 +3,7 @@ package com.entities;
 import com.core.enums.ArithmeticActions;
 import com.core.Globals;
 import com.core.State;
+import com.entities.portals.WaypointPortal;
 import com.entities.tiles.Tile;
 import com.factories.tile.DefaultTileCreator;
 import com.factories.tile.TileCreator;
@@ -122,6 +123,18 @@ public class GameMap {
                 }
                 c++;
             }
+
+            Tile randomPortal = creator.createTile("5", new Position(-0.05f, -0.05f), 0.1f);
+
+            Tile waypointPortal = creator.createTile("4", new Position(-0.75f, 0.85f), 0.1f);
+            Tile waypointPortal1 = creator.createTile("4", new Position(0.05f, 0.05f), 0.1f);
+
+            ((WaypointPortal) waypointPortal).setLinkedPortalPosition(waypointPortal1.getPosition().clone());
+            ((WaypointPortal) waypointPortal1).setLinkedPortalPosition(waypointPortal.getPosition().clone());
+
+            State.getInstance().addPortal(randomPortal);
+            State.getInstance().addPortal(waypointPortal);
+            State.getInstance().addPortal(waypointPortal1);
 
         } catch (Exception e) {
             e.printStackTrace();

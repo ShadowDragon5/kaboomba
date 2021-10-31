@@ -136,6 +136,7 @@ public class GameRenderer {
             drawTexturedElements(state.getBoxes());
             drawTexturedElements(state.getPowerups());
             drawTexturedElements(state.getExplosions());
+            drawTexturedElements(state.getPortals());
             drawTexturedElements(state.getPlayers());
         }
 

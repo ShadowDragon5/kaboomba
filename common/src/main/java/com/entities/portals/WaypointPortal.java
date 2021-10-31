@@ -6,7 +6,7 @@ import com.entities.portals.effects.PortalEffect;
 
 public class WaypointPortal extends Portal {
 
-    private Portal linkedPortal;
+    private Position linkedPortalPosition;
 
     public WaypointPortal(Position position, PortalEffect portalEffect) {
         super(position, portalEffect);
@@ -14,20 +14,20 @@ public class WaypointPortal extends Portal {
 
     @Override
     void teleport(GameObject object) {
-        if(linkedPortal == null) return;
-        object.setPosition(linkedPortal.getPosition().clone().snap());
+        if(linkedPortalPosition == null) return;
+        object.setPosition(linkedPortalPosition);
     }
 
     @Override
     public String getTextureFile() {
-        return null;
+        return "src/main/resources/powerup_health.png";
     }
 
-    public Portal getLinkedPortal() {
-        return linkedPortal;
+    public Position getLinkedPortalPosition() {
+        return linkedPortalPosition;
     }
 
-    public void setLinkedPortal(Portal linkedPortal) {
-        this.linkedPortal = linkedPortal;
+    public void setLinkedPortalPosition(Position linkedPortalPosition) {
+        this.linkedPortalPosition = linkedPortalPosition;
     }
 }
