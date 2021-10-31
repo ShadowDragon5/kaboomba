@@ -20,7 +20,7 @@ public class WaypointPortal extends Portal {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/powerup_health.png";
+        return "src/main/resources/portal_waypoint.png";
     }
 
     public Position getLinkedPortalPosition() {
