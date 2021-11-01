@@ -3,6 +3,7 @@ package com.core;
 import com.entities.GameMap;
 import com.entities.GameObject;
 import com.entities.Position;
+import com.entities.players.Player;
 import com.utils.TextureLoader;
 import org.lwjgl.opengl.GL11;
 
@@ -20,7 +21,7 @@ public class GameRenderer {
         this.map = map;
     }
 
-    public void drawTexturedElements(List<? extends GameObject> objects) {
+    private void drawTexturedElements(List<? extends GameObject> objects) {
         objects.forEach(it-> {
             int textureId = TextureLoader.getTexture(it);
             glEnable(GL_BLEND);
@@ -28,6 +29,23 @@ public class GameRenderer {
             DrawTexturedQuad(it.getPosition(), it.getDimensions(), it.getDimensions(), textureId);
             glDisable(GL_BLEND);
         });
+    }
+
+    private void drawPlayersLives(List<Player> players) {
+        players.forEach(this::drawPlayerLives);
+    }
+
+    private void drawPlayerLives(Player player) {
+        int textureId = TextureLoader.getTexture("src/main/resources/heart.png");
+        for (int i = 0; i < player.getHealth(); i++) {
+            Position heartPosition = player.getPosition().clone();
+            heartPosition.addY(0.1f);
+            heartPosition.addX(0.05f * (i - player.getHealth() / 2f + 0.5f));
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            DrawTexturedQuad(heartPosition, 0.05f, 0.05f, textureId);
+            glDisable(GL_BLEND);
+        }
     }
 
     public void renderMap() {
@@ -42,24 +60,7 @@ public class GameRenderer {
         });
     }
 
-    public void DrawQuad(Position position, float width, float height, Color color) {
-        float x = position.getX();
-        float y = position.getY();
-
-        glColor4f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1f);
-
-        glBegin(GL_QUADS);
-
-        glVertex2f(x - width / 2, y - height / 2);
-        glVertex2f(x + width / 2, y - height / 2);
-
-        glVertex2f(x + width / 2, y + height / 2);
-        glVertex2f(x - width / 2, y + height / 2);
-
-        glEnd();
-    }
-
-    public void DrawTexturedQuad(Position position, float width, float height, int textureId) {
+    private void DrawTexturedQuad(Position position, float width, float height, int textureId) {
         float x = position.getX();
         float y = position.getY();
 
@@ -87,39 +88,6 @@ public class GameRenderer {
         glEnd();
     }
 
-    public void DrawTriangle(Position position, float size, Color color) {
-        float x = position.getX();
-        float y = position.getY();
-
-        GL11.glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
-
-        glBegin(GL_POLYGON);
-
-        glVertex2f(x, y+size/2);
-
-        glVertex2f(x+size/2, y-size/2);
-        glVertex2f(x-size/2, y-size/2);
-
-        glEnd();
-    }
-
-    public void DrawCircle(Position position, float radius, Color color) {
-        GL11.glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
-
-        glBegin(GL_POLYGON);
-
-        double ori_x = position.getX();
-        double ori_y = position.getY();
-        float r = radius / 2;
-        for (int i = 0; i <= 300; i++) {
-            double angle = 2 * PI * i / 300;
-            double x = cos(angle) * r;
-            double y = sin(angle) * r;
-            glVertex2d(ori_x + x, ori_y + y);
-        }
-        glEnd();
-    }
-
     public void render(long window) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
@@ -136,6 +104,7 @@ public class GameRenderer {
             drawTexturedElements(state.getBoxes());
             drawTexturedElements(state.getPowerups());
             drawTexturedElements(state.getExplosions());
+            drawPlayersLives(state.getPlayers());
             drawTexturedElements(state.getPlayers());
         }
 

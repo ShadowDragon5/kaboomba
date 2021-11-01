@@ -37,6 +37,11 @@ public abstract class PowerUpDecorator extends Player {
     }
 
     @Override
+    public void decreaseHealth() {
+        player.decreaseHealth();
+    }
+
+    @Override
     public PlayersAbstractFactory getFactory() {
         return player.getFactory();
     }
