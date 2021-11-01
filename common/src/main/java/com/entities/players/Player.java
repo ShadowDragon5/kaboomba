@@ -20,6 +20,7 @@ public abstract class Player extends GameObject {
     private int bombsPlanted = 0;
 
     private Position oldPosition;
+    private long lastDamageReceived;
 
     public Player() {
         super();
@@ -91,7 +92,13 @@ public abstract class Player extends GameObject {
     }
 
     public void decreaseHealth() {
-        this.health--;
+        long currentTime = System.currentTimeMillis();
+        if ((currentTime - this.lastDamageReceived) >= 2000L)
+        {
+            this.lastDamageReceived = currentTime;
+            this.health--;
+            System.out.println("Ouch!");
+        }
     }
 
     @Override
@@ -110,7 +117,6 @@ public abstract class Player extends GameObject {
         }
         if(object instanceof BombExplosion || object instanceof Pit) {
             decreaseHealth();
-            System.out.println("Ouch!");
         }
     }
 }
