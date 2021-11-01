@@ -1,9 +1,12 @@
 package com.entities.bomb;
 
+import com.core.State;
 import com.core.enums.ExplosionDirection;
 import com.entities.Position;
 
 import java.awt.*;
+
+import static com.utils.Scheduler.scheduleTask;
 
 public class GreenBomb extends Bomb {
     public GreenBomb(){
@@ -11,6 +14,22 @@ public class GreenBomb extends Bomb {
     }
     public GreenBomb(Position position) {
         super(position);
+    }
+
+    @Override
+    public void explode() {
+        handleExplosion();
+
+        scheduleTask(() -> {
+            State.getInstance().removeBomb(this);
+            handleExplosion();
+            return null;
+        }, "Explosion_Timer", 2000l + 300l);
+    }
+
+    @Override
+    public Long getLifespan() {
+        return 4000l;
     }
 
     @Override

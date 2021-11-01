@@ -42,6 +42,11 @@ public abstract class PowerUpDecorator extends Player {
     }
 
     @Override
+    public void setSpeed(float speed) {
+        player.setSpeed(speed);
+    }
+
+    @Override
     public PlayersAbstractFactory getFactory() {
         return player.getFactory();
     }

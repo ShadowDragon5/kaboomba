@@ -13,7 +13,7 @@ import com.factories.player.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
 
-    private final float speed = 0.01f;
+    private float speed = 0.01f;
     private int health = 3;
     private final int bombPower = 1;
     private final int bombAmmo = 1;
@@ -70,6 +70,9 @@ public abstract class Player extends GameObject {
     public float getSpeed() {
         return speed;
     }
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 
     public int getHealth() {
         return health;
@@ -115,8 +118,11 @@ public abstract class Player extends GameObject {
             State.getInstance().removePowerup(object);
             State.getInstance().replacePlayer(this, ((PowerUp) object).decorate(this));
         }
-        if(object instanceof BombExplosion || object instanceof Pit) {
+        if(object instanceof BombExplosion) {
             decreaseHealth();
+        }
+        if(object instanceof Pit) {
+            ((Pit) object).triggerPit(this);
         }
     }
 }

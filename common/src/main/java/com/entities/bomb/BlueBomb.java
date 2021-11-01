@@ -1,13 +1,21 @@
 package com.entities.bomb;
 
+import com.core.State;
 import com.core.enums.ExplosionDirection;
 import com.entities.Position;
 
 import java.awt.*;
 
+import static com.utils.Scheduler.scheduleTask;
+
 public class BlueBomb extends Bomb {
     public BlueBomb(Position position) {
         super(position);
+    }
+
+    @Override
+    public Long getLifespan() {
+        return 1500l;
     }
 
     @Override

@@ -1,12 +1,20 @@
 package com.entities.pits;
 
 import com.entities.Position;
+import com.entities.players.Player;
 
 import java.awt.*;
 
 public class GreenPit extends Pit{
     public GreenPit(Position position) {
         super(position);
+    }
+
+    @Override
+    public void triggerPit(Player player) {
+        if (this.initiatorId == player.ID)
+            return;
+        player.decreaseHealth();
     }
 
     @Override
