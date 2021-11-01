@@ -5,7 +5,7 @@ import com.entities.GameObject;
 import com.entities.Position;
 
 public class Shield extends GameObject implements WithLifespan {
-    private Long lifespan = 1000L;
+    private Long lifespan = 3000L;
 
     public Shield(Position position) {
         super(position);

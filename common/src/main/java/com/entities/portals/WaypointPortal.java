@@ -2,6 +2,7 @@ package com.entities.portals;
 
 import com.entities.GameObject;
 import com.entities.Position;
+import com.entities.players.Player;
 import com.entities.portals.effects.PortalEffect;
 
 public class WaypointPortal extends Portal {
@@ -15,7 +16,8 @@ public class WaypointPortal extends Portal {
     @Override
     void teleport(GameObject object) {
         if(linkedPortalPosition == null) return;
-        object.setPosition(linkedPortalPosition);
+        object.setPosition(linkedPortalPosition.clone().snap());
+        portalEffect.portalEffect((Player) object);
     }
 
     @Override

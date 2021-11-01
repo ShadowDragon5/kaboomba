@@ -9,7 +9,7 @@ import com.utils.Scheduler;
 
 public abstract class Portal extends Tile {
 
-    private PortalEffect portalEffect;
+    protected PortalEffect portalEffect;
 
     public Portal(Position position, PortalEffect portalEffect) {
         super(position);
@@ -39,11 +39,6 @@ public abstract class Portal extends Tile {
         }
 
         player.setLastTimeTeleported(System.currentTimeMillis());
-
         teleport(object);
-        Scheduler.scheduleTask(() -> {
-            portalEffect.portalEffect(player);
-            return null;
-        }, "Portal_effect", 1000L);
     }
 }

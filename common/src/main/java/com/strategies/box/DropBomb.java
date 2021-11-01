@@ -1,7 +1,7 @@
 package com.strategies.box;
 
 import com.core.State;
-import com.entities.bomb.BoxBomb;
+import com.entities.bomb.BaseBomb;
 import com.entities.tiles.Box;
 
 import static com.utils.Scheduler.scheduleTask;
@@ -9,11 +9,11 @@ import static com.utils.Scheduler.scheduleTask;
 public class DropBomb extends BoxExplosion {
     @Override
     public void explosionEffect(Box box) {
-        BoxBomb boxBomb = new BoxBomb(box.getPosition().clone().snap());
-        State.getInstance().addBomb(boxBomb);
+        BaseBomb baseBomb = new BaseBomb(box.getPosition().clone().snap());
+        State.getInstance().addBomb(baseBomb);
         scheduleTask(() -> {
-            boxBomb.explode();
+            baseBomb.explode();
             return null;
-        }, "DropBombExplode_timer",boxBomb.getLifespan());
+        }, "DropBombExplode_timer", baseBomb.getLifespan());
     }
 }
