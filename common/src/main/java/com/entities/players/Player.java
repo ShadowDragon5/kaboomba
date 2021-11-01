@@ -2,6 +2,8 @@ package com.entities.players;
 
 import com.core.enums.Direction;
 import com.core.State;
+import com.entities.bomb.BombExplosion;
+import com.entities.pits.Pit;
 import com.entities.tiles.Box;
 import com.entities.GameObject;
 import com.entities.Position;
@@ -12,7 +14,7 @@ import com.factories.player.PlayersAbstractFactory;
 public abstract class Player extends GameObject {
 
     private final float speed = 0.01f;
-    private final int health = 1;
+    private int health = 3;
     private final int bombPower = 1;
     private final int bombAmmo = 1;
     private int bombsPlanted = 0;
@@ -27,6 +29,7 @@ public abstract class Player extends GameObject {
         super();
         this.setPosition(player.getPosition().clone());
         this.setOldPosition(player.getOldPosition().clone());
+        this.health = player.getHealth();
         this.ID = player.ID;
     }
 
@@ -87,6 +90,10 @@ public abstract class Player extends GameObject {
         this.bombsPlanted = bombsPlanted;
     }
 
+    public void decreaseHealth() {
+        this.health--;
+    }
+
     @Override
     public String getTextureFile() {
         return "src/main/player";
@@ -100,6 +107,10 @@ public abstract class Player extends GameObject {
         if(object instanceof PowerUp) {
             State.getInstance().removePowerup(object);
             State.getInstance().replacePlayer(this, ((PowerUp) object).decorate(this));
+        }
+        if(object instanceof BombExplosion || object instanceof Pit) {
+            decreaseHealth();
+            System.out.println("Ouch!");
         }
     }
 }
