@@ -18,6 +18,15 @@ public abstract class Player extends GameObject {
     private final int bombPower = 1;
     private final int bombAmmo = 1;
     private int bombsPlanted = 0;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     private Position oldPosition;
     private long lastDamageReceived;
@@ -96,12 +105,16 @@ public abstract class Player extends GameObject {
 
     public void decreaseHealth() {
         long currentTime = System.currentTimeMillis();
-        if ((currentTime - this.lastDamageReceived) >= 2000L)
-        {
-            this.lastDamageReceived = currentTime;
-            this.health--;
-            System.out.println("Ouch!");
-        }
+        if ((currentTime - this.lastDamageReceived) <= 2000L)
+            return;
+
+        this.lastDamageReceived = currentTime;
+        this.health--;
+        System.out.println("Ouch!");
+    }
+
+    public boolean isDead() {
+        return getHealth() <= 0;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.core.enums.ClientAction;
 import com.core.enums.ServerAction;
 import com.entities.GameMap;
 import com.entities.GameObject;
+import com.entities.InitialServerResponse;
 import com.entities.players.Player;
 import com.entities.tiles.Wall;
 import com.esotericsoftware.kryonet.Connection;
@@ -25,10 +26,6 @@ public class ServerFacade {
         return serverState;
     }
 
-    public GameMap getGameMap() {
-        return gameMap;
-    }
-
     public ServerFacade(Queue<Command> queuedCommands, ServerState serverState, GameMap gameMap) {
         this.queuedCommands = queuedCommands;
         this.serverState = serverState;
@@ -40,9 +37,11 @@ public class ServerFacade {
         connections.put(connection, player.ID);
         serverState.attach(new Client(serverState, connection, player.ID));
         serverState.getState().addPlayer(player);
-        addCommand(ClientAction.SAVE, player);
+        addCommand("CLEAR_SAVES");
+        addCommand("SAVE");
 
-        String mapJson = String.format("%s;%s", ServerAction.MAP_INIT, Globals.gson.toJson(gameMap));
+        String mapJson = String.format("%s;%s", ServerAction.GAME_INIT,
+                Globals.gson.toJson(new InitialServerResponse(gameMap, player.ID)));
         connection.sendTCP(mapJson);
     }
 
@@ -57,16 +56,17 @@ public class ServerFacade {
                         queuedCommands.clear();
                     if(command instanceof UndoableCommand)
                         undoableCommands.add((UndoableCommand) command);
-
-                    // Check player collisions wit boxes and explosions
-                    new ArrayList<GameObject>(serverState.getState().getPlayers()).forEach(player -> {
-                        serverState.getState().getBoxes().forEach(player::collides);
-                        serverState.getState().getExplosions().forEach(player::collides);
-                        new ArrayList<GameObject>(serverState.getState().getPits()).forEach(player::collides);
-                        gameMap.getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
-                        new ArrayList<GameObject>(serverState.getState().getPowerups()).forEach(player::collides);
-                    });
                 }
+                // Check player collisions wit boxes and explosions
+                new ArrayList<GameObject>(serverState.getState().getPlayers()).forEach(player -> {
+                    serverState.getState().getBoxes().forEach(player::collides);
+                    serverState.getState().getExplosions().forEach(player::collides);
+                    new ArrayList<GameObject>(serverState.getState().getPits()).forEach(player::collides);
+                    gameMap.getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
+                    new ArrayList<GameObject>(serverState.getState().getPowerups()).forEach(player::collides);
+                });
+
+                serverState.getState().removeDeadPlayers();
 
                 serverState.notifyObservers();
             }
@@ -74,6 +74,9 @@ public class ServerFacade {
     }
 
     public void addCommand(ClientAction clientAction, Player playerToUpdate) {
+        if(playerToUpdate.isDead())
+            return;
+
         Command command = null;
         switch (clientAction) {
             case MOVE_UP:
@@ -104,6 +107,26 @@ public class ServerFacade {
                 command = new LoadCommand(stateSaves);
                 break;
             case UNDO:
+                command = new UndoCommand(undoableCommands);
+                break;
+        }
+        if (command != null)
+            queuedCommands.add(command);
+    }
+
+    public void addCommand(String action) {
+        Command command = null;
+        switch (action) {
+            case "CLEAR_SAVES":
+                command = new ClearSavesCommand(stateSaves);
+                break;
+            case "SAVE":
+                command = new SaveCommand(stateSaves);
+                break;
+            case "LOAD":
+                command = new LoadCommand(stateSaves);
+                break;
+            case "UNDO":
                 command = new UndoCommand(undoableCommands);
                 break;
         }

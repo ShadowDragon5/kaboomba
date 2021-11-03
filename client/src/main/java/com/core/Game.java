@@ -55,7 +55,7 @@ public class Game {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizablE
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_FALSE);
         // Create the window
-        window = glfwCreateWindow(600, 600, "KABOOMBA", NULL, NULL);
+        window = glfwCreateWindow(600, 600, "KABOOMBA!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 

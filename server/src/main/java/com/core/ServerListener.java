@@ -2,8 +2,9 @@ package com.core;
 
 import com.commands.Command;
 import com.commands.ConnectedCommand;
-import com.commands.SaveCommand;
 import com.core.enums.ClientAction;
+import com.entities.InitialPlayerConnection;
+import com.entities.players.NullPlayer;
 import com.entities.players.Player;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -32,8 +33,8 @@ public class ServerListener extends Listener {
 
         // Connection flow
         if (clientAction == ClientAction.CONNECTED) {
-            String color = contents[1];
-            ConnectedCommand command = new ConnectedCommand(color, object1 -> {
+            InitialPlayerConnection playerConnection = Globals.gson.fromJson(contents[1], InitialPlayerConnection.class);
+            ConnectedCommand command = new ConnectedCommand(playerConnection, object1 -> {
                 facade.connectPlayer(connections, connection, object1);
             });
             queuedCommands.add(command);
@@ -42,7 +43,6 @@ public class ServerListener extends Listener {
 
         String id = connections.get(connection);
         Player playerToUpdate = serverState.getState().getPlayer(id);
-
         facade.addCommand(clientAction, playerToUpdate);
     }
 
@@ -56,7 +56,8 @@ public class ServerListener extends Listener {
         String id = connections.get(outGoingConnection);
         serverState.getState().removePlayer(id);
         serverState.notifyObservers();
-        facade.addCommand(ClientAction.SAVE, null);
+        facade.addCommand("CLEAR_SAVES");
+        facade.addCommand("SAVE");
         System.out.println("Disconnected" + outGoingConnection.getID());
     }
 }

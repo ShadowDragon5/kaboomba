@@ -24,7 +24,7 @@ public class GreenBomb extends Bomb {
             State.getInstance().removeBomb(this);
             handleExplosion();
             return null;
-        }, "Explosion_Timer", 2000l + 300l);
+        }, "Explosion_Timer", 2300l);
     }
 
     @Override

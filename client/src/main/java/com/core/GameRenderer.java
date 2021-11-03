@@ -11,11 +11,17 @@ import java.awt.*;
 import java.util.List;
 
 import static java.lang.Math.*;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.*;
 
 public class GameRenderer {
-    public GameMap map;
+    private String playerId;
+    private GameMap map;
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
 
     public void setMap(GameMap map) {
         this.map = map;
@@ -96,17 +102,20 @@ public class GameRenderer {
         }
 
         State state = State.getInstance();
-        if(state != null) {
-            drawTexturedElements(state.getBombs());
-            //Render bomb explosions
-            drawTexturedElements(state.getShields());
-            drawTexturedElements(state.getPits());
-            drawTexturedElements(state.getBoxes());
-            drawTexturedElements(state.getPowerups());
-            drawTexturedElements(state.getExplosions());
-            drawPlayersLives(state.getPlayers());
-            drawTexturedElements(state.getPlayers());
-        }
+
+        Player player = State.getInstance().getPlayer(playerId);
+        glfwSetWindowTitle(window, "KABOOMBA! " + player.getName() + ": " + player.getHealth());
+
+        drawTexturedElements(state.getBombs());
+        //Render bomb explosions
+        drawTexturedElements(state.getShields());
+        drawTexturedElements(state.getPits());
+        drawTexturedElements(state.getBoxes());
+        drawTexturedElements(state.getPowerups());
+        drawTexturedElements(state.getExplosions());
+        drawPlayersLives(state.getPlayers());
+        drawTexturedElements(state.getPlayers());
+
 
         glfwSwapBuffers(window); // swap the color buffers
     }
