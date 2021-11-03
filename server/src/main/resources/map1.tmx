@@ -839,7 +839,7 @@
   </object>
   <object id="4" gid="5" x="144" y="320" width="16" height="16">
    <properties>
-    <property name="PortalID" type="int" value="1"/>
+    <property name="portalID" type="int" value="1"/>
    </properties>
   </object>
   <object id="5" gid="5" x="160" y="16" width="16" height="16">
