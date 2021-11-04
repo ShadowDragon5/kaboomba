@@ -3,6 +3,7 @@ package com.commands;
 import com.core.enums.ArithmeticActions;
 import com.core.enums.PlayerColors;
 import com.core.State;
+import com.entities.InitialPlayerConnection;
 import com.entities.players.Player;
 import com.entities.Position;
 import com.factories.player.DefaultPlayerCreator;
@@ -11,21 +12,22 @@ import com.utils.UtilityMethods;
 
 public class ConnectedCommand implements Command {
 
-    private final String color;
+    private final InitialPlayerConnection playerConnection;
     private final State state = State.getInstance();
     private final Execution execution;
 
-    public ConnectedCommand(String color, Execution execution) {
-        this.color = color;
+    public ConnectedCommand(InitialPlayerConnection playerConnection, Execution execution) {
+        this.playerConnection = playerConnection;
         this.execution = execution;
     }
 
     @Override
     public void execute() {
-        PlayerColors playerColor = UtilityMethods.getPlayerColorOrDefault(color);
+        PlayerColors playerColor = UtilityMethods.getPlayerColorOrDefault(playerConnection.getColor());
 
         PlayerCreator playerCreator = new DefaultPlayerCreator();
         Player player = playerCreator.createPlayer(playerColor);
+        player.setName(playerConnection.getName());
 
         int playerCount = state.getPlayers().size() + 1;
         float playerDim = 1.5f *  player.getDimensions();

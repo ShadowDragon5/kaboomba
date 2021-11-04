@@ -26,6 +26,8 @@ public class ClientApplication {
         //Select team
         String color = application.selectTeam();
 
+        String name = application.inputName();
+
         ClientActionListener inputListener = action -> appClient.sendTCP(action + ";");
 
         InputController inputController = new InputController(inputListener);
@@ -49,15 +51,17 @@ public class ClientApplication {
                         State state = Globals.gson.fromJson(contents[1], State.class);
                         State.setNewInstance(state);
                         break;
-                    case MAP_INIT:
-                        GameMap map = Globals.gson.fromJson(contents[1], GameMap.class);
-                        gameRenderer.setMap(map);
+                    case GAME_INIT:
+                        InitialServerResponse response = Globals.gson.fromJson(contents[1], InitialServerResponse.class);
+                        gameRenderer.setMap(response.getGameMap());
+                        gameRenderer.setPlayerId(response.getPlayerId());
                         break;
                 }
             }
         });
 
-        String playerColorString = String.format("%s;%s", ClientAction.CONNECTED, color);
+        String playerColorString = String.format("%s;%s", ClientAction.CONNECTED,
+                Globals.gson.toJson(new InitialPlayerConnection(name, color)));
         appClient.sendTCP(playerColorString);
 
         // Launch game
@@ -72,5 +76,13 @@ public class ClientApplication {
             color = Globals.defaultPlayerColor.toString();
 
         return color;
+    }
+
+    public String inputName() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please write your username:");
+        String name = sc.nextLine();
+
+        return name;
     }
 }

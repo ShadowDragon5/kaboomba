@@ -2,6 +2,8 @@ package com.entities.players;
 
 import com.core.enums.Direction;
 import com.core.State;
+import com.entities.bomb.BombExplosion;
+import com.entities.pits.Pit;
 import com.entities.tiles.Box;
 import com.entities.GameObject;
 import com.entities.Position;
@@ -11,16 +13,26 @@ import com.factories.player.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
 
-    private final float speed = 0.01f;
-    private final int health = 1;
+    private float speed = 0.01f;
+    private int health = 3;
     private final int bombPower = 1;
     private final int bombAmmo = 1;
     private int bombsPlanted = 0;
     private int score = 1000;
 
     private long lastTimeTeleported;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     private Position oldPosition;
+    private long lastDamageReceived;
 
     public Player() {
         super();
@@ -30,6 +42,7 @@ public abstract class Player extends GameObject {
         super();
         this.setPosition(player.getPosition().clone());
         this.setOldPosition(player.getOldPosition().clone());
+        this.health = player.getHealth();
         this.ID = player.ID;
     }
 
@@ -78,6 +91,9 @@ public abstract class Player extends GameObject {
     public float getSpeed() {
         return speed;
     }
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 
     public int getHealth() {
         return health;
@@ -107,6 +123,20 @@ public abstract class Player extends GameObject {
         long currentTime = System.currentTimeMillis();
         return (currentTime - this.lastTimeTeleported) >= 5000L ;
     }
+  
+    public void decreaseHealth() {
+        long currentTime = System.currentTimeMillis();
+        if ((currentTime - this.lastDamageReceived) <= 2000L)
+            return;
+
+        this.lastDamageReceived = currentTime;
+        this.health--;
+        System.out.println("Ouch!");
+    }
+
+    public boolean isDead() {
+        return getHealth() <= 0;
+    }
 
     @Override
     public String getTextureFile() {
@@ -121,6 +151,12 @@ public abstract class Player extends GameObject {
         if(object instanceof PowerUp) {
             State.getInstance().removePowerup(object);
             State.getInstance().replacePlayer(this, ((PowerUp) object).decorate(this));
+        }
+        if(object instanceof BombExplosion) {
+            decreaseHealth();
+        }
+        if(object instanceof Pit) {
+            ((Pit) object).triggerPit(this);
         }
     }
 }

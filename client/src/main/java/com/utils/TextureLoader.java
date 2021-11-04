@@ -17,12 +17,15 @@ public class TextureLoader {
     private static HashMap<String, Integer> textures = new HashMap<>();
 
     public static Integer getTexture(GameObject gameObject){
-        String textureKey = gameObject.getTextureFile();
+        return getTexture(gameObject.getTextureFile());
+    }
+
+    public static Integer getTexture(String textureKey){
         if(textures.containsKey(textureKey)){
             return textures.get(textureKey);
         }
 
-        BufferedImage image = TextureLoader.loadImage(gameObject.getTextureFile());
+        BufferedImage image = TextureLoader.loadImage(textureKey);
         int textureId = TextureLoader.loadTexture(image);
         textures.put(textureKey, textureId);
 

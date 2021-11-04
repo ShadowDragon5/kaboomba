@@ -3,6 +3,7 @@ package com.core;
 import com.entities.*;
 import com.entities.bomb.BombExplosion;
 import com.entities.pits.Pit;
+import com.entities.players.NullPlayer;
 import com.entities.players.Player;
 import com.entities.shields.Shield;
 
@@ -83,7 +84,7 @@ public class State {
     public Player getPlayer(String id) {
         return getPlayers().stream()
                 .filter(it -> it.ID.equals(id))
-                .findFirst().get();
+                .findFirst().orElse(new NullPlayer(id));
     }
 
     public void replacePlayer(Player oldPlayer, Player newPlayer) {
@@ -93,6 +94,10 @@ public class State {
 
     public void removePlayer(String id) {
         getPlayers().removeIf(it->it.ID.equals(id));
+    }
+
+    public void removeDeadPlayers() {
+        getPlayers().removeIf(Player::isDead);
     }
 
     public void addBomb(GameObject bomb){

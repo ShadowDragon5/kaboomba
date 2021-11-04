@@ -43,16 +43,8 @@ public abstract class Bomb extends GameObject implements WithLifespan {
     }
 
     public void explode() {
-        var state = State.getInstance();
-        state.removeBomb(this);
-
-        var explosion = this.createBombExplosion();
-        state.addBombExplosion(explosion);
-
-        scheduleTask(() -> {
-            explosion.forEach(state::removeExplosion);
-            return null;
-        }, "Explosion_Timer", explosion.get(0).getLifespan());
+        State.getInstance().removeBomb(this);
+        handleExplosion();
     }
 
     public void setBombPower(float bombPower) {
@@ -60,6 +52,16 @@ public abstract class Bomb extends GameObject implements WithLifespan {
     }
     public float getBombPower() {
         return bombPower;
+    }
+
+    protected void handleExplosion() {
+        var explosion = this.createBombExplosion();
+        State.getInstance().addBombExplosion(explosion);
+
+        scheduleTask(() -> {
+            explosion.forEach(State.getInstance()::removeExplosion);
+            return null;
+        }, "Explosion_Timer", explosion.get(0).getLifespan());
     }
 
 }
