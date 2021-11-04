@@ -5,15 +5,14 @@ import com.entities.Position;
 import com.entities.players.Player;
 import com.entities.portals.effects.PortalEffect;
 import com.entities.tiles.Tile;
-import com.utils.Scheduler;
+import com.entities.portals.effects.*;
 
 public abstract class Portal extends Tile {
 
     protected PortalEffect portalEffect;
 
-    public Portal(Position position, PortalEffect portalEffect) {
+    public Portal(Position position) {
         super(position);
-        this.portalEffect = portalEffect;
     }
 
     public PortalEffect getPortalEffect() {
@@ -22,6 +21,17 @@ public abstract class Portal extends Tile {
 
     public void setPortalEffect(PortalEffect portalEffect) {
         this.portalEffect = portalEffect;
+    }
+
+    public void setPortalEffect(int effectID) {
+        switch (effectID) {
+            case 0:
+                this.portalEffect = new ReducePointsPortalEffect();
+                break;
+            case 1:
+                this.portalEffect = new SurpriseBombPortalEffect();
+                break;
+        }
     }
 
     abstract void teleport(GameObject object);

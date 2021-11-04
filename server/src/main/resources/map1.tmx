@@ -12,10 +12,10 @@
    <image width="16" height="16" source="../../../../client/src/main/resources/box.png"/>
   </tile>
   <tile id="3">
-   <image width="16" height="16" source="../../../../client/src/main/resources/portal_random.png"/>
+   <image width="16" height="16" source="../../../../client/src/main/resources/portal_waypoint.png"/>
   </tile>
   <tile id="4">
-   <image width="16" height="16" source="../../../../client/src/main/resources/portal_waypoint.png"/>
+   <image width="16" height="16" source="../../../../client/src/main/resources/portal_random.png"/>
   </tile>
  </tileset>
  <layer id="1" name="Static" width="20" height="20">
@@ -71,7 +71,7 @@
    <tile gid="2"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="2"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="1"/>
@@ -182,7 +182,7 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="1"/>
-   <tile gid="2"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="1"/>
@@ -257,7 +257,7 @@
    <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="1"/>
-   <tile gid="2"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -368,7 +368,7 @@
    <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="1"/>
-   <tile gid="2"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="2"/>
@@ -449,16 +449,16 @@
    <tile/>
    <tile gid="3"/>
    <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="3"/>
-   <tile gid="3"/>
+   <tile/>
    <tile gid="3"/>
+   <tile/>
+   <tile/>
    <tile gid="3"/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile gid="3"/>
    <tile gid="3"/>
    <tile/>
@@ -525,7 +525,7 @@
    <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="3"/>
+   <tile/>
    <tile gid="3"/>
    <tile/>
    <tile gid="3"/>
@@ -541,11 +541,11 @@
    <tile/>
    <tile gid="3"/>
    <tile/>
-   <tile gid="3"/>
    <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="3"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile gid="3"/>
    <tile/>
@@ -562,10 +562,10 @@
    <tile/>
    <tile gid="3"/>
    <tile/>
-   <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="3"/>
+   <tile/>
+   <tile/>
    <tile gid="3"/>
    <tile/>
    <tile gid="3"/>
@@ -582,7 +582,7 @@
    <tile gid="3"/>
    <tile/>
    <tile gid="3"/>
-   <tile gid="3"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile gid="3"/>
@@ -665,7 +665,7 @@
    <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="3"/>
+   <tile/>
    <tile gid="3"/>
    <tile/>
    <tile gid="3"/>
@@ -681,11 +681,11 @@
    <tile/>
    <tile gid="3"/>
    <tile/>
-   <tile gid="3"/>
    <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="3"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile gid="3"/>
    <tile/>
@@ -702,10 +702,10 @@
    <tile/>
    <tile gid="3"/>
    <tile/>
-   <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="3"/>
+   <tile/>
+   <tile/>
    <tile gid="3"/>
    <tile/>
    <tile gid="3"/>
@@ -722,7 +722,7 @@
    <tile gid="3"/>
    <tile/>
    <tile gid="3"/>
-   <tile gid="3"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile gid="3"/>
@@ -789,16 +789,16 @@
    <tile/>
    <tile gid="3"/>
    <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
-   <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="3"/>
-   <tile gid="3"/>
+   <tile/>
    <tile gid="3"/>
+   <tile/>
+   <tile/>
    <tile gid="3"/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile gid="3"/>
    <tile gid="3"/>
    <tile/>
@@ -827,29 +827,39 @@
   </data>
  </layer>
  <objectgroup id="3" name="Portals">
-  <object id="2" gid="5" x="0" y="160" width="16" height="16">
+  <object id="2" gid="4" x="32" y="144" width="16" height="16">
    <properties>
+    <property name="effect" type="int" value="0"/>
     <property name="portalID" type="int" value="0"/>
    </properties>
   </object>
-  <object id="3" gid="5" x="304" y="176" width="16" height="16">
+  <object id="3" gid="4" x="272" y="192" width="16" height="16">
    <properties>
+    <property name="effect" type="int" value="1"/>
     <property name="portalID" type="int" value="0"/>
    </properties>
   </object>
-  <object id="4" gid="5" x="144" y="320" width="16" height="16">
+  <object id="4" gid="4" x="128" y="288" width="16" height="16">
    <properties>
+    <property name="effect" type="int" value="0"/>
     <property name="portalID" type="int" value="1"/>
    </properties>
   </object>
-  <object id="5" gid="5" x="160" y="16" width="16" height="16">
+  <object id="5" gid="4" x="176" y="48" width="16" height="16">
    <properties>
+    <property name="effect" type="int" value="1"/>
     <property name="portalID" type="int" value="1"/>
    </properties>
   </object>
-  <object id="6" gid="4" x="80" y="240" width="16" height="16"/>
-  <object id="7" gid="4" x="80" y="96" width="16" height="16"/>
-  <object id="8" gid="4" x="224" y="96" width="16" height="16"/>
-  <object id="9" gid="4" x="224" y="240" width="16" height="16"/>
+  <object id="7" gid="5" x="80" y="96" width="16" height="16">
+   <properties>
+    <property name="effect" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="9" gid="5" x="224" y="240" width="16" height="16">
+   <properties>
+    <property name="effect" type="int" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

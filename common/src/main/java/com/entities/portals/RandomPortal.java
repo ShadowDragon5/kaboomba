@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 
 public class RandomPortal extends Portal{
 
-    public RandomPortal(Position position, PortalEffect portalEffect) {
-        super(position, portalEffect);
+    public RandomPortal(Position position) {
+        super(position);
     }
 
     @Override

@@ -22,9 +22,9 @@ public class DefaultTileCreator extends TileCreator {
             case "3":
                 return new Box.BoxBuilder(position).dimension(dimension).build();
             case "4":
-                return new WaypointPortal(position, new ReducePointsPortalEffect());
+                return new WaypointPortal(position);
             case "5":
-                return new RandomPortal(position, new SurpriseBombPortalEffect());
+                return new RandomPortal(position);
             default:
                 return null;
         }

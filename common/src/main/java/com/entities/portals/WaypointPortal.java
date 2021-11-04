@@ -9,8 +9,8 @@ public class WaypointPortal extends Portal {
 
     private Position linkedPortalPosition;
 
-    public WaypointPortal(Position position, PortalEffect portalEffect) {
-        super(position, portalEffect);
+    public WaypointPortal(Position position) {
+        super(position);
     }
 
     @Override
