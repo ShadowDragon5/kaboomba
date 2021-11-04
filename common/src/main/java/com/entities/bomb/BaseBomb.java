@@ -5,13 +5,13 @@ import com.entities.Position;
 
 import java.awt.*;
 
-public class BoxBomb extends Bomb {
+public class BaseBomb extends Bomb {
 
-    public BoxBomb() {
+    public BaseBomb() {
 
     }
 
-    public BoxBomb(Position position) {
+    public BaseBomb(Position position) {
         super(position.snap());
     }
 
@@ -27,7 +27,7 @@ public class BoxBomb extends Bomb {
 
     @Override
     public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
-        return new BoxBombExplosion(position, direction);
+        return new BaseBombExplosion(position, direction);
     }
 
     @Override

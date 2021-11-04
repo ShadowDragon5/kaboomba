@@ -103,11 +103,11 @@ public class GameRenderer {
 
         State state = State.getInstance();
 
-        Player player = State.getInstance().getPlayer(playerId);
+        Player player = state.getPlayer(playerId);
         glfwSetWindowTitle(window, "KABOOMBA! " + player.getName() + ": " + player.getHealth());
 
+        drawTexturedElements(state.getPortals());
         drawTexturedElements(state.getBombs());
-        //Render bomb explosions
         drawTexturedElements(state.getShields());
         drawTexturedElements(state.getPits());
         drawTexturedElements(state.getBoxes());
@@ -115,7 +115,6 @@ public class GameRenderer {
         drawTexturedElements(state.getExplosions());
         drawPlayersLives(state.getPlayers());
         drawTexturedElements(state.getPlayers());
-
 
         glfwSwapBuffers(window); // swap the color buffers
     }

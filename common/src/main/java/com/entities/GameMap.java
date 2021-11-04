@@ -3,6 +3,7 @@ package com.entities;
 import com.core.enums.ArithmeticActions;
 import com.core.Globals;
 import com.core.State;
+import com.entities.portals.*;
 import com.entities.tiles.Tile;
 import com.factories.tile.DefaultTileCreator;
 import com.factories.tile.TileCreator;
@@ -14,6 +15,7 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.xml.parsers.*;
 
 public class GameMap {
@@ -47,19 +49,20 @@ public class GameMap {
             int tileWidth = Integer.parseInt(mapElement.getAttribute("tilewidth"));
             int tileHeight = Integer.parseInt(mapElement.getAttribute("tileheight"));
 
-            Globals.setDefaultDimension(0.1f);
+            Globals.setDefaultDimension(UtilityMethods.preciseArithmetics(2f, mapWidth, ArithmeticActions.DIV));
 
-            NodeList tileset =
-                ((Element)doc.getElementsByTagName("tileset").item(0)).getElementsByTagName("image");
-            for (int i = 0; i < tileset.getLength(); i++) {
-                Node node = tileset.item(i);
-                if (node.getNodeType() != Node.ELEMENT_NODE)
-                    continue;
-
-                Element element = (Element) node;
-                // System.out.println(element.getAttribute("source"));
-                // i+1 == gid
-            }
+            // NodeList tileset =
+            //     ((Element)doc.getElementsByTagName("tileset").item(0)).getElementsByTagName("image");
+            //
+            // for (int i = 0; i < tileset.getLength(); i++) {
+            //     Node node = tileset.item(i);
+            //     if (node.getNodeType() != Node.ELEMENT_NODE)
+            //         continue;
+            //
+            //     Element element = (Element) node;
+            //     // System.out.println(element.getAttribute("source"));
+            //     // i+1 == gid
+            // }
 
             NodeList data = doc.getElementsByTagName("data");
 
@@ -87,9 +90,7 @@ public class GameMap {
                                 mapWidth, ArithmeticActions.DIV),
                             UtilityMethods.preciseArithmetics(y - (c / mapHeight) * 2,
                                 mapHeight, ArithmeticActions.DIV)),
-                        // tileWidth
-                        UtilityMethods.preciseArithmetics(2f,
-                            mapWidth, ArithmeticActions.DIV)
+                        Globals.getDefaultDimension()
                     );
                 mapTiles.add(tile);
                 c++;
@@ -115,13 +116,83 @@ public class GameMap {
                                     mapWidth, ArithmeticActions.DIV),
                                 UtilityMethods.preciseArithmetics(y - (c / mapHeight) * 2,
                                     mapHeight, ArithmeticActions.DIV)),
-                            UtilityMethods.preciseArithmetics(2f,
-                                mapWidth, ArithmeticActions.DIV)
+                            Globals.getDefaultDimension()
                         );
                     State.getInstance().addBox(tile);
                 }
                 c++;
             }
+
+            // Portal objects
+            HashMap<Integer, WaypointPortal> portalLinks = new HashMap<>();
+            NodeList portals = doc.getElementsByTagName("object");
+
+            for (int i = 0; i < portals.getLength(); i++) {
+                Node node = portals.item(i);
+                if (node.getNodeType() != Node.ELEMENT_NODE)
+                    continue;
+
+                Element element = (Element) node;
+                String gid = element.getAttribute("gid");
+                int portal_x = Integer.parseInt(element.getAttribute("x"));
+                int portal_y = Integer.parseInt(element.getAttribute("y"));
+
+                int mapSize = tileWidth * mapWidth;
+                Tile portal = creator.createTile(gid,
+                            new Position(
+                                UtilityMethods.preciseArithmetics(portal_x * 2 + tileWidth - mapSize,
+                                    mapSize, ArithmeticActions.DIV),
+                                UtilityMethods.preciseArithmetics(-portal_y * 2 + tileHeight + mapSize,
+                                    mapSize, ArithmeticActions.DIV)).snap(),
+                            Globals.getDefaultDimension()
+                        );
+                State.getInstance().addPortal(portal);
+
+                // portal linking
+                if (element.hasChildNodes()) {
+                    NodeList properties = element.getChildNodes().item(1).getChildNodes();
+                    // System.out.println(element.getFirstChild());
+
+                    for (int j = 0; j < properties.getLength(); j++) {
+                        Node nj = properties.item(j);
+                        if (nj.getNodeType() != Node.ELEMENT_NODE)
+                            continue;
+
+                        Element e2 = (Element) nj;
+                        System.out.println(e2);
+                        String name = e2.getAttribute("name");
+
+                        switch (name) {
+                            case "portalID":
+                                int id = Integer.parseInt(e2.getAttribute("value"));
+                                if (portalLinks.containsKey(id)) {
+                                    var other = portalLinks.get(id);
+                                    other.setLinkedPortalPosition(portal.getPosition());
+                                    ((WaypointPortal)portal).setLinkedPortalPosition(other.getPosition());
+                                } else {
+                                    portalLinks.put(id, (WaypointPortal)portal);
+                                }
+                                break;
+                            case "effect":
+                                int effect = Integer.parseInt(e2.getAttribute("value"));
+                                System.out.println(effect);
+                                ((Portal) portal).setPortalEffect(effect);
+                                break;
+                        }
+                    }
+                }
+            }
+            // Tile randomPortal = creator.createTile("5", new Position(-0.05f, -0.05f), 0.1f);
+            //
+            // Tile waypointPortal = creator.createTile("4", new Position(-0.75f, 0.85f), 0.1f);
+            // Tile waypointPortal1 = creator.createTile("4", new Position(0.05f, 0.05f), 0.1f);
+            //
+            // ((WaypointPortal) waypointPortal).setLinkedPortalPosition(waypointPortal1.getPosition().clone());
+            // ((WaypointPortal) waypointPortal1).setLinkedPortalPosition(waypointPortal.getPosition().clone());
+            //
+            // State.getInstance().addPortal(randomPortal);
+            // State.getInstance().addPortal(waypointPortal);
+            // State.getInstance().addPortal(waypointPortal1);
 
         } catch (Exception e) {
             e.printStackTrace();

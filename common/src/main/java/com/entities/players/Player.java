@@ -18,6 +18,9 @@ public abstract class Player extends GameObject {
     private final int bombPower = 1;
     private final int bombAmmo = 1;
     private int bombsPlanted = 0;
+    private int score = 1000;
+
+    private long lastTimeTeleported;
     private String name;
 
     public String getName() {
@@ -72,6 +75,15 @@ public abstract class Player extends GameObject {
         return oldPosition;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        System.out.println("Player new score: " + score);
+        this.score = score;
+    }
+
     public void setOldPosition(Position oldPosition) {
         this.oldPosition = oldPosition;
     }
@@ -103,6 +115,15 @@ public abstract class Player extends GameObject {
         this.bombsPlanted = bombsPlanted;
     }
 
+    public void setLastTimeTeleported(long lastTimeTeleported) {
+        this.lastTimeTeleported = lastTimeTeleported;
+    }
+
+    public boolean canTeleport() {
+        long currentTime = System.currentTimeMillis();
+        return (currentTime - this.lastTimeTeleported) >= 5000L ;
+    }
+  
     public void decreaseHealth() {
         long currentTime = System.currentTimeMillis();
         if ((currentTime - this.lastDamageReceived) <= 2000L)

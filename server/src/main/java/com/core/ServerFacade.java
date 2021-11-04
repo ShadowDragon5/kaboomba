@@ -65,6 +65,10 @@ public class ServerFacade {
                     gameMap.getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
                     new ArrayList<GameObject>(serverState.getState().getPowerups()).forEach(player::collides);
                 });
+              
+                new ArrayList<GameObject>(serverState.getState().getPortals()).forEach(portal -> {
+                    serverState.getState().getPlayers().forEach(portal::collides);
+                });
 
                 serverState.getState().removeDeadPlayers();
 

@@ -15,6 +15,7 @@ public class State {
 
     private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
     private final List<GameObject> boxes = Collections.synchronizedList(new ArrayList<>());
+    private final List<GameObject> portals = Collections.synchronizedList(new ArrayList<>());
     private final List<GameObject> powerups = Collections.synchronizedList(new ArrayList<>());
 
     // Player droppable entities
@@ -66,6 +67,10 @@ public class State {
 
     public void addBox(GameObject boxObject) {
         boxes.add(boxObject);
+    }
+
+    public void addPortal(GameObject portalObject) {
+        portals.add(portalObject);
     }
 
     public List<GameObject> getPowerups() {
@@ -151,6 +156,10 @@ public class State {
 
     public List<GameObject> getExplosions() {
         return explosions;
+    }
+
+    public List<GameObject> getPortals() {
+        return portals;
     }
 
     public void removeFromList(List<GameObject> objects, String id) {

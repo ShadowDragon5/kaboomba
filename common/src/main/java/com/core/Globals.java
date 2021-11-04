@@ -6,6 +6,8 @@ import com.entities.bomb.Bomb;
 import com.entities.bomb.BombExplosion;
 import com.entities.pits.Pit;
 import com.entities.players.Player;
+import com.entities.portals.Portal;
+import com.entities.portals.effects.PortalEffect;
 import com.entities.powerups.PowerUp;
 import com.entities.powerups.PowerUpDecorator;
 import com.entities.shields.Shield;
@@ -16,6 +18,8 @@ import com.gsonParsers.CustomJsonAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.sound.sampled.Port;
+
 // collection of global variables
 public class Globals {
     private static float defaultDimension = 0.1f;
@@ -25,6 +29,8 @@ public class Globals {
     // Register gson custom serializers/deserializers
     public static Gson gson = (new GsonBuilder()
         .registerTypeAdapter(Tile.class, new CustomJsonAdapter<Tile>("com.entities.tiles."))
+        .registerTypeAdapter(Portal.class, new CustomJsonAdapter<Tile>("com.entities.portals."))
+        .registerTypeAdapter(PortalEffect.class, new CustomJsonAdapter<Tile>("com.entities.portals.effects."))
         .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>("com.entities.players."))
         .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>("com.entities.shields."))
         .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>("com.entities.bomb."))
