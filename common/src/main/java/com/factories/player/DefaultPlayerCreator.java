@@ -10,9 +10,7 @@ public class DefaultPlayerCreator extends PlayerCreator {
     public Player createPlayer(PlayerColors color) {
         switch (color){
             case BLUE:
-            {
                 return new BluePlayer();
-            }
 
             case GREEN:
                 return new GreenPlayer();

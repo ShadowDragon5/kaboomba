@@ -37,8 +37,8 @@ public abstract class PowerUpDecorator extends Player {
     }
 
     @Override
-    public void decreaseHealth() {
-        player.decreaseHealth();
+    public boolean decreaseHealth() {
+        return player.decreaseHealth();
     }
 
     @Override

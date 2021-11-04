@@ -45,6 +45,7 @@ public class State {
         this.players.forEach(it->newState.addPlayer(it.clone()));
         this.boxes.forEach(it->newState.addBox(it));
         this.powerups.forEach(it->newState.addPowerup(it));
+        this.portals.forEach(it->newState.addPortal(it));
 
         return newState;
     }

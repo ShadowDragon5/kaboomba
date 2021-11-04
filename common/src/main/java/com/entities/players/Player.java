@@ -18,7 +18,7 @@ public abstract class Player extends GameObject {
     private final int bombPower = 1;
     private final int bombAmmo = 1;
     private int bombsPlanted = 0;
-    private int score = 1000;
+    private int score = 0;
 
     private long lastTimeTeleported;
     private String name;
@@ -43,6 +43,8 @@ public abstract class Player extends GameObject {
         this.setPosition(player.getPosition().clone());
         this.setOldPosition(player.getOldPosition().clone());
         this.health = player.getHealth();
+        this.score = player.getScore();
+        this.name = player.getName();
         this.ID = player.ID;
     }
 
@@ -79,9 +81,8 @@ public abstract class Player extends GameObject {
         return score;
     }
 
-    public void setScore(int score) {
-        System.out.println("Player new score: " + score);
-        this.score = score;
+    public void addScore(int score) {
+        this.score += score;
     }
 
     public void setOldPosition(Position oldPosition) {
@@ -124,14 +125,15 @@ public abstract class Player extends GameObject {
         return (currentTime - this.lastTimeTeleported) >= 5000L ;
     }
   
-    public void decreaseHealth() {
+    public boolean decreaseHealth() {
         long currentTime = System.currentTimeMillis();
         if ((currentTime - this.lastDamageReceived) <= 2000L)
-            return;
+            return false;
 
         this.lastDamageReceived = currentTime;
         this.health--;
-        System.out.println("Ouch!");
+        this.addScore(-500);
+        return true;
     }
 
     public boolean isDead() {
@@ -153,7 +155,10 @@ public abstract class Player extends GameObject {
             State.getInstance().replacePlayer(this, ((PowerUp) object).decorate(this));
         }
         if(object instanceof BombExplosion) {
-            decreaseHealth();
+            String initiatorId = object.getInitiatorId();
+            if (decreaseHealth() && initiatorId != this.ID) {
+                State.getInstance().getPlayer(initiatorId).addScore(1000);
+            }
         }
         if(object instanceof Pit) {
             ((Pit) object).triggerPit(this);

@@ -3,14 +3,11 @@ package com.core;
 import com.entities.GameMap;
 import com.entities.GameObject;
 import com.entities.Position;
-import com.entities.players.Player;
+import com.entities.players.*;
 import com.utils.TextureLoader;
-import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
 import java.util.List;
 
-import static java.lang.Math.*;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.*;
@@ -97,14 +94,14 @@ public class GameRenderer {
     public void render(long window) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-        if(map != null){
+        if (map != null) {
             renderMap();
         }
 
         State state = State.getInstance();
-
         Player player = state.getPlayer(playerId);
-        glfwSetWindowTitle(window, "KABOOMBA! " + player.getName() + ": " + player.getHealth());
+        String title = player instanceof NullPlayer ? "💀 DEAD 💀" : player.getName() + ": " + player.getScore();
+        glfwSetWindowTitle(window, "KABOOMBA! " + title);
 
         drawTexturedElements(state.getPortals());
         drawTexturedElements(state.getBombs());

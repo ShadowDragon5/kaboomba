@@ -27,7 +27,11 @@ public class ConnectedCommand implements Command {
 
         PlayerCreator playerCreator = new DefaultPlayerCreator();
         Player player = playerCreator.createPlayer(playerColor);
-        player.setName(playerConnection.getName());
+        String name = playerConnection.getName();
+        if (name.equals("")) {
+            name = "Player" + (state.getPlayers().size() + 1);
+        }
+        player.setName(name);
 
         int playerCount = state.getPlayers().size() + 1;
         float playerDim = 1.5f *  player.getDimensions();

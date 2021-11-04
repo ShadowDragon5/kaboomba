@@ -12,7 +12,7 @@ public abstract class GameObject {
     protected Position position;
     protected float dimensions;
     protected Color color;
-    public String initiatorId;
+    protected String initiatorId;
 
 
     public GameObject(Position position, float dimensions) {
@@ -81,5 +81,9 @@ public abstract class GameObject {
 
     public void setInitiatorId(String initiatorId) {
         this.initiatorId = initiatorId;
+    }
+
+    public String getInitiatorId() { 
+        return initiatorId;
     }
 }

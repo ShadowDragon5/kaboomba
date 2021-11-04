@@ -151,7 +151,6 @@ public class GameMap {
                 // portal linking
                 if (element.hasChildNodes()) {
                     NodeList properties = element.getChildNodes().item(1).getChildNodes();
-                    // System.out.println(element.getFirstChild());
 
                     for (int j = 0; j < properties.getLength(); j++) {
                         Node nj = properties.item(j);
@@ -159,7 +158,6 @@ public class GameMap {
                             continue;
 
                         Element e2 = (Element) nj;
-                        System.out.println(e2);
                         String name = e2.getAttribute("name");
 
                         switch (name) {
@@ -170,30 +168,17 @@ public class GameMap {
                                     other.setLinkedPortalPosition(portal.getPosition());
                                     ((WaypointPortal)portal).setLinkedPortalPosition(other.getPosition());
                                 } else {
-                                    portalLinks.put(id, (WaypointPortal)portal);
+                                    portalLinks.put(id, (WaypointPortal) portal);
                                 }
                                 break;
                             case "effect":
                                 int effect = Integer.parseInt(e2.getAttribute("value"));
-                                System.out.println(effect);
                                 ((Portal) portal).setPortalEffect(effect);
                                 break;
                         }
                     }
                 }
             }
-            // Tile randomPortal = creator.createTile("5", new Position(-0.05f, -0.05f), 0.1f);
-            //
-            // Tile waypointPortal = creator.createTile("4", new Position(-0.75f, 0.85f), 0.1f);
-            // Tile waypointPortal1 = creator.createTile("4", new Position(0.05f, 0.05f), 0.1f);
-            //
-            // ((WaypointPortal) waypointPortal).setLinkedPortalPosition(waypointPortal1.getPosition().clone());
-            // ((WaypointPortal) waypointPortal1).setLinkedPortalPosition(waypointPortal.getPosition().clone());
-            //
-            // State.getInstance().addPortal(randomPortal);
-            // State.getInstance().addPortal(waypointPortal);
-            // State.getInstance().addPortal(waypointPortal1);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

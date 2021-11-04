@@ -60,6 +60,7 @@ public class Box extends Tile {
         if (object instanceof BombExplosion) {
             explode();
             State.getInstance().removeBox(this);
+            State.getInstance().getPlayer(object.getInitiatorId()).addScore(50);
         }
     }
 

@@ -2,12 +2,11 @@ package com.entities.bomb;
 
 import com.core.enums.ExplosionDirection;
 import com.entities.Position;
-import com.entities.bomb.BombExplosion;
 
 public class GreenBombExplosion extends BombExplosion {
 
-    public GreenBombExplosion(Position position, ExplosionDirection direction) {
-        super(position, direction);
+    public GreenBombExplosion(Position position, ExplosionDirection direction, String initiatorId) {
+        super(position, direction, initiatorId);
     }
 
     @Override

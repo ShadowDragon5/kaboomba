@@ -5,7 +5,7 @@ import com.entities.players.Player;
 public class ReducePointsPortalEffect extends PortalEffect{
     @Override
     public void portalEffect(Player player) {
-        player.setScore(player.getScore() - 100);
+        player.addScore(-100);
         System.out.println("Points reduced");
     }
 }

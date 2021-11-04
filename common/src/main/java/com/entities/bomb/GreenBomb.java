@@ -44,6 +44,6 @@ public class GreenBomb extends Bomb {
 
     @Override
     public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
-        return new GreenBombExplosion(position, direction);
+        return new GreenBombExplosion(position, direction, initiatorId);
     }
 }
