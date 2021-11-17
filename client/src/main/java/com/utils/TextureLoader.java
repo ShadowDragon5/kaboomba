@@ -1,5 +1,6 @@
 package com.utils;
 
+import com.core.Globals;
 import com.entities.GameObject;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
@@ -10,26 +11,34 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
+import java.awt.Color;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class TextureLoader {
-    private static HashMap<String, Integer> textures = new HashMap<>();
+    private static HashMap<String, Drawable> textures = new HashMap<>();
 
-    public static Integer getTexture(GameObject gameObject){
+    public static Drawable getTexture(GameObject gameObject) {
         return getTexture(gameObject.getTextureFile());
     }
 
-    public static Integer getTexture(String textureKey){
-        if(textures.containsKey(textureKey)){
+    public static Drawable getTexture(String textureKey) {
+        if (textures.containsKey(textureKey)) {
             return textures.get(textureKey);
         }
 
-        BufferedImage image = TextureLoader.loadImage(textureKey);
-        int textureId = TextureLoader.loadTexture(image);
-        textures.put(textureKey, textureId);
+        Drawable drawable;
 
-        return textureId;
+        if (textureKey.equals(Globals.defaultColor)) {
+            drawable = new ColoredSquare(Color.MAGENTA);
+        } else {
+            BufferedImage image = loadImage(textureKey);
+            drawable = new Texture(loadTexture(image));
+        }
+
+        textures.put(textureKey, drawable);
+
+        return drawable;
     }
 
 

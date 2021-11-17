@@ -7,10 +7,7 @@ import java.lang.reflect.Type;
 
 public class CustomJsonAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
 
-    private String classPath;
-
-    public CustomJsonAdapter(String classPath) {
-        this.classPath = classPath;
+    public CustomJsonAdapter() {
     }
 
     @Override

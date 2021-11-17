@@ -4,7 +4,6 @@ import com.commands.Command;
 import com.commands.ConnectedCommand;
 import com.core.enums.ClientAction;
 import com.entities.InitialPlayerConnection;
-import com.entities.players.NullPlayer;
 import com.entities.players.Player;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;

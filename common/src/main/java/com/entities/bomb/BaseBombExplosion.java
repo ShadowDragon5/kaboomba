@@ -2,7 +2,6 @@ package com.entities.bomb;
 
 import com.core.enums.ExplosionDirection;
 import com.entities.Position;
-import com.entities.bomb.BombExplosion;
 
 public class BaseBombExplosion extends BombExplosion {
     public BaseBombExplosion(Position position, ExplosionDirection direction) {

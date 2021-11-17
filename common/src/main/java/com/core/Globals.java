@@ -12,34 +12,33 @@ import com.entities.powerups.PowerUp;
 import com.entities.powerups.PowerUpDecorator;
 import com.entities.shields.Shield;
 import com.entities.tiles.Tile;
-import com.entities.tiles.Wall;
 import com.strategies.box.BoxExplosion;
 import com.gsonParsers.CustomJsonAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import javax.sound.sampled.Port;
-
 // collection of global variables
 public class Globals {
     private static float defaultDimension = 0.1f;
-    private final static int defaultExplosionSize = 1;
+
+    public final static int defaultExplosionSize = 1;
+    public final static String defaultColor = "RED";
 
     public static PlayerColors defaultPlayerColor = PlayerColors.BLUE;
     // Register gson custom serializers/deserializers
     public static Gson gson = (new GsonBuilder()
-        .registerTypeAdapter(Tile.class, new CustomJsonAdapter<Tile>("com.entities.tiles."))
-        .registerTypeAdapter(Portal.class, new CustomJsonAdapter<Tile>("com.entities.portals."))
-        .registerTypeAdapter(PortalEffect.class, new CustomJsonAdapter<Tile>("com.entities.portals.effects."))
-        .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>("com.entities.players."))
-        .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>("com.entities.shields."))
-        .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>("com.entities.bomb."))
-        .registerTypeAdapter(BoxExplosion.class, new CustomJsonAdapter<BoxExplosion>("com.strategies.box."))
-        .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>("com.entities.pits."))
-        .registerTypeAdapter(BombExplosion.class, new CustomJsonAdapter<BombExplosion>("com.entities.bomb."))
-        .registerTypeAdapter(PowerUp.class, new CustomJsonAdapter<PowerUp>("com.entities.powerups."))
-        .registerTypeAdapter(PowerUpDecorator.class, new CustomJsonAdapter<PowerUpDecorator>("com.entities.powerups."))
-        .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>("com.entities."))
+        .registerTypeAdapter(Tile.class, new CustomJsonAdapter<Tile>())
+        .registerTypeAdapter(Portal.class, new CustomJsonAdapter<Tile>())
+        .registerTypeAdapter(PortalEffect.class, new CustomJsonAdapter<Tile>())
+        .registerTypeAdapter(Player.class, new CustomJsonAdapter<Player>())
+        .registerTypeAdapter(Shield.class, new CustomJsonAdapter<Shield>())
+        .registerTypeAdapter(Bomb.class, new CustomJsonAdapter<Bomb>())
+        .registerTypeAdapter(BoxExplosion.class, new CustomJsonAdapter<BoxExplosion>())
+        .registerTypeAdapter(Pit.class, new CustomJsonAdapter<Pit>())
+        .registerTypeAdapter(BombExplosion.class, new CustomJsonAdapter<BombExplosion>())
+        .registerTypeAdapter(PowerUp.class, new CustomJsonAdapter<PowerUp>())
+        .registerTypeAdapter(PowerUpDecorator.class, new CustomJsonAdapter<PowerUpDecorator>())
+        .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
     ).create();
 
     public static float getDefaultDimension() {
@@ -48,9 +47,5 @@ public class Globals {
 
     public static void setDefaultDimension(float dimension) {
         Globals.defaultDimension = dimension;
-    }
-
-    public static int getDefaultExplosionSize() {
-        return defaultExplosionSize;
     }
 }

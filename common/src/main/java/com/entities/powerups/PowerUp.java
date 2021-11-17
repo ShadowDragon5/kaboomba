@@ -5,8 +5,6 @@ import com.entities.Position;
 import com.entities.tiles.Tile;
 
 public abstract class PowerUp extends Tile {
-    private PowerUpDecorator decorator;
-
     public PowerUp(Position position) {
         super(position);
     }

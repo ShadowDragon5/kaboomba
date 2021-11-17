@@ -37,7 +37,7 @@ public class State {
     }
 
     public void loadState(State newState) {
-        this.state = newState;
+        State.state = newState;
     }
 
     public State clone() {

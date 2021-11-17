@@ -15,6 +15,5 @@ public class SurpriseBombPortalEffect extends PortalEffect {
             baseBomb.explode();
             return null;
         }, "DropBombExplode_timer", baseBomb.getLifespan());
-        System.out.println("Supraiz muahah");
     }
 }

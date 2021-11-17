@@ -1,7 +1,5 @@
 package com.core;
 
-import com.entities.*;
-
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -51,8 +49,8 @@ public class Game {
 
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizablE
+        glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE); // the window will stay hidden after creation
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // the window will be resizable
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_FALSE);
         // Create the window
         window = glfwCreateWindow(600, 600, "KABOOMBA!", NULL, NULL);

@@ -5,11 +5,8 @@ import com.entities.GameMap;
 import com.entities.GameObject;
 import com.entities.Position;
 import com.entities.players.Player;
-import com.entities.portals.effects.PortalEffect;
-import com.entities.tiles.Box;
 import com.entities.tiles.Wall;
 
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

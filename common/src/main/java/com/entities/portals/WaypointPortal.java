@@ -3,7 +3,6 @@ package com.entities.portals;
 import com.entities.GameObject;
 import com.entities.Position;
 import com.entities.players.Player;
-import com.entities.portals.effects.PortalEffect;
 
 public class WaypointPortal extends Portal {
 

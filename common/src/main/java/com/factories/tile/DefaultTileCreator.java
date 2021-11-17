@@ -3,8 +3,6 @@ package com.factories.tile;
 import com.entities.*;
 import com.entities.portals.RandomPortal;
 import com.entities.portals.WaypointPortal;
-import com.entities.portals.effects.ReducePointsPortalEffect;
-import com.entities.portals.effects.SurpriseBombPortalEffect;
 import com.entities.tiles.Box;
 import com.entities.tiles.Floor;
 import com.entities.tiles.Tile;
@@ -14,7 +12,7 @@ public class DefaultTileCreator extends TileCreator {
 
     @Override
     public Tile createTile(String gid, Position position, float dimension) {
-        switch (gid){
+        switch (gid) {
             case "1":
                 return new Floor(position, dimension);
             case "2":
