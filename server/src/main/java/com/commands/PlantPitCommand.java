@@ -1,6 +1,7 @@
 package com.commands;
 
 import com.core.State;
+import com.core.Defaults;
 import com.entities.pits.Pit;
 import com.entities.players.Player;
 import com.factories.player.PlayersAbstractFactory;
@@ -20,10 +21,14 @@ public class PlantPitCommand implements Command {
 
     @Override
     public void execute() {
+        if (player.getPitsPlanted() >= Defaults.playerPits)
+            return;
         Pit pit = playerFactory.createPit(player);
+        player.setPitsPlanted(player.getPitsPlanted() + 1);
         state.addPit(pit);
         scheduleTask(() -> {
             state.removePit(pit);
+            player.setPitsPlanted(player.getPitsPlanted() - 1);
             return null;
         }, "Pit_Timer", pit.getLifespan());
     }

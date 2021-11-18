@@ -26,7 +26,7 @@ public class Client implements Observer {
     public void update() {
         //FIXME notifyObservers
         try {
-            String stateJson = Globals.gson.toJson(sub.getState());
+            String stateJson = Defaults.gson.toJson(sub.getState());
             connection.sendTCP(String.format("%s;%s", ServerAction.STATE_UPDATE, stateJson));
         } catch (Exception exc) {
         }

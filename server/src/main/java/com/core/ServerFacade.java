@@ -3,8 +3,8 @@ package com.core;
 import com.commands.*;
 import com.core.enums.ClientAction;
 import com.core.enums.ServerAction;
-import com.entities.GameMap;
 import com.entities.GameObject;
+import com.entities.GameMap;
 import com.entities.InitialServerResponse;
 import com.entities.players.Player;
 import com.entities.tiles.Wall;
@@ -16,7 +16,6 @@ public class ServerFacade {
     private final Stack<UndoableCommand> undoableCommands = new Stack<>();
     private final Queue<Command> queuedCommands;
     private final ServerState serverState;
-    private final GameMap gameMap;
 
     public Queue<Command> getQueuedCommands() {
         return queuedCommands;
@@ -26,10 +25,9 @@ public class ServerFacade {
         return serverState;
     }
 
-    public ServerFacade(Queue<Command> queuedCommands, ServerState serverState, GameMap gameMap) {
+    public ServerFacade(Queue<Command> queuedCommands, ServerState serverState) {
         this.queuedCommands = queuedCommands;
         this.serverState = serverState;
-        this.gameMap = gameMap;
     }
 
     public void connectPlayer(HashMap<Connection, String> connections, Connection connection, Object object) {
@@ -41,7 +39,7 @@ public class ServerFacade {
         addCommand("SAVE");
 
         String mapJson = String.format("%s;%s", ServerAction.GAME_INIT,
-                Globals.gson.toJson(new InitialServerResponse(gameMap, player.ID)));
+                Defaults.gson.toJson(new InitialServerResponse(GameMap.getInstance(), player.ID)));
         connection.sendTCP(mapJson);
     }
 
@@ -62,7 +60,7 @@ public class ServerFacade {
                     serverState.getState().getBoxes().forEach(player::collides);
                     serverState.getState().getExplosions().forEach(player::collides);
                     new ArrayList<GameObject>(serverState.getState().getPits()).forEach(player::collides);
-                    gameMap.getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
+                    GameMap.getInstance().getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
                     new ArrayList<GameObject>(serverState.getState().getPowerups()).forEach(player::collides);
                 });
 

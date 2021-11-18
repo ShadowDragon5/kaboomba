@@ -48,11 +48,11 @@ public class ClientApplication {
 
                 switch (serverAction) {
                     case STATE_UPDATE:
-                        State state = Globals.gson.fromJson(contents[1], State.class);
+                        State state = Defaults.gson.fromJson(contents[1], State.class);
                         State.setNewInstance(state);
                         break;
                     case GAME_INIT:
-                        InitialServerResponse response = Globals.gson.fromJson(contents[1], InitialServerResponse.class);
+                        InitialServerResponse response = Defaults.gson.fromJson(contents[1], InitialServerResponse.class);
                         gameRenderer.setMap(response.getGameMap());
                         gameRenderer.setPlayerId(response.getPlayerId());
                         break;
@@ -61,7 +61,7 @@ public class ClientApplication {
         });
 
         String playerColorString = String.format("%s;%s", ClientAction.CONNECTED,
-                Globals.gson.toJson(new InitialPlayerConnection(name, color)));
+                Defaults.gson.toJson(new InitialPlayerConnection(name, color)));
         appClient.sendTCP(playerColorString);
 
         // Launch game
@@ -73,7 +73,7 @@ public class ClientApplication {
         System.out.print("Select team: GREEN | BLUE");
         String color = sc.nextLine();
         if (color.equals(""))
-            color = Globals.defaultPlayerColor.toString();
+            color = Defaults.playerColor.toString();
 
         return color;
     }

@@ -14,8 +14,8 @@ public class LoadCommand implements UndoableCommand {
     public void execute() {
         if(stateSaves.isEmpty())
             return;
-        temporaryState = State.getInstance();
-        State.getInstance().loadState(stateSaves.getLast());
+        temporaryState = State.getInstance().clone();
+        State.getInstance().loadState(stateSaves.getLast().clone());
         System.out.println("Save " + stateSaves.size() +  " LOADED");
     }
 

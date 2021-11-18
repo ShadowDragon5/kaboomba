@@ -2,7 +2,7 @@ package com.controllers;
 
 import com.core.enums.Direction;
 import com.core.enums.ExplosionDirection;
-import com.core.Globals;
+import com.core.Defaults;
 import com.core.State;
 import com.entities.*;
 import com.entities.bomb.Bomb;
@@ -14,7 +14,7 @@ import com.entities.tiles.Wall;
 import java.util.ArrayList;
 
 public class BombExplosionController {
-    float dim = Globals.getDefaultDimension();
+    float dim = Defaults.getDimension();
 
     public ArrayList<BombExplosion> createExplosion(Bomb bomb) {
 

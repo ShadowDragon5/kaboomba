@@ -32,7 +32,7 @@ public class ServerListener extends Listener {
 
         // Connection flow
         if (clientAction == ClientAction.CONNECTED) {
-            InitialPlayerConnection playerConnection = Globals.gson.fromJson(contents[1], InitialPlayerConnection.class);
+            InitialPlayerConnection playerConnection = Defaults.gson.fromJson(contents[1], InitialPlayerConnection.class);
             ConnectedCommand command = new ConnectedCommand(playerConnection, object1 -> {
                 facade.connectPlayer(connections, connection, object1);
             });

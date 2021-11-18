@@ -1,7 +1,7 @@
 package com.entities;
 
 import com.core.enums.ArithmeticActions;
-import com.core.Globals;
+import com.core.Defaults;
 import com.utils.UtilityMethods;
 
 public class Position {
@@ -48,13 +48,13 @@ public class Position {
     }
 
     public Position snap() {
-        float flooredX = (float) Math.floor(getX() / Globals.getDefaultDimension());
+        float flooredX = (float) Math.floor(getX() / Defaults.getDimension());
         var snappedX = flooredX + 0.5f;
-        setX(UtilityMethods.preciseArithmetics(snappedX, Globals.getDefaultDimension(), ArithmeticActions.MUL));
+        setX(UtilityMethods.preciseArithmetics(snappedX, Defaults.getDimension(), ArithmeticActions.MUL));
 
-        float flooredY = (float) Math.floor(getY() / Globals.getDefaultDimension());
+        float flooredY = (float) Math.floor(getY() / Defaults.getDimension());
         var snappedY = flooredY + 0.5f;
-        setY(UtilityMethods.preciseArithmetics(snappedY, Globals.getDefaultDimension(), ArithmeticActions.MUL));
+        setY(UtilityMethods.preciseArithmetics(snappedY, Defaults.getDimension(), ArithmeticActions.MUL));
         return this;
     }
 

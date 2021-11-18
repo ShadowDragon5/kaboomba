@@ -1,7 +1,7 @@
 package com.entities;
 
 import com.core.enums.ArithmeticActions;
-import com.core.Globals;
+import com.core.Defaults;
 import com.utils.UtilityMethods;
 
 import java.awt.*;
@@ -26,11 +26,11 @@ public abstract class GameObject {
 
     public GameObject(Position position) {
         this.position = position;
-        this.dimensions = Globals.getDefaultDimension();
+        this.dimensions = Defaults.getDimension();
     }
 
     public GameObject() {
-        this.dimensions = Globals.getDefaultDimension();
+        this.dimensions = Defaults.getDimension();
         this.position = new Position();
     }
 

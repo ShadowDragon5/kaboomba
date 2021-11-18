@@ -5,7 +5,7 @@ import com.entities.GameObject;
 import com.entities.Position;
 import com.entities.players.*;
 import com.utils.TextureLoader;
-import com.utils.Drawable;
+import com.utils.Texture;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class GameRenderer {
 
     private void drawTexturedElements(List<? extends GameObject> objects) {
         objects.forEach(it-> {
-            Drawable texture = TextureLoader.getTexture(it);
+            Texture texture = TextureLoader.getTexture(it);
             texture.draw(it.getPosition(), it.getDimensions(), it.getDimensions());
         });
     }
@@ -37,7 +37,7 @@ public class GameRenderer {
     }
 
     private void drawPlayerLives(Player player) {
-        Drawable heart = TextureLoader.getTexture("src/main/resources/heart.png");
+        Texture heart = TextureLoader.getTexture("src/main/resources/heart.png");
         for (int i = 0; i < player.getHealth(); i++) {
             Position heartPosition = player.getPosition().clone();
             heartPosition.addY(0.1f);
@@ -48,7 +48,7 @@ public class GameRenderer {
 
     public void renderMap() {
         map.getGameObjects().forEach(it-> {
-            Drawable texture = TextureLoader.getTexture(it);
+            Texture texture = TextureLoader.getTexture(it);
             texture.draw(it.getPosition(), it.getDimensions(), it.getDimensions());
         });
     }
