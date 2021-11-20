@@ -9,6 +9,11 @@ import com.entities.InitialServerResponse;
 import com.entities.players.Player;
 import com.entities.tiles.Wall;
 import com.esotericsoftware.kryonet.Connection;
+import com.filters.BlockListRequestHandler;
+import com.filters.LogRequestHandler;
+import com.filters.ProcessRequestHandler;
+import com.filters.ValidationRequestHandler;
+
 import java.util.*;
 
 public class ServerFacade {
