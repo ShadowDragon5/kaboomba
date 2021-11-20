@@ -66,6 +66,8 @@ dependencies {
     implementation project(':common')
     implementation libraries.shared
 
+    implementation 'org.jmonkeyengine:jme3-niftygui:3.5.0-alpha1'
+
     implementation "org.lwjgl:lwjgl:$lwjglVersion"
     implementation "org.lwjgl:lwjgl-bgfx:$lwjglVersion"
     implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
