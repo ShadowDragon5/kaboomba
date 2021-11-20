@@ -42,7 +42,7 @@ public class ServerListener extends Listener {
 
         String id = connections.get(connection);
         Player playerToUpdate = serverState.getState().getPlayer(id);
-        facade.addCommand(clientAction, playerToUpdate);
+        facade.getProxyCommandAggregator().addCommand(clientAction, playerToUpdate);
     }
 
     @Override
@@ -55,8 +55,8 @@ public class ServerListener extends Listener {
         String id = connections.get(outGoingConnection);
         serverState.getState().removePlayer(id);
         serverState.notifyObservers();
-        facade.addCommand("CLEAR_SAVES");
-        facade.addCommand("SAVE");
+        facade.getProxyCommandAggregator().addCommand("CLEAR_SAVES");
+        facade.getProxyCommandAggregator().addCommand("SAVE");
         System.out.println("Disconnected" + outGoingConnection.getID());
     }
 }
