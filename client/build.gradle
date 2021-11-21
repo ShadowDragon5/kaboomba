@@ -87,6 +87,9 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+    implementation 'junit:junit:4.13.2'
+    testImplementation "org.mockito:mockito-core:3.+"
 }
 
 test {
