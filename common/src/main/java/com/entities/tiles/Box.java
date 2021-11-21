@@ -1,6 +1,7 @@
 package com.entities.tiles;
 
 import com.core.State;
+import com.core.Defaults;
 import com.entities.GameObject;
 import com.entities.Position;
 import com.entities.bomb.BombExplosion;
@@ -60,7 +61,7 @@ public class Box extends Tile {
         if (object instanceof BombExplosion) {
             explode();
             State.getInstance().removeBox(this);
-            State.getInstance().getPlayer(object.getInitiatorId()).addScore(50);
+            State.getInstance().getPlayer(object.getInitiatorId()).addScore(Defaults.scoreBox);
         }
     }
 

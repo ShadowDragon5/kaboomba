@@ -1,7 +1,7 @@
 package com.entities;
 
 import com.core.enums.ArithmeticActions;
-import com.core.Globals;
+import com.core.Defaults;
 import com.core.State;
 import com.entities.portals.*;
 import com.entities.tiles.Tile;
@@ -49,7 +49,7 @@ public class GameMap {
             int tileWidth = Integer.parseInt(mapElement.getAttribute("tilewidth"));
             int tileHeight = Integer.parseInt(mapElement.getAttribute("tileheight"));
 
-            Globals.setDefaultDimension(UtilityMethods.preciseArithmetics(2f, mapWidth, ArithmeticActions.DIV));
+            Defaults.setDimension(UtilityMethods.preciseArithmetics(2f, mapWidth, ArithmeticActions.DIV));
 
             // NodeList tileset =
             //     ((Element)doc.getElementsByTagName("tileset").item(0)).getElementsByTagName("image");
@@ -90,7 +90,7 @@ public class GameMap {
                                 mapWidth, ArithmeticActions.DIV),
                             UtilityMethods.preciseArithmetics(y - (c / mapHeight) * 2,
                                 mapHeight, ArithmeticActions.DIV)),
-                        Globals.getDefaultDimension()
+                        Defaults.getDimension()
                     );
                 mapTiles.add(tile);
                 c++;
@@ -116,7 +116,7 @@ public class GameMap {
                                     mapWidth, ArithmeticActions.DIV),
                                 UtilityMethods.preciseArithmetics(y - (c / mapHeight) * 2,
                                     mapHeight, ArithmeticActions.DIV)),
-                            Globals.getDefaultDimension()
+                            Defaults.getDimension()
                         );
                     State.getInstance().addBox(tile);
                 }
@@ -144,7 +144,7 @@ public class GameMap {
                                     mapSize, ArithmeticActions.DIV),
                                 UtilityMethods.preciseArithmetics(-portal_y * 2 + tileHeight + mapSize,
                                     mapSize, ArithmeticActions.DIV)).snap(),
-                            Globals.getDefaultDimension()
+                            Defaults.getDimension()
                         );
                 State.getInstance().addPortal(portal);
 

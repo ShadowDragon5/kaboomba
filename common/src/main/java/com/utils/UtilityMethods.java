@@ -1,7 +1,7 @@
 package com.utils;
 
 import com.core.enums.ArithmeticActions;
-import com.core.Globals;
+import com.core.Defaults;
 import com.core.enums.PlayerColors;
 
 public class UtilityMethods {
@@ -12,7 +12,7 @@ public class UtilityMethods {
                 return pColor;
             }
         }
-        return Globals.defaultPlayerColor;
+        return Defaults.playerColor;
     }
 
     public static float preciseArithmetics(float a, float b, ArithmeticActions action) {

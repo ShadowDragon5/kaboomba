@@ -1,6 +1,6 @@
 package com.utils;
 
-import com.core.Globals;
+import com.core.Defaults;
 import com.entities.GameObject;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
@@ -16,29 +16,29 @@ import java.awt.Color;
 import static org.lwjgl.opengl.GL11.*;
 
 public class TextureLoader {
-    private static HashMap<String, Drawable> textures = new HashMap<>();
+    private static HashMap<String, Texture> textures = new HashMap<>();
 
-    public static Drawable getTexture(GameObject gameObject) {
+    public static Texture getTexture(GameObject gameObject) {
         return getTexture(gameObject.getTextureFile());
     }
 
-    public static Drawable getTexture(String textureKey) {
+    public static Texture getTexture(String textureKey) {
         if (textures.containsKey(textureKey)) {
             return textures.get(textureKey);
         }
 
-        Drawable drawable;
+        Texture texture;
 
-        if (textureKey.equals(Globals.defaultColor)) {
-            drawable = new ColoredSquare(Color.MAGENTA);
+        if (textureKey.equals(Defaults.color)) {
+            texture = new ColoredSquare(Color.MAGENTA);
         } else {
             BufferedImage image = loadImage(textureKey);
-            drawable = new Texture(loadTexture(image));
+            texture = new Sprite(loadTexture(image));
         }
 
-        textures.put(textureKey, drawable);
+        textures.put(textureKey, texture);
 
-        return drawable;
+        return texture;
     }
 
 

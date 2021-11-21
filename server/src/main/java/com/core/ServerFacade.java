@@ -3,12 +3,17 @@ package com.core;
 import com.commands.*;
 import com.core.enums.ClientAction;
 import com.core.enums.ServerAction;
-import com.entities.GameMap;
 import com.entities.GameObject;
+import com.entities.GameMap;
 import com.entities.InitialServerResponse;
 import com.entities.players.Player;
 import com.entities.tiles.Wall;
 import com.esotericsoftware.kryonet.Connection;
+import com.filters.BlockListRequestHandler;
+import com.filters.LogRequestHandler;
+import com.filters.ProcessRequestHandler;
+import com.filters.ValidationRequestHandler;
+
 import java.util.*;
 
 public class ServerFacade {
@@ -16,7 +21,7 @@ public class ServerFacade {
     private final Stack<UndoableCommand> undoableCommands = new Stack<>();
     private final Queue<Command> queuedCommands;
     private final ServerState serverState;
-    private final GameMap gameMap;
+    private final ProxyCommandAggregator proxyCommandAggregator;
 
     public Queue<Command> getQueuedCommands() {
         return queuedCommands;
@@ -26,10 +31,12 @@ public class ServerFacade {
         return serverState;
     }
 
-    public ServerFacade(Queue<Command> queuedCommands, ServerState serverState, GameMap gameMap) {
+    public ServerFacade(Queue<Command> queuedCommands, ServerState serverState) {
         this.queuedCommands = queuedCommands;
         this.serverState = serverState;
-        this.gameMap = gameMap;
+
+        CommandAggregator commandAggregator = new CommandAggregator(stateSaves, undoableCommands, queuedCommands);
+        this.proxyCommandAggregator = new ProxyCommandAggregator(commandAggregator);
     }
 
     public void connectPlayer(HashMap<Connection, String> connections, Connection connection, Object object) {
@@ -37,11 +44,11 @@ public class ServerFacade {
         connections.put(connection, player.ID);
         serverState.attach(new Client(serverState, connection, player.ID));
         serverState.getState().addPlayer(player);
-        addCommand("CLEAR_SAVES");
-        addCommand("SAVE");
+        proxyCommandAggregator.addCommand("CLEAR_SAVES");
+        proxyCommandAggregator.addCommand("SAVE");
 
         String mapJson = String.format("%s;%s", ServerAction.GAME_INIT,
-                Globals.gson.toJson(new InitialServerResponse(gameMap, player.ID)));
+                Defaults.gson.toJson(new InitialServerResponse(GameMap.getInstance(), player.ID)));
         connection.sendTCP(mapJson);
     }
 
@@ -62,7 +69,7 @@ public class ServerFacade {
                     serverState.getState().getBoxes().forEach(player::collides);
                     serverState.getState().getExplosions().forEach(player::collides);
                     new ArrayList<GameObject>(serverState.getState().getPits()).forEach(player::collides);
-                    gameMap.getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
+                    GameMap.getInstance().getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
                     new ArrayList<GameObject>(serverState.getState().getPowerups()).forEach(player::collides);
                 });
 
@@ -77,64 +84,7 @@ public class ServerFacade {
         }, 0, 10);
     }
 
-    public void addCommand(ClientAction clientAction, Player playerToUpdate) {
-        if(playerToUpdate.isDead())
-            return;
-
-        Command command = null;
-        switch (clientAction) {
-            case MOVE_UP:
-                command = new MoveUpCommand(playerToUpdate);
-                break;
-            case MOVE_DOWN:
-                command = new MoveDownCommand(playerToUpdate);
-                break;
-            case MOVE_LEFT:
-                command = new MoveLeftCommand(playerToUpdate);
-                break;
-            case MOVE_RIGHT:
-                command = new MoveRightCommand(playerToUpdate);
-                break;
-            case PLANT_BOMB:
-                command = new PlantBombCommand(playerToUpdate);
-                break;
-            case PLANT_PIT:
-                command = new PlantPitCommand(playerToUpdate);
-                break;
-            case PLANT_SHIELD:
-                command = new PlantShieldCommand(playerToUpdate);
-                break;
-            case SAVE:
-                command = new SaveCommand(stateSaves);
-                break;
-            case LOAD:
-                command = new LoadCommand(stateSaves);
-                break;
-            case UNDO:
-                command = new UndoCommand(undoableCommands);
-                break;
-        }
-        if (command != null)
-            queuedCommands.add(command);
-    }
-
-    public void addCommand(String action) {
-        Command command = null;
-        switch (action) {
-            case "CLEAR_SAVES":
-                command = new ClearSavesCommand(stateSaves);
-                break;
-            case "SAVE":
-                command = new SaveCommand(stateSaves);
-                break;
-            case "LOAD":
-                command = new LoadCommand(stateSaves);
-                break;
-            case "UNDO":
-                command = new UndoCommand(undoableCommands);
-                break;
-        }
-        if (command != null)
-            queuedCommands.add(command);
+    public ProxyCommandAggregator getProxyCommandAggregator() {
+        return proxyCommandAggregator;
     }
 }

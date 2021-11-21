@@ -1,6 +1,7 @@
 package com.commands;
 
 import com.core.State;
+import com.core.Defaults;
 import com.entities.players.Player;
 import com.entities.shields.Shield;
 import com.factories.player.PlayersAbstractFactory;
@@ -19,10 +20,14 @@ public class PlantShieldCommand implements Command {
 
     @Override
     public void execute() {
+        if (player.getShieldsPlanted() >= Defaults.playerShields)
+            return;
         Shield shield = playerFactory.createShield(player);
+        player.setShieldsPlanted(player.getShieldsPlanted() + 1);
         state.addShield(shield);
         scheduleTask(() -> {
             state.removeShield(shield);
+            player.setShieldsPlanted(player.getShieldsPlanted() - 1);
             return null;
         }, "Shield_Timer", shield.getLifespan());
     }

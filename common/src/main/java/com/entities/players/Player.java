@@ -2,6 +2,7 @@ package com.entities.players;
 
 import com.core.enums.Direction;
 import com.core.State;
+import com.core.Defaults;
 import com.entities.bomb.BombExplosion;
 import com.entities.pits.Pit;
 import com.entities.tiles.Box;
@@ -14,10 +15,12 @@ import com.factories.player.PlayersAbstractFactory;
 public abstract class Player extends GameObject {
 
     private float speed = 0.01f;
-    private int health = 3;
+    private int health = Defaults.playerHealth;
     private final int bombPower = 1;
     private final int bombAmmo = 1;
     private int bombsPlanted = 0;
+    private int pitsPlanted = 0;
+    private int shieldsPlanted = 0;
     private int score = 0;
 
     private long lastTimeTeleported;
@@ -116,6 +119,22 @@ public abstract class Player extends GameObject {
         this.bombsPlanted = bombsPlanted;
     }
 
+    public int getPitsPlanted() {
+        return pitsPlanted;
+    }
+
+    public void setPitsPlanted(int pitsPlanted) {
+        this.pitsPlanted = pitsPlanted;
+    }
+
+    public int getShieldsPlanted() {
+        return shieldsPlanted;
+    }
+
+    public void setShieldsPlanted(int shieldsPlanted) {
+        this.shieldsPlanted = shieldsPlanted;
+    }
+
     public void setLastTimeTeleported(long lastTimeTeleported) {
         this.lastTimeTeleported = lastTimeTeleported;
     }
@@ -132,7 +151,7 @@ public abstract class Player extends GameObject {
 
         this.lastDamageReceived = currentTime;
         this.health--;
-        this.addScore(-500);
+        this.addScore(Defaults.scoreReceiveDamage);
         return true;
     }
 
@@ -157,7 +176,7 @@ public abstract class Player extends GameObject {
         if(object instanceof BombExplosion) {
             String initiatorId = object.getInitiatorId();
             if (decreaseHealth() && initiatorId != this.ID) {
-                State.getInstance().getPlayer(initiatorId).addScore(1000);
+                State.getInstance().getPlayer(initiatorId).addScore(Defaults.scoreDealDamage);
             }
         }
         if(object instanceof Pit) {

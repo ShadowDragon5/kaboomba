@@ -18,13 +18,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 // collection of global variables
-public class Globals {
-    private static float defaultDimension = 0.1f;
+public class Defaults {
+    private static float dimension = 0.1f;
 
-    public final static int defaultExplosionSize = 1;
-    public final static String defaultColor = "RED";
+    public final static String color = "RED";
+    public final static PlayerColors playerColor = PlayerColors.BLUE;
 
-    public static PlayerColors defaultPlayerColor = PlayerColors.BLUE;
+    public static int playerHealth = 3;
+    public static int playerPits = 2;
+    public static int playerShields = 2;
+
+    public static int scoreBox = 50;
+    public static int scoreReceiveDamage = -500;
+    public static int scoreDealDamage = 1000;
+    public static int scorePortalCost = -100;
+
     // Register gson custom serializers/deserializers
     public static Gson gson = (new GsonBuilder()
         .registerTypeAdapter(Tile.class, new CustomJsonAdapter<Tile>())
@@ -41,11 +49,11 @@ public class Globals {
         .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
     ).create();
 
-    public static float getDefaultDimension() {
-        return defaultDimension;
+    public static float getDimension() {
+        return dimension;
     }
 
-    public static void setDefaultDimension(float dimension) {
-        Globals.defaultDimension = dimension;
+    public static void setDimension(float dimension) {
+        Defaults.dimension = dimension;
     }
 }
