@@ -2,7 +2,9 @@ package com.core;
 
 import com.entities.*;
 import com.entities.bomb.BombExplosion;
+import com.entities.boss.BombBoss;
 import com.entities.pits.Pit;
+import com.entities.players.BossPlayer;
 import com.entities.players.NullPlayer;
 import com.entities.players.Player;
 import com.entities.shields.Shield;
@@ -22,6 +24,9 @@ public class State {
     private final List<GameObject> bombs = Collections.synchronizedList(new ArrayList<>());
     private final List<GameObject> shields = Collections.synchronizedList(new ArrayList<>());
     private final List<GameObject> pits = Collections.synchronizedList(new ArrayList<>());
+
+    // Bots
+    private final List<Player> bosses = Collections.synchronizedList(new ArrayList<>());
 
     // Explosion
     private final List<GameObject> explosions = Collections.synchronizedList(new ArrayList<>());
@@ -60,6 +65,10 @@ public class State {
 
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public void addBoss(BossPlayer player) {
+        bosses.add(player);
     }
 
     public List<GameObject> getBoxes() {
@@ -126,7 +135,12 @@ public class State {
     }
 
     public void removeBox(GameObject box) {
+
         removeFromList(getBoxes(), box.ID);
+
+        if(getBoxes().size() == 0) {
+            addBoss(new BombBoss());
+        }
     }
 
     public void removeBomb(GameObject bomb) {
@@ -165,5 +179,9 @@ public class State {
 
     public void removeFromList(List<GameObject> objects, String id) {
         objects.removeIf(it->it.ID.equals(id));
+    }
+
+    public List<Player> getBosses() {
+        return bosses;
     }
 }

@@ -8,6 +8,7 @@ public class DestroyBox extends BoxExplosion {
 
     @Override
     public void explosionEffect(Box box) {
-        State.getInstance().removeBox(box);
+//        State.getInstance().removeBox(box);
+        System.out.println("Box is destroyed");
     }
 }

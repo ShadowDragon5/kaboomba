@@ -1,5 +1,7 @@
 package com.entities.boss;
 
 public abstract class BossState {
-    abstract void handleBossActions();
+    public abstract void handleBossActions();
+    public abstract void nextState(BombBoss boss);
+    public abstract void previousState(BombBoss boss);
 }

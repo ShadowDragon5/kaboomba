@@ -7,7 +7,7 @@ public class HardLevel extends Level {
     @Override
     protected void loadMap() {
         // TODO add harder map
-        GameMap.getInstance().loadMap("src/main/resources/map1.tmx");
+        GameMap.getInstance().loadMap("src/main/resources/map2.tmx");
     }
 
     @Override

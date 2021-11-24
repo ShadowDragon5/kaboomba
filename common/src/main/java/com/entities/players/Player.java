@@ -166,7 +166,7 @@ public abstract class Player extends GameObject {
 
     @Override
     public void onCollision(GameObject object) {
-        if (object instanceof Box || object instanceof Wall) {
+        if (object instanceof Box || object instanceof Wall || object instanceof BossPlayer) {
             this.setPosition(oldPosition.clone().snap());
         }
         if(object instanceof PowerUp) {
