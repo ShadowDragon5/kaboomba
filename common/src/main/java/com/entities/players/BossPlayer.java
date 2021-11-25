@@ -40,7 +40,7 @@ public class BossPlayer extends Player {
 
     @Override
     public String getTextureFile() {
-        return Defaults.color;
+        return "src/main/resources/bomb.png";
     }
 
     public BossState getBossState() {
