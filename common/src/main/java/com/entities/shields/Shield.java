@@ -12,7 +12,6 @@ public class Shield extends GameObject implements WithLifespan {
     }
 
     public Shield() {
-
     }
 
     @Override
@@ -23,5 +22,10 @@ public class Shield extends GameObject implements WithLifespan {
     @Override
     public Long getLifespan() {
         return lifespan;
+    }
+
+    @Override
+    public void setLifespan(Long lifespan) {
+        this.lifespan = lifespan;
     }
 }

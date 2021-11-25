@@ -10,7 +10,7 @@ public class DamageBox extends BoxExplosion {
     @Override
     public void explosionEffect(Box box) {
         var damagedBox = new DamagedBox(box.getPosition().clone().snap());
-        State.getInstance().removeBox(box);
         State.getInstance().addBox(damagedBox);
+        State.getInstance().removeBox(box);
     }
 }

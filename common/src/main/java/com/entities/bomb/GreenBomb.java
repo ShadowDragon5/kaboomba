@@ -9,11 +9,10 @@ import java.awt.*;
 import static com.utils.Scheduler.scheduleTask;
 
 public class GreenBomb extends Bomb {
-    public GreenBomb(){
 
-    }
     public GreenBomb(Position position) {
         super(position);
+        setLifespan(4000l);
     }
 
     @Override
@@ -25,11 +24,6 @@ public class GreenBomb extends Bomb {
             handleExplosion();
             return null;
         }, "Explosion_Timer", 2300l);
-    }
-
-    @Override
-    public Long getLifespan() {
-        return 4000l;
     }
 
     @Override

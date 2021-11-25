@@ -10,7 +10,7 @@ import com.entities.tiles.Wall;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class RandomPortal extends Portal{
+public class RandomPortal extends Portal {
 
     public RandomPortal(Position position) {
         super(position);

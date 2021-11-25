@@ -15,7 +15,7 @@ import com.factories.player.PlayersAbstractFactory;
 public abstract class Player extends GameObject {
 
     private float speed = 0.01f;
-    private int health = Defaults.playerHealth;
+    protected int health = Defaults.playerHealth;
     private final int bombPower = 1;
     private final int bombAmmo = 1;
     private int bombsPlanted = 0;
@@ -25,6 +25,9 @@ public abstract class Player extends GameObject {
 
     private long lastTimeTeleported;
     private String name;
+    private Position oldPosition;
+    private long lastDamageReceived;
+
 
     public String getName() {
         return name;
@@ -33,9 +36,6 @@ public abstract class Player extends GameObject {
     public void setName(String name) {
         this.name = name;
     }
-
-    private Position oldPosition;
-    private long lastDamageReceived;
 
     public Player() {
         super();
@@ -166,7 +166,7 @@ public abstract class Player extends GameObject {
 
     @Override
     public void onCollision(GameObject object) {
-        if (object instanceof Box || object instanceof Wall) {
+        if (object instanceof Box || object instanceof Wall || object instanceof BossPlayer) {
             this.setPosition(oldPosition.clone().snap());
         }
         if(object instanceof PowerUp) {

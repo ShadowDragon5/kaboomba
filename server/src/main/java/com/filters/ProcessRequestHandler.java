@@ -21,7 +21,7 @@ public class ProcessRequestHandler extends RequestHandler {
 
     @Override
     public void handleRequest(Connection connection, Object object) {
-        System.out.println("ProcessRequestHandler");
+        // System.out.println("ProcessRequestHandler");
         String[] contents = String.valueOf(object).split(";");
         ClientAction clientAction = ClientAction.valueOf(contents[0]);
 

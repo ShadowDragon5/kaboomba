@@ -4,6 +4,7 @@ import com.core.enums.PlayerColors;
 import com.entities.*;
 import com.entities.bomb.Bomb;
 import com.entities.bomb.BombExplosion;
+import com.entities.boss.BossState;
 import com.entities.pits.Pit;
 import com.entities.players.Player;
 import com.entities.portals.Portal;
@@ -46,6 +47,7 @@ public class Defaults {
         .registerTypeAdapter(BombExplosion.class, new CustomJsonAdapter<BombExplosion>())
         .registerTypeAdapter(PowerUp.class, new CustomJsonAdapter<PowerUp>())
         .registerTypeAdapter(PowerUpDecorator.class, new CustomJsonAdapter<PowerUpDecorator>())
+        .registerTypeAdapter(BossState.class, new CustomJsonAdapter<BossState>())
         .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
     ).create();
 

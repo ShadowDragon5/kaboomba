@@ -67,12 +67,14 @@ public class GameRenderer {
 
         drawTexturedElements(state.getPortals());
         drawTexturedElements(state.getBombs());
-        drawTexturedElements(state.getShields());
         drawTexturedElements(state.getPits());
         drawTexturedElements(state.getBoxes());
         drawTexturedElements(state.getPowerups());
         drawTexturedElements(state.getExplosions());
+        drawTexturedElements(state.getShields());
+        drawTexturedElements(state.getBosses());
         drawPlayersLives(state.getPlayers());
+        drawPlayersLives(state.getBosses());
         drawTexturedElements(state.getPlayers());
 
         glfwSwapBuffers(window); // swap the color buffers

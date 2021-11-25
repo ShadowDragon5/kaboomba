@@ -7,12 +7,12 @@ public class HardLevel extends Level {
     @Override
     protected void loadMap() {
         // TODO add harder map
-        GameMap.getInstance().loadMap("src/main/resources/map1.tmx");
+        GameMap.getInstance().loadMap("src/main/resources/map2.tmx");
     }
 
     @Override
     protected void setVariables() {
-        Defaults.playerHealth = 2;
+        Defaults.playerHealth = 6;
         Defaults.playerPits = 1;
         Defaults.playerShields = 1;
 

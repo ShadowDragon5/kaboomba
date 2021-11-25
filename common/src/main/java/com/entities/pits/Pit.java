@@ -6,7 +6,9 @@ import com.entities.Position;
 import com.entities.players.Player;
 
 public class Pit extends GameObject implements WithLifespan {
+
     private Long lifespan = 2000L;
+
     public Pit(Position position) {
         super(position);
     }
@@ -22,4 +24,10 @@ public class Pit extends GameObject implements WithLifespan {
     public Long getLifespan() {
         return lifespan;
     }
+
+    @Override
+    public void setLifespan(Long lifespan) {
+        this.lifespan = lifespan;
+    }
+
 }
