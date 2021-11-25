@@ -6,13 +6,10 @@ import com.entities.Position;
 import java.awt.*;
 
 public class BlueBomb extends Bomb {
+
     public BlueBomb(Position position) {
         super(position);
-    }
-
-    @Override
-    public Long getLifespan() {
-        return 1500l;
+        setLifespan(1500l);
     }
 
     @Override

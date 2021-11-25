@@ -8,6 +8,10 @@ public class BaseBombExplosion extends BombExplosion {
         super(position, direction);
     }
 
+    public BaseBombExplosion(Position position, ExplosionDirection direction, String initiatorId) {
+        super(position, direction, initiatorId);
+    }
+
     @Override
     protected String getCenterTexture() {
         return "src/main/resources/explosion_center.png";

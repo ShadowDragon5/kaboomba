@@ -19,7 +19,7 @@ public class BombExplosionController {
     public ArrayList<BombExplosion> createExplosion(Bomb bomb) {
 
         var explosions = new ArrayList<BombExplosion>();
-        explosions.add(bomb.createExplosion(bomb.getPosition(), ExplosionDirection.CENTER));
+        explosions.add(bomb.createExplosion(bomb.getPosition().snap(), ExplosionDirection.CENTER));
 
         explosions.addAll(generateExplosions(Direction.UP, bomb));
         explosions.addAll(generateExplosions(Direction.LEFT, bomb));

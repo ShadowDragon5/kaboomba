@@ -7,12 +7,9 @@ import java.awt.*;
 
 public class BaseBomb extends Bomb {
 
-    public BaseBomb() {
-
-    }
-
     public BaseBomb(Position position) {
         super(position.snap());
+        setLifespan(4000L);
     }
 
     @Override
@@ -27,11 +24,8 @@ public class BaseBomb extends Bomb {
 
     @Override
     public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
-        return new BaseBombExplosion(position, direction);
-    }
-
-    @Override
-    public Long getLifespan() {
-        return 4000L;
+        if (initiatorId == null)
+            return new BaseBombExplosion(position, direction);
+        return new BaseBombExplosion(position, direction, initiatorId);
     }
 }

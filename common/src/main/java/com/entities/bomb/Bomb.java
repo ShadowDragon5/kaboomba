@@ -16,14 +16,13 @@ public abstract class Bomb extends GameObject implements WithLifespan {
     BombExplosionController bombExplosionController = new BombExplosionController();
     private float bombPower = 1;
 
-    private final Long lifespan = 2000L;
+    private Long lifespan = 2000L;
 
     public Bomb() {
-
     }
 
     public Bomb(Position position) {
-        super(position);
+        super(position.clone());
     }
 
     @Override
@@ -34,6 +33,11 @@ public abstract class Bomb extends GameObject implements WithLifespan {
     @Override
     public Long getLifespan() {
         return lifespan;
+    }
+
+    @Override
+    public void setLifespan(Long lifespan) {
+        this.lifespan = lifespan;
     }
 
     public abstract BombExplosion createExplosion(Position position, ExplosionDirection direction);

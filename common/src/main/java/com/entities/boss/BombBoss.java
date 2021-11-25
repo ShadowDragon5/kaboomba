@@ -5,7 +5,7 @@ import com.entities.players.BossPlayer;
 public class BombBoss extends BossPlayer {
 
     public BombBoss() {
-        this.setBossState(new IdleBossState());
+        this.setBossState(new FirstPhase(this.ID));
         this.setPosition(this.getPosition().clone().snap());
     }
 }

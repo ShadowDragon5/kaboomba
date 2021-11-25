@@ -8,6 +8,7 @@ import com.entities.Position;
 public abstract class BombExplosion extends GameObject implements WithLifespan {
 
     private ExplosionDirection direction;
+    protected Long lifespan = 2000L; 
 
     public BombExplosion (Position position, ExplosionDirection direction) {
         super(position);
@@ -22,7 +23,12 @@ public abstract class BombExplosion extends GameObject implements WithLifespan {
 
     @Override
     public Long getLifespan() {
-        return 2000L;
+        return lifespan;
+    }
+
+    @Override
+    public void setLifespan(Long lifespan) {
+        this.lifespan = lifespan;
     }
 
     @Override

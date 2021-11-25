@@ -97,6 +97,17 @@ public class State {
                 .findFirst().orElse(new NullPlayer(id));
     }
 
+    public BossPlayer getBoss(String id) {
+        // may cause problems in the future
+        return (BossPlayer)getBosses().stream()
+                .filter(it -> it.ID.equals(id))
+                .findFirst().orElse(new NullPlayer(id));
+    }
+
+    public void removeBoss(String id) {
+        getBosses().removeIf(it->it.ID.equals(id));
+    }
+
     public void replacePlayer(Player oldPlayer, Player newPlayer) {
         removePlayer(oldPlayer.ID);
         addPlayer(newPlayer);
@@ -135,7 +146,6 @@ public class State {
     }
 
     public void removeBox(GameObject box) {
-
         removeFromList(getBoxes(), box.ID);
 
         if(getBoxes().size() == 0) {
