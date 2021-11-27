@@ -2,10 +2,16 @@ package com.entities.powerups;
 
 import com.entities.Position;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BombAmmoPowerUpTest {
-    BombAmmoPowerUp powerUp = new BombAmmoPowerUp(new Position());
+    private BombAmmoPowerUp powerUp;
+
+    @BeforeEach
+    public void beforeEach() {
+        powerUp = new BombAmmoPowerUp(new Position());
+    }
 
     @Test
     void shouldReturnCorrectDefaultCorrectTextureFile() {

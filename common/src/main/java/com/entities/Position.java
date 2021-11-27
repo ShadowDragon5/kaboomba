@@ -18,7 +18,6 @@ public class Position {
         this.y = y;
     }
 
-
     public float getX() {
         return x;
     }
