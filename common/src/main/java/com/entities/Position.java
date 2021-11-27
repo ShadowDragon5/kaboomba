@@ -58,6 +58,10 @@ public class Position {
         return this;
     }
 
+    public Position distanceManhattan(Position otherPos) {
+        return new Position(this.x - otherPos.getX(), this.y - otherPos.getY());
+    }
+
     @Override
     public String toString() {
         return String.format("x: %s, y:%s", getX(), getY());

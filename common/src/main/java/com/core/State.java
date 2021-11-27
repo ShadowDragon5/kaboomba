@@ -51,6 +51,7 @@ public class State {
         this.boxes.forEach(it->newState.addBox(it));
         this.powerups.forEach(it->newState.addPowerup(it));
         this.portals.forEach(it->newState.addPortal(it));
+        this.bosses.forEach(it->newState.addBoss((BossPlayer)it.clone()));
 
         return newState;
     }
@@ -101,7 +102,7 @@ public class State {
         // may cause problems in the future
         return (BossPlayer)getBosses().stream()
                 .filter(it -> it.ID.equals(id))
-                .findFirst().orElse(new NullPlayer(id));
+                .findFirst().orElse(null);
     }
 
     public void removeBoss(String id) {

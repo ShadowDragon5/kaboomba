@@ -11,40 +11,32 @@ public class SecondPhase extends BossState {
     public SecondPhase(String bossID) {
         super(bossID);
         minInterval = 5000l;
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-        boss.setHealth(5);
+        speed = 0.005f;
     }
 
     @Override
     public void handleBossActions() {
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-
-        var r = new Random();
-        boss.move(Direction.values()[r.nextInt(4)]);
-
-        if (!canExplode())
-            return;
-
-        var b = new BaseBomb(boss.getPosition());
-        b.setInitiatorId(bossID);
-        b.setBombPower(3);
-        state.addBomb(b);
-        b.explode();
-
-        timer = System.currentTimeMillis();
+        move();
+        boom(3);
     }
 
     @Override
     public void nextState() {
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-        boss.setBossState(new ThirdPhase(bossID));
+        var boss = State.getInstance().getBoss(bossID);
+        if (boss.getHealth() == 14)
+            previousState();
+        if(boss.getHealth() == 10)
+            boss.setBossState(new ThirdPhase(bossID));
     }
 
     @Override
     public void previousState() {
-        System.out.println("There is not way to go back");
+        var boss = State.getInstance().getBoss(bossID);
+        boss.setBossState(new FirstPhase(bossID));
+    }
+
+    @Override
+    public String bossStateTexture() {
+        return "src/main/resources/bomb_blue.png";
     }
 }

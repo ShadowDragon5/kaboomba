@@ -27,9 +27,9 @@ public class BluePit extends Pit{
 
         State.getInstance().removePit(this);
         scheduleTask(() -> {
-
             System.out.println("Freeze finished. Speed = " + playerSpeed);
-            player.setSpeed(trueSpeed);
+            if (player.getSpeed() == 0)
+                player.setSpeed(trueSpeed);
             return null;
         }, "PlayerFreeze_Timer", this.getLifespan());
     }

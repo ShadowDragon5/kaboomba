@@ -25,7 +25,7 @@ public abstract class Player extends GameObject {
 
     private long lastTimeTeleported;
     private String name;
-    private Position oldPosition;
+    protected Position oldPosition;
     private long lastDamageReceived;
 
 
@@ -166,7 +166,7 @@ public abstract class Player extends GameObject {
 
     @Override
     public void onCollision(GameObject object) {
-        if (object instanceof Box || object instanceof Wall || object instanceof BossPlayer) {
+        if (object instanceof Box || object instanceof Wall) {
             this.setPosition(oldPosition.clone().snap());
         }
         if(object instanceof PowerUp) {

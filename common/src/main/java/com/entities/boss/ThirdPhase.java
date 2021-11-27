@@ -14,9 +14,7 @@ public class ThirdPhase extends BossState {
     public ThirdPhase(String bossID) {
         super(bossID);
         minInterval = 4000l;
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-        boss.setHealth(4);
+        speed = 0.005f;
     }
 
     @Override
@@ -24,19 +22,10 @@ public class ThirdPhase extends BossState {
         var state = State.getInstance();
         var boss = state.getBoss(bossID);
 
-        var r = new Random();
-        boss.move(Direction.values()[r.nextInt(4)]);
-
+        move();
         if (!canExplode())
             return;
-
-        var b = new BaseBomb(boss.getPosition());
-        b.setInitiatorId(bossID);
-        b.setBombPower(3);
-        state.addBomb(b);
-        b.explode();
-
-        timer = System.currentTimeMillis();
+        boom(3);
 
         // TODO Juliui pagrazinti
         var pos = boss.getPosition().clone().snap();
@@ -75,13 +64,20 @@ public class ThirdPhase extends BossState {
 
     @Override
     public void nextState() {
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-        boss.setBossState(new FourthPhase(bossID));
+        var boss = State.getInstance().getBoss(bossID);
+        if (boss.getHealth() == 6 || boss.getHealth() == 2)
+            boss.setBossState(new FourthPhase(bossID));
+
     }
 
     @Override
     public void previousState() {
-        System.out.println("There is not way to go back");
+        var boss = State.getInstance().getBoss(bossID);
+        boss.setBossState(new SecondPhase(bossID));;
+    }
+
+    @Override
+    public String bossStateTexture() {
+        return "src/main/resources/bomb_green.png";
     }
 }

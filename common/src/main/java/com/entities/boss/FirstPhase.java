@@ -13,30 +13,24 @@ public class FirstPhase extends BossState {
 
     @Override
     public void handleBossActions() {
-        if (!canExplode())
-            return;
-
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-
-        var b = new BaseBomb(boss.getPosition());
-        b.setInitiatorId(bossID);
-        b.setBombPower(2);
-        state.addBomb(b);
-        b.explode();
-
-        timer = System.currentTimeMillis();
+        boom(2);
     }
 
     @Override
     public void nextState() {
         var state = State.getInstance();
         var boss = state.getBoss(bossID);
-        boss.setBossState(new SecondPhase(bossID));
+        if (boss.getHealth() == 17 || boss.getHealth() == 12)
+            boss.setBossState(new SecondPhase(bossID));
     }
 
     @Override
     public void previousState() {
         System.out.println("There is not way to go back");
+    }
+
+    @Override
+    public String bossStateTexture() {
+        return super.bossStateTexture();
     }
 }

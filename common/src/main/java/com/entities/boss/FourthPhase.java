@@ -11,20 +11,13 @@ public class FourthPhase extends BossState {
 
     public FourthPhase(String bossID) {
         super(bossID);
-        minInterval = 7000l;
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-        boss.setSpeed(0.015f);
-        boss.setHealth(3);
+        minInterval = 6000l;
+        speed = 0.015f;
     }
 
     @Override
     public void handleBossActions() {
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-
-        var r = new Random();
-        boss.move(Direction.values()[r.nextInt(4)]);
+        move();
 
         long currentTime = System.currentTimeMillis();
         switch(explosionCount) {
@@ -53,7 +46,21 @@ public class FourthPhase extends BossState {
 
     }
 
-    private void boom(int power) {
+    @Override
+    public void nextState() {
+        var boss = State.getInstance().getBoss(bossID);
+        if (boss.getHealth() == 4)
+            previousState();
+    }
+
+    @Override
+    public void previousState() {
+        var boss = State.getInstance().getBoss(bossID);
+        boss.setBossState(new ThirdPhase(bossID));
+    }
+
+    @Override
+    protected void boom(int power) {
         var state = State.getInstance();
         var boss = state.getBoss(bossID);
 
@@ -62,17 +69,12 @@ public class FourthPhase extends BossState {
         b.setBombPower(power);
         state.addBomb(b);
         b.explode();
+
+        timer = System.currentTimeMillis();
     }
 
     @Override
-    public void nextState() {
-        var state = State.getInstance();
-        var boss = state.getBoss(bossID);
-        boss.setBossState(null);
-    }
-
-    @Override
-    public void previousState() {
-        System.out.println("There is not way to go back");
+    public String bossStateTexture() {
+        return "src/main/resources/bomb_red.png";
     }
 }

@@ -3,6 +3,8 @@ package com.entities.players;
 import com.entities.GameObject;
 import com.entities.bomb.BombExplosion;
 import com.entities.boss.BossState;
+import com.entities.tiles.Box;
+import com.entities.tiles.Wall;
 import com.factories.player.BossPlayerFactory;
 import com.factories.player.PlayersAbstractFactory;
 import com.core.Defaults;
@@ -15,12 +17,13 @@ public class BossPlayer extends Player {
 
     public BossPlayer() {
         super();
-        this.health = 5;
+        this.health = 20;
         this.setSpeed(0.005f);
     }
 
-    public BossPlayer(Player player) {
-        super(player);
+    public BossPlayer(BossPlayer boss) {
+        super(boss);
+        this.bossState = boss.bossState;
     }
 
     @Override
@@ -40,41 +43,44 @@ public class BossPlayer extends Player {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/bomb.png";
+        return bossState.bossStateTexture();
     }
 
     public BossState getBossState() {
         return bossState;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
     public void setBossState(BossState bossState) {
-        if (bossState == null) {
-            State.getInstance().removeBoss(this.ID);
-            return;
-        }
         this.bossState = bossState;
+        setSpeed(bossState.speed);
     }
 
     @Override
     public boolean decreaseHealth() {
         boolean decreased = super.decreaseHealth();
-        if (decreased && isDead()) {
+        if (isDead()) {
+            State.getInstance().removeBoss(this.ID);
+            return true;
+        }
+        if (decreased) {
             bossState.nextState();
         }
+
         return decreased;
     }
 
 
     @Override
     public void onCollision(GameObject object) {
-        if(object instanceof BombExplosion && object.getInitiatorId().equals(this.ID)) {
+        if(object instanceof BombExplosion) {
+            if (object.getInitiatorId().equals(this.ID)) return;
+            if (decreaseHealth()) {
+                var player = State.getInstance().getPlayer(object.getInitiatorId());
+                player.addScore(Defaults.scoreDealDamage);
+                bossState.targetPlayer = player;
+            }
             return;
         }
-
         super.onCollision(object);
     }
 }

@@ -32,16 +32,22 @@ public class GameRenderer {
         });
     }
 
-    private void drawPlayersLives(List<Player> players) {
+    private void drawPlayersLives(List<? extends Player> players) {
         players.forEach(this::drawPlayerLives);
     }
 
     private void drawPlayerLives(Player player) {
+        var n = Math.min(8, player.getHealth());
+        drawPlayerLivesLine(n, player.getPosition(), 0.1f);
+        drawPlayerLivesLine(player.getHealth() - n, player.getPosition(), 0.15f);
+    }
+
+    private void drawPlayerLivesLine(int heartCount, Position position, float height) {
         Texture heart = TextureLoader.getTexture("src/main/resources/heart.png");
-        for (int i = 0; i < player.getHealth(); i++) {
-            Position heartPosition = player.getPosition().clone();
-            heartPosition.addY(0.1f);
-            heartPosition.addX(0.05f * (i - player.getHealth() / 2f + 0.5f));
+        for (int i = 0; i < heartCount; i++) {
+            Position heartPosition = position.clone();
+            heartPosition.addY(height);
+            heartPosition.addX(0.05f * (i - heartCount / 2f + 0.5f));
             heart.draw(heartPosition, 0.05f, 0.05f);
         }
     }

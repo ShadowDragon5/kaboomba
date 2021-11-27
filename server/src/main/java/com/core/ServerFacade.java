@@ -84,16 +84,17 @@ public class ServerFacade {
             new ArrayList<GameObject>(serverState.getState().getPits()).forEach(player::collides);
             GameMap.getInstance().getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
             new ArrayList<GameObject>(serverState.getState().getPowerups()).forEach(player::collides);
-            serverState.getState().getBosses().forEach(player::collides);
         });
 
+        // Portal collisions
         new ArrayList<GameObject>(serverState.getState().getPortals()).forEach(portal -> {
             serverState.getState().getPlayers().forEach(portal::collides);
         });
 
+        // Boss collisions
         new ArrayList<GameObject>(serverState.getState().getBosses()).forEach(boss -> {
-            serverState.getState().getPlayers().forEach(boss::collides);
             serverState.getState().getExplosions().forEach(boss::collides);
+            new ArrayList<GameObject>(serverState.getState().getPits()).forEach(boss::collides);
             GameMap.getInstance().getGameObjects().stream().filter(it -> it instanceof Wall).forEach(boss::collides);
         });
     }
