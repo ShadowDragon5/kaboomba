@@ -13,7 +13,7 @@ public class GreenBombTest {
     GreenBomb bomb = new GreenBomb(new Position());
 
     @Test
-    void shouldReturnCorrectDefaultBombPower() {
+    void shouldReturnCorrectDefaultBombSettings() {
         Assertions.assertEquals(bomb.getBombPower(), 1);
     }
 
