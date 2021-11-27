@@ -2,10 +2,16 @@ package com.entities.powerups;
 
 import com.entities.Position;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class HealthyPowerUpTest {
-    HealthyPowerUp powerUp = new HealthyPowerUp(new Position());
+    private HealthyPowerUp powerUp;
+
+    @BeforeEach
+    public void beforeEach() {
+        powerUp = new HealthyPowerUp(new Position());
+    }
 
     @Test
     void shouldReturnCorrectDefaultCorrectTextureFile() {

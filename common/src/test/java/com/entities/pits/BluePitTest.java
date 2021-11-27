@@ -3,6 +3,7 @@ package com.entities.pits;
 import com.entities.Position;
 import com.entities.players.BluePlayer;
 import com.entities.players.Player;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mock;
@@ -16,24 +17,21 @@ public class BluePitTest {
     @Mock
     private BluePlayer bp;
 
-    @Test
-    void shouldReturnCorrectDefaultColor() {
-        BluePit pit = new BluePit(new Position());
-        Color correctColor = new Color(0f, 0.5f, 1f);
+    private BluePit pit;
 
-        Assertions.assertEquals(pit.getColor(), correctColor);
+    @BeforeEach
+    public void beforeEach() {
+        pit = new BluePit(new Position());
     }
 
     @Test
-    void shouldReturnCorrectDefaultCorrectTextureFile() {
-        BluePit pit = new BluePit(new Position());
-
+    void shouldReturnCorrectDefaultSettings() {
+        Assertions.assertEquals(pit.getColor(), new Color(0f, 0.5f, 1f));
         Assertions.assertEquals(pit.getTextureFile(), "src/main/resources/trap_blue.png");
     }
 
     @Test
     void shouldTriggerPit() {
-        BluePit pit = new BluePit(new Position());
         Player p = new BluePlayer();
 
         var spyP = spy(p);

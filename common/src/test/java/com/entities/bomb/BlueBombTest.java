@@ -1,25 +1,29 @@
 package com.entities.bomb;
 
-import com.core.State;
 import com.core.enums.ExplosionDirection;
 import com.entities.Position;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
 import java.awt.*;
 
-public class BlueBombTest {
+class BlueBombTest {
+    public Bomb bomb;
 
-    @Mock
-    private State state;
+    @BeforeEach
+    public void setUp() {
+        bomb = Mockito.spy(new BlueBomb(new Position()));
+    }
 
-    @Spy
-    private final BlueBomb bomb = new BlueBomb(new Position());
+    @AfterEach
+    public void tearDown() {
+        Mockito.reset(bomb);
+    }
 
     @Test
     void shouldReturnCorrectDefaultBombSettings() {
@@ -43,7 +47,6 @@ public class BlueBombTest {
     @Test
     void shouldExplode() {
         doNothing().when(bomb).handleExplosion();
-        when(State.getInstance()).thenReturn(null);
 
         bomb.explode();
 

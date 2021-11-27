@@ -1,21 +1,22 @@
 package com.entities.players;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 
 public class BluePlayerTest {
-    BluePlayer player = new BluePlayer();
+    private BluePlayer player;
 
-    @Test
-    void shouldReturnCorrectDefaultColor() {
-        Color correctColor = new Color(0f, 0f, 1f);
-        Assertions.assertEquals(player.getColor(), correctColor);
+    @BeforeEach
+    public void beforeEach() {
+        player = new BluePlayer();
     }
 
     @Test
-    void shouldReturnCorrectDefaultCorrectTextureFile() {
+    void shouldReturnCorrectDefaultSettings() {
+        Assertions.assertEquals(player.getColor(), new Color(0f, 0f, 1f));
         Assertions.assertEquals(player.getTextureFile(), "src/main/resources/blue_player.png");
     }
 }
