@@ -2,7 +2,9 @@ package com.factories.player;
 
 import com.entities.Position;
 import com.entities.bomb.Bomb;
+import com.entities.pits.Pit;
 import com.entities.players.BluePlayer;
+import com.entities.shields.Shield;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,11 @@ class BluePlayerFactoryTest {
         bluePlayer.setPosition(position);
 
         playerFactory = new BluePlayerFactory(bluePlayer);
+
+        doReturn(10).when(bluePlayer).getBombPower();
+        doReturn(position).when(bluePlayer).getPosition();
+        doReturn(position).when(position).clone();
+        doReturn(position).when(position).snap();
     }
 
     @AfterEach
@@ -39,11 +46,6 @@ class BluePlayerFactoryTest {
 
     @Test
     void createBomb() {
-        doReturn(10).when(bluePlayer).getBombPower();
-        doReturn(position).when(bluePlayer).getPosition();
-        doReturn(position).when(position).clone();
-        doReturn(position).when(position).snap();
-
         Bomb bomb = playerFactory.createBomb(bluePlayer);
 
         assertEquals(bomb.getInitiatorId(), bluePlayer.ID);
@@ -59,11 +61,28 @@ class BluePlayerFactoryTest {
 
     @Test
     void createShield() {
-        // Add similar test
+        Shield shield = playerFactory.createShield(bluePlayer);
+
+        assertEquals(shield.getInitiatorId(), bluePlayer.ID);
+        assertEquals(shield.getPosition().getX(), 10f);
+        assertEquals(shield.getPosition().getY(), 10f);
+
+        verify(bluePlayer).getPosition();
+        verify(bluePlayer.getPosition()).clone();
+        verify(bluePlayer.getPosition()).snap();
     }
+
 
     @Test
     void createPit() {
-        // Add similar test
+        Pit pit = playerFactory.createPit(bluePlayer);
+
+        assertEquals(pit.getInitiatorId(), bluePlayer.ID);
+        assertEquals(pit.getPosition().getX(), 10f);
+        assertEquals(pit.getPosition().getY(), 10f);
+
+        verify(bluePlayer).getPosition();
+        verify(bluePlayer.getPosition()).clone();
+        verify(bluePlayer.getPosition()).snap();
     }
 }
