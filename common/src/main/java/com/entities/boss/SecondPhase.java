@@ -2,7 +2,6 @@ package com.entities.boss;
 
 import com.core.State;
 
-
 public class SecondPhase extends BossState {
 
     public SecondPhase(String bossID) {
