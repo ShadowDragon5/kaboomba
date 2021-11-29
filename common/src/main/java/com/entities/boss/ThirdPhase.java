@@ -1,10 +1,7 @@
 package com.entities.boss;
 
 import com.core.Defaults;
-import com.entities.bomb.*;
 import com.core.State;
-import com.core.enums.*;
-import java.util.Random;
 import com.entities.shields.BlueShield;
 
 import static com.utils.Scheduler.scheduleTask;

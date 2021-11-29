@@ -13,7 +13,6 @@ import com.esotericsoftware.kryonet.Connection;
 import java.util.*;
 
 public class ServerFacade {
-    private final Deque<State> stateSaves = new ArrayDeque<>();
     private final Stack<UndoableCommand> undoableCommands = new Stack<>();
     private final Queue<Command> queuedCommands;
     private final ServerState serverState;
@@ -31,7 +30,7 @@ public class ServerFacade {
         this.queuedCommands = queuedCommands;
         this.serverState = serverState;
 
-        CommandAggregator commandAggregator = new CommandAggregator(stateSaves, undoableCommands, queuedCommands);
+        CommandAggregator commandAggregator = new CommandAggregator(undoableCommands, queuedCommands);
         this.proxyCommandAggregator = new ProxyCommandAggregator(commandAggregator);
     }
 

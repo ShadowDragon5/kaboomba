@@ -3,8 +3,6 @@ package com.entities.players;
 import com.entities.GameObject;
 import com.entities.bomb.BombExplosion;
 import com.entities.boss.BossState;
-import com.entities.tiles.Box;
-import com.entities.tiles.Wall;
 import com.factories.player.BossPlayerFactory;
 import com.factories.player.PlayersAbstractFactory;
 import com.core.Defaults;

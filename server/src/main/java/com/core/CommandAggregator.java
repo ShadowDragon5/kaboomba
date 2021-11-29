@@ -4,17 +4,17 @@ import com.commands.*;
 import com.core.enums.ClientAction;
 import com.entities.players.Player;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Queue;
 import java.util.Stack;
 
 public class CommandAggregator implements ICommandAggregator {
-    private final Deque<State> stateSaves;
+    private final Deque<State> stateSaves = new ArrayDeque<>();
     private final Stack<UndoableCommand> undoableCommands;
     private final Queue<Command> queuedCommands;
 
-    public CommandAggregator(Deque<State> stateSaves, Stack<UndoableCommand> undoableCommands, Queue<Command> queuedCommands) {
-        this.stateSaves = stateSaves;
+    public CommandAggregator(Stack<UndoableCommand> undoableCommands, Queue<Command> queuedCommands) {
         this.undoableCommands = undoableCommands;
         this.queuedCommands = queuedCommands;
     }

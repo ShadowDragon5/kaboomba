@@ -8,7 +8,7 @@ import java.awt.*;
 
 import static com.utils.Scheduler.scheduleTask;
 
-public class BluePit extends Pit{
+public class BluePit extends Pit {
     public BluePit(Position position) {
         super(position);
     }
@@ -27,7 +27,6 @@ public class BluePit extends Pit{
 
         State.getInstance().removePit(this);
         scheduleTask(() -> {
-            System.out.println("Freeze finished. Speed = " + playerSpeed);
             if (player.getSpeed() == 0)
                 player.setSpeed(trueSpeed);
             return null;
@@ -35,7 +34,7 @@ public class BluePit extends Pit{
     }
 
     @Override
-    public Color getColor(){
+    public Color getColor() {
         return new Color(0f,0.5f,1f);
     }
 

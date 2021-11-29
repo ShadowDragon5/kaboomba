@@ -1,9 +1,6 @@
 package com.entities.boss;
 
-import com.entities.bomb.*;
 import com.core.State;
-import com.core.enums.*;
-import java.util.Random;
 
 
 public class SecondPhase extends BossState {
