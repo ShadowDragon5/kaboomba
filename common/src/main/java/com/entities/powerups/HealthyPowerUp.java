@@ -1,11 +1,11 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public class HealthyPowerUp extends PowerUp {
 
-    public HealthyPowerUp(Position position) {
+    public HealthyPowerUp(Rectangle position) {
         super(position);
     }
 

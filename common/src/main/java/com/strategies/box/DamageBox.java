@@ -9,7 +9,7 @@ public class DamageBox extends BoxExplosion {
 
     @Override
     public void explosionEffect(Box box) {
-        var damagedBox = new DamagedBox(box.getPosition().clone().snap());
+        var damagedBox = new DamagedBox(box.getRectangle().clone().snap());
         State.getInstance().addBox(damagedBox);
         State.getInstance().removeBox(box);
     }

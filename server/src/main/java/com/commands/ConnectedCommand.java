@@ -5,7 +5,7 @@ import com.core.enums.PlayerColors;
 import com.core.State;
 import com.entities.InitialPlayerConnection;
 import com.entities.players.Player;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.factories.player.DefaultPlayerCreator;
 import com.factories.player.PlayerCreator;
 import com.utils.UtilityMethods;
@@ -36,6 +36,7 @@ public class ConnectedCommand implements Command {
         int playerCount = state.getPlayers().size() + 1;
         float playerDim = 1.5f *  player.getDimensions();
 
+        // TODO pick from spawnpoint
         float xPos = playerCount == 1 || playerCount == 4 ?
                 UtilityMethods.preciseArithmetics(-1f, playerDim, ArithmeticActions.SUM)
                 :
@@ -46,7 +47,7 @@ public class ConnectedCommand implements Command {
                 :
                 UtilityMethods.preciseArithmetics(-1f, playerDim, ArithmeticActions.SUM);
 
-        player.setPosition(new Position(xPos, yPos));
+        player.setRectangle(new Rectangle(xPos, yPos));
         execution.onExecuted(player);
     }
 }

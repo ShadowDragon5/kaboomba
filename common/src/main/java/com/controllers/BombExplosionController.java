@@ -19,7 +19,7 @@ public class BombExplosionController {
     public ArrayList<BombExplosion> createExplosion(Bomb bomb) {
 
         var explosions = new ArrayList<BombExplosion>();
-        explosions.add(bomb.createExplosion(bomb.getPosition().snap(), ExplosionDirection.CENTER));
+        explosions.add(bomb.createExplosion(bomb.getRectangle().snap(), ExplosionDirection.CENTER));
 
         explosions.addAll(generateExplosions(Direction.UP, bomb));
         explosions.addAll(generateExplosions(Direction.LEFT, bomb));
@@ -31,10 +31,10 @@ public class BombExplosionController {
 
     private ArrayList<BombExplosion> generateExplosions(Direction direction, Bomb bomb) {
         var explosions = new ArrayList<BombExplosion>();
-        Position initialPosition = bomb.getPosition();
+        Rectangle initialRectangle = bomb.getRectangle();
 
         for(int i = 1; i<bomb.getBombPower() + 1; i++) {
-            Position newPos = new Position(initialPosition.getX(), initialPosition.getY());
+            Rectangle newPos = new Rectangle(initialRectangle.getX(), initialRectangle.getY());
 
             switch (direction) {
                 case UP:
@@ -51,7 +51,7 @@ public class BombExplosionController {
                     break;
             }
 
-            GameObject object = atPosition(newPos);
+            GameObject object = atRectangle(newPos);
 
             var explosionDirection = direction == Direction.DOWN || direction == Direction.UP ?
                 ExplosionDirection.VERTICAL : ExplosionDirection.HORIZONTAL;
@@ -71,7 +71,7 @@ public class BombExplosionController {
     }
 
 
-    private GameObject atPosition(Position position) {
+    private GameObject atRectangle(Rectangle position) {
         var state = State.getInstance();
 
         // Check if at given position exists GameObject from state
@@ -80,7 +80,7 @@ public class BombExplosionController {
         gameObjects.addAll(state.getShields());
 
         GameObject gameObject = gameObjects.stream()
-                .filter(it -> it.getPosition().equals(position))
+                .filter(it -> it.getRectangle().equals(position))
                 .findFirst().orElse(null);
 
         if (gameObject != null) {
@@ -89,7 +89,7 @@ public class BombExplosionController {
 
         //Tile from GameMap
         return GameMap.getInstance().getGameObjects().stream()
-                .filter(it -> it.getPosition().equals(position))
+                .filter(it -> it.getRectangle().equals(position))
                 .findFirst().orElse(null);
     }
 }

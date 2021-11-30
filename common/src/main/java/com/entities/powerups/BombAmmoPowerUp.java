@@ -1,11 +1,11 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public class BombAmmoPowerUp extends PowerUp {
 
-    public BombAmmoPowerUp(Position position) {
+    public BombAmmoPowerUp(Rectangle position) {
         super(position);
     }
 

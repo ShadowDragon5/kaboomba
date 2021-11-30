@@ -1,14 +1,14 @@
 package com.entities.bomb;
 
 import com.core.enums.ExplosionDirection;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public class BaseBombExplosion extends BombExplosion {
-    public BaseBombExplosion(Position position, ExplosionDirection direction) {
+    public BaseBombExplosion(Rectangle position, ExplosionDirection direction) {
         super(position, direction);
     }
 
-    public BaseBombExplosion(Position position, ExplosionDirection direction, String initiatorId) {
+    public BaseBombExplosion(Rectangle position, ExplosionDirection direction, String initiatorId) {
         super(position, direction, initiatorId);
     }
 

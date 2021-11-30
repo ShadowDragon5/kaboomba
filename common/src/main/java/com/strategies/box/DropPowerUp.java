@@ -11,13 +11,13 @@ public class DropPowerUp extends BoxExplosion {
 
         var random = Math.random();
         if (random < 0.30f)
-            powerup = new SpeedPowerUp(box.getPosition().clone().snap());
+            powerup = new SpeedPowerUp(box.getRectangle().clone().snap());
         else if (random < 0.60f)
-            powerup = new BombPowerPowerUp(box.getPosition().clone().snap());
+            powerup = new BombPowerPowerUp(box.getRectangle().clone().snap());
         else if (random < 0.90f)
-            powerup = new BombAmmoPowerUp(box.getPosition().clone().snap());
+            powerup = new BombAmmoPowerUp(box.getRectangle().clone().snap());
         else
-            powerup = new HealthyPowerUp(box.getPosition().clone().snap());
+            powerup = new HealthyPowerUp(box.getRectangle().clone().snap());
 
         State.getInstance().addPowerup(powerup);
     }

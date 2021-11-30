@@ -1,13 +1,13 @@
 package com.entities.bomb;
 
 import com.core.enums.ExplosionDirection;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 import java.awt.*;
 
 public class BlueBomb extends Bomb {
 
-    public BlueBomb(Position position) {
+    public BlueBomb(Rectangle position) {
         super(position);
         setLifespan(1500l);
     }
@@ -23,7 +23,7 @@ public class BlueBomb extends Bomb {
     }
 
     @Override
-    public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
+    public BombExplosion createExplosion(Rectangle position, ExplosionDirection direction) {
         return new BlueBombExplosion(position, direction, initiatorId);
     }
 }

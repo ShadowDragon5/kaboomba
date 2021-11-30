@@ -6,6 +6,6 @@ public class BombBoss extends BossPlayer {
 
     public BombBoss() {
         this.setBossState(new FirstPhase(this.ID));
-        this.setPosition(this.getPosition().clone().snap());
+        this.setRectangle(this.getRectangle().clone().snap());
     }
 }

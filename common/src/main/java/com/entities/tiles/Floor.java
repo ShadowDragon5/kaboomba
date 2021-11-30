@@ -1,17 +1,17 @@
 package com.entities.tiles;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public class Floor extends Tile{
     public Floor() {
         super();
     }
 
-    public Floor(Position position) {
+    public Floor(Rectangle position) {
         super(position);
     }
 
-    public Floor(Position position, float dimension){
+    public Floor(Rectangle position, float dimension){
         super(position,dimension);
     }
 

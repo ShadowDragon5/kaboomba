@@ -24,9 +24,10 @@ public class ClientApplication {
         Client appClient = application.client;
 
         //Select team
-        String color = application.selectTeam();
-
-        String name = application.inputName();
+        // String color = application.selectTeam();
+        // String name = application.inputName();
+        String color = "";
+        String name = "";
 
         ClientActionListener inputListener = action -> appClient.sendTCP(action + ";");
 

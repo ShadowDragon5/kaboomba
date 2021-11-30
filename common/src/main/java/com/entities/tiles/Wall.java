@@ -1,15 +1,15 @@
 package com.entities.tiles;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public class Wall extends Tile {
 
     public Wall(){}
-    public Wall(Position position) {
+    public Wall(Rectangle position) {
         super(position);
     }
 
-    public Wall(Position position, float dimension){
+    public Wall(Rectangle position, float dimension){
         super(position,dimension);
     }
     @Override

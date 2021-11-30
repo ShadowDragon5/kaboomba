@@ -9,14 +9,14 @@ import java.util.UUID;
 
 public abstract class GameObject {
     public String ID = UUID.randomUUID().toString();
-    protected Position position;
+    protected Rectangle rectangle;
     protected float dimensions;
     protected Color color;
     protected String initiatorId;
 
 
-    public GameObject(Position position, float dimensions) {
-        this.position = position;
+    public GameObject(Rectangle rectangle, float dimensions) {
+        this.rectangle = rectangle;
         this.dimensions = dimensions;
     }
 
@@ -24,18 +24,18 @@ public abstract class GameObject {
         this.dimensions = dimensions;
     }
 
-    public GameObject(Position position) {
-        this.position = position;
+    public GameObject(Rectangle rectangle) {
+        this.rectangle = rectangle;
         this.dimensions = Defaults.getDimension();
     }
 
     public GameObject() {
         this.dimensions = Defaults.getDimension();
-        this.position = new Position();
+        this.rectangle = new Rectangle();
     }
 
-    public Position getPosition() {
-        return this.position;
+    public Rectangle getRectangle() {
+        return this.rectangle;
     }
 
     public float getDimensions() {
@@ -46,8 +46,8 @@ public abstract class GameObject {
         this.dimensions = dimensions;
     }
 
-    public void setPosition(Position p) {
-        this.position = p;
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
     }
 
     public void onCollision(GameObject object){
@@ -58,14 +58,14 @@ public abstract class GameObject {
         float tdh = this.dimensions / 2;
         float odh = other.dimensions / 2;
 
-        if (UtilityMethods.preciseArithmetics(other.position.getX(), odh, ArithmeticActions.SUM) >
-            UtilityMethods.preciseArithmetics(this.position.getX(), tdh, ArithmeticActions.MIN) &&
-            UtilityMethods.preciseArithmetics(other.position.getX(), odh, ArithmeticActions.MIN) <
-            UtilityMethods.preciseArithmetics(this.position.getX(), tdh, ArithmeticActions.SUM) &&
-            UtilityMethods.preciseArithmetics(other.position.getY(), odh, ArithmeticActions.SUM) >
-            UtilityMethods.preciseArithmetics(this.position.getY(), tdh, ArithmeticActions.MIN) &&
-            UtilityMethods.preciseArithmetics(other.position.getY(), odh, ArithmeticActions.MIN) <
-            UtilityMethods.preciseArithmetics(this.position.getY(), tdh, ArithmeticActions.SUM)){
+        if (UtilityMethods.preciseArithmetics(other.rectangle.getX(), odh, ArithmeticActions.SUM) >
+            UtilityMethods.preciseArithmetics(this.rectangle.getX(), tdh, ArithmeticActions.MIN) &&
+            UtilityMethods.preciseArithmetics(other.rectangle.getX(), odh, ArithmeticActions.MIN) <
+            UtilityMethods.preciseArithmetics(this.rectangle.getX(), tdh, ArithmeticActions.SUM) &&
+            UtilityMethods.preciseArithmetics(other.rectangle.getY(), odh, ArithmeticActions.SUM) >
+            UtilityMethods.preciseArithmetics(this.rectangle.getY(), tdh, ArithmeticActions.MIN) &&
+            UtilityMethods.preciseArithmetics(other.rectangle.getY(), odh, ArithmeticActions.MIN) <
+            UtilityMethods.preciseArithmetics(this.rectangle.getY(), tdh, ArithmeticActions.SUM)){
             onCollision(other);
             return true;
         }

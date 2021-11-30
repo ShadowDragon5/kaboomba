@@ -1,6 +1,6 @@
 package com.factories.player;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.bomb.Bomb;
 import com.entities.pits.Pit;
 import com.entities.players.BluePlayer;
@@ -22,19 +22,19 @@ class BluePlayerFactoryTest {
 
     public BluePlayer bluePlayer;
 
-    public Position position;
+    public Rectangle position;
 
     @BeforeEach
     public void setUp() {
-        position = spy(new Position(10f, 10f));
+        position = spy(new Rectangle(10f, 10f));
 
         bluePlayer = spy(new BluePlayer());
-        bluePlayer.setPosition(position);
+        bluePlayer.setRectangle(position);
 
         playerFactory = new BluePlayerFactory(bluePlayer);
 
         doReturn(10).when(bluePlayer).getBombPower();
-        doReturn(position).when(bluePlayer).getPosition();
+        doReturn(position).when(bluePlayer).getRectangle();
         doReturn(position).when(position).clone();
         doReturn(position).when(position).snap();
     }
@@ -50,13 +50,13 @@ class BluePlayerFactoryTest {
 
         assertEquals(bomb.getInitiatorId(), bluePlayer.ID);
         assertEquals(bomb.getBombPower(), 10);
-        assertEquals(bomb.getPosition().getX(), 10f);
-        assertEquals(bomb.getPosition().getY(), 10f);
+        assertEquals(bomb.getRectangle().getX(), 10f);
+        assertEquals(bomb.getRectangle().getY(), 10f);
 
         verify(bluePlayer).getBombPower();
-        verify(bluePlayer).getPosition();
-        verify(bluePlayer.getPosition(), times(2)).clone();
-        verify(bluePlayer.getPosition()).snap();
+        verify(bluePlayer).getRectangle();
+        verify(bluePlayer.getRectangle(), times(2)).clone();
+        verify(bluePlayer.getRectangle()).snap();
     }
 
     @Test
@@ -64,12 +64,12 @@ class BluePlayerFactoryTest {
         Shield shield = playerFactory.createShield(bluePlayer);
 
         assertEquals(shield.getInitiatorId(), bluePlayer.ID);
-        assertEquals(shield.getPosition().getX(), 10f);
-        assertEquals(shield.getPosition().getY(), 10f);
+        assertEquals(shield.getRectangle().getX(), 10f);
+        assertEquals(shield.getRectangle().getY(), 10f);
 
-        verify(bluePlayer).getPosition();
-        verify(bluePlayer.getPosition()).clone();
-        verify(bluePlayer.getPosition()).snap();
+        verify(bluePlayer).getRectangle();
+        verify(bluePlayer.getRectangle()).clone();
+        verify(bluePlayer.getRectangle()).snap();
     }
 
 
@@ -78,11 +78,11 @@ class BluePlayerFactoryTest {
         Pit pit = playerFactory.createPit(bluePlayer);
 
         assertEquals(pit.getInitiatorId(), bluePlayer.ID);
-        assertEquals(pit.getPosition().getX(), 10f);
-        assertEquals(pit.getPosition().getY(), 10f);
+        assertEquals(pit.getRectangle().getX(), 10f);
+        assertEquals(pit.getRectangle().getY(), 10f);
 
-        verify(bluePlayer).getPosition();
-        verify(bluePlayer.getPosition()).clone();
-        verify(bluePlayer.getPosition()).snap();
+        verify(bluePlayer).getRectangle();
+        verify(bluePlayer.getRectangle()).clone();
+        verify(bluePlayer.getRectangle()).snap();
     }
 }

@@ -2,14 +2,14 @@ package com.entities.pits;
 
 import com.core.WithLifespan;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.players.Player;
 
 public class Pit extends GameObject implements WithLifespan {
 
     private Long lifespan = 2000L;
 
-    public Pit(Position position) {
+    public Pit(Rectangle position) {
         super(position);
     }
 

@@ -2,15 +2,15 @@ package com.core;
 
 import com.entities.GameMap;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.players.*;
 import com.utils.TextureLoader;
+
 import com.utils.Texture;
 
 import java.util.List;
 
-import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
-import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class GameRenderer {
@@ -28,7 +28,7 @@ public class GameRenderer {
     private void drawTexturedElements(List<? extends GameObject> objects) {
         objects.forEach(it-> {
             Texture texture = TextureLoader.getTexture(it);
-            texture.draw(it.getPosition(), it.getDimensions(), it.getDimensions());
+            texture.draw(it.getRectangle(), it.getDimensions(), it.getDimensions());
         });
     }
 
@@ -38,24 +38,24 @@ public class GameRenderer {
 
     private void drawPlayerLives(Player player) {
         var n = Math.min(8, player.getHealth());
-        drawPlayerLivesLine(n, player.getPosition(), 0.1f);
-        drawPlayerLivesLine(player.getHealth() - n, player.getPosition(), 0.15f);
+        drawPlayerLivesLine(n, player.getRectangle(), 0.1f);
+        drawPlayerLivesLine(player.getHealth() - n, player.getRectangle(), 0.15f);
     }
 
-    private void drawPlayerLivesLine(int heartCount, Position position, float height) {
+    private void drawPlayerLivesLine(int heartCount, Rectangle position, float height) {
         Texture heart = TextureLoader.getTexture("src/main/resources/heart.png");
         for (int i = 0; i < heartCount; i++) {
-            Position heartPosition = position.clone();
-            heartPosition.addY(height);
-            heartPosition.addX(0.05f * (i - heartCount / 2f + 0.5f));
-            heart.draw(heartPosition, 0.05f, 0.05f);
+            Rectangle heartRectangle = position.clone();
+            heartRectangle.addY(height);
+            heartRectangle.addX(0.05f * (i - heartCount / 2f + 0.5f));
+            heart.draw(heartRectangle, 0.05f, 0.05f);
         }
     }
 
     public void renderMap() {
         map.getGameObjects().forEach(it-> {
             Texture texture = TextureLoader.getTexture(it);
-            texture.draw(it.getPosition(), it.getDimensions(), it.getDimensions());
+            texture.draw(it.getRectangle(), it.getDimensions(), it.getDimensions());
         });
     }
 
@@ -82,6 +82,10 @@ public class GameRenderer {
         drawPlayersLives(state.getPlayers());
         drawPlayersLives(state.getBosses());
         drawTexturedElements(state.getPlayers());
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, 320, 320, 0, -1, 1);
 
         glfwSwapBuffers(window); // swap the color buffers
     }

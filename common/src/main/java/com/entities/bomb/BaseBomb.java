@@ -1,13 +1,13 @@
 package com.entities.bomb;
 
 import com.core.enums.ExplosionDirection;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 import java.awt.*;
 
 public class BaseBomb extends Bomb {
 
-    public BaseBomb(Position position) {
+    public BaseBomb(Rectangle position) {
         super(position.snap());
         setLifespan(4000L);
     }
@@ -23,7 +23,7 @@ public class BaseBomb extends Bomb {
     }
 
     @Override
-    public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
+    public BombExplosion createExplosion(Rectangle position, ExplosionDirection direction) {
         if (initiatorId == null)
             return new BaseBombExplosion(position, direction);
         return new BaseBombExplosion(position, direction, initiatorId);

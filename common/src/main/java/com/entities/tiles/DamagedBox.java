@@ -1,12 +1,12 @@
 package com.entities.tiles;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.strategies.box.DestroyBox;
 import com.strategies.box.DropBomb;
 import com.strategies.box.DropPowerUp;
 
 public class DamagedBox extends Box {
-    public DamagedBox(Position position) {
+    public DamagedBox(Rectangle position) {
         super(position);
     }
 

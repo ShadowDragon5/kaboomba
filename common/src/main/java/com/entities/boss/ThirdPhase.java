@@ -25,25 +25,25 @@ public class ThirdPhase extends BossState {
         boom(3);
 
         // TODO Juliui pagrazinti
-        var pos = boss.getPosition().clone().snap();
+        var pos = boss.getRectangle().clone().snap();
         pos.addX(Defaults.getDimension());
         BlueShield shield1 = new BlueShield(pos);
         shield1.setInitiatorId(bossID);
         state.addShield(shield1);
 
-        pos = boss.getPosition().clone().snap();
+        pos = boss.getRectangle().clone().snap();
         pos.addX(-Defaults.getDimension());
         BlueShield shield2 = new BlueShield(pos);
         shield2.setInitiatorId(bossID);
         state.addShield(shield2);
 
-        pos = boss.getPosition().clone().snap();
+        pos = boss.getRectangle().clone().snap();
         pos.addY(Defaults.getDimension());
         BlueShield shield3 = new BlueShield(pos);
         shield3.setInitiatorId(bossID);
         state.addShield(shield3);
 
-        pos = boss.getPosition().clone().snap();
+        pos = boss.getRectangle().clone().snap();
         pos.addY(-Defaults.getDimension());
         BlueShield shield4 = new BlueShield(pos);
         shield4.setInitiatorId(bossID);

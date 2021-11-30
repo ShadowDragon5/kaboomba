@@ -1,21 +1,21 @@
 package com.entities.portals;
 
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.players.Player;
 
 public class WaypointPortal extends Portal {
 
-    private Position linkedPortalPosition;
+    private Rectangle linkedPortalRectangle;
 
-    public WaypointPortal(Position position) {
+    public WaypointPortal(Rectangle position) {
         super(position);
     }
 
     @Override
     void teleport(GameObject object) {
-        if(linkedPortalPosition == null) return;
-        object.setPosition(linkedPortalPosition.clone().snap());
+        if(linkedPortalRectangle == null) return;
+        object.setRectangle(linkedPortalRectangle.clone().snap());
         portalEffect.portalEffect((Player) object);
     }
 
@@ -24,11 +24,11 @@ public class WaypointPortal extends Portal {
         return "src/main/resources/portal_waypoint.png";
     }
 
-    public Position getLinkedPortalPosition() {
-        return linkedPortalPosition;
+    public Rectangle getLinkedPortalRectangle() {
+        return linkedPortalRectangle;
     }
 
-    public void setLinkedPortalPosition(Position linkedPortalPosition) {
-        this.linkedPortalPosition = linkedPortalPosition;
+    public void setLinkedPortalRectangle(Rectangle linkedPortalRectangle) {
+        this.linkedPortalRectangle = linkedPortalRectangle;
     }
 }

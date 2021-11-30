@@ -3,14 +3,14 @@ package com.entities.tiles;
 import com.core.State;
 import com.core.Defaults;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.bomb.BombExplosion;
 import com.strategies.box.*;
 
 public class Box extends Tile {
     private BoxExplosion boxExplosion;
 
-    public Box(Position position) {
+    public Box(Rectangle position) {
         super(position);
         randomizeExplosion();
     }
@@ -20,7 +20,7 @@ public class Box extends Tile {
         randomizeExplosion();
     }
 
-    public Box(Position position, float dimension) {
+    public Box(Rectangle position, float dimension) {
         super(position, dimension);
         randomizeExplosion();
     }
@@ -66,11 +66,11 @@ public class Box extends Tile {
     }
 
     public static class BoxBuilder {
-        private final Position position;
+        private final Rectangle position;
         private float dimension;
         private BoxExplosion boxExplosion;
 
-        public BoxBuilder(Position position) {
+        public BoxBuilder(Rectangle position) {
             this.position = position;
         }
 

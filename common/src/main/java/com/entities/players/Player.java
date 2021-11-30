@@ -7,7 +7,7 @@ import com.entities.bomb.BombExplosion;
 import com.entities.pits.Pit;
 import com.entities.tiles.Box;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.powerups.PowerUp;
 import com.entities.tiles.Wall;
 import com.factories.player.PlayersAbstractFactory;
@@ -25,7 +25,7 @@ public abstract class Player extends GameObject {
 
     private long lastTimeTeleported;
     private String name;
-    protected Position oldPosition;
+    protected Rectangle oldRectangle;
     private long lastDamageReceived;
 
 
@@ -43,8 +43,8 @@ public abstract class Player extends GameObject {
 
     public Player(Player player) {
         super();
-        this.setPosition(player.getPosition().clone());
-        this.setOldPosition(player.getOldPosition().clone());
+        this.setRectangle(player.getRectangle().clone());
+        this.setOldRectangle(player.getOldRectangle().clone());
         this.health = player.getHealth();
         this.score = player.getScore();
         this.name = player.getName();
@@ -54,30 +54,30 @@ public abstract class Player extends GameObject {
     public abstract PlayersAbstractFactory getFactory();
 
     public void move(Direction direction) {
-        setOldPosition(new Position(this.getPosition().getX(), this.getPosition().getY()));
+        setOldRectangle(new Rectangle(this.getRectangle().getX(), this.getRectangle().getY()));
 
         switch (direction) {
             case UP:
-                this.position.addY(getSpeed());
+                this.rectangle.addY(getSpeed());
                 break;
             case DOWN:
-                this.position.addY(-getSpeed());
+                this.rectangle.addY(-getSpeed());
                 break;
             case LEFT:
-                this.position.addX(-getSpeed());
+                this.rectangle.addX(-getSpeed());
                 break;
             case RIGHT:
-                this.position.addX(getSpeed());
+                this.rectangle.addX(getSpeed());
                 break;
         }
     }
 
     public abstract Player clone();
 
-    public Position getOldPosition() {
-        if (this.oldPosition == null)
-            this.oldPosition = this.position.clone();
-        return oldPosition;
+    public Rectangle getOldRectangle() {
+        if (this.oldRectangle == null)
+            this.oldRectangle = this.rectangle.clone();
+        return oldRectangle;
     }
 
     public int getScore() {
@@ -88,8 +88,8 @@ public abstract class Player extends GameObject {
         this.score += score;
     }
 
-    public void setOldPosition(Position oldPosition) {
-        this.oldPosition = oldPosition;
+    public void setOldRectangle(Rectangle oldRectangle) {
+        this.oldRectangle = oldRectangle;
     }
 
     public float getSpeed() {
@@ -167,7 +167,7 @@ public abstract class Player extends GameObject {
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Box || object instanceof Wall) {
-            this.setPosition(oldPosition.clone().snap());
+            this.setRectangle(oldRectangle.clone().snap());
         }
         if(object instanceof PowerUp) {
             State.getInstance().removePowerup(object);

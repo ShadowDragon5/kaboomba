@@ -1,6 +1,6 @@
 package com.entities.shields;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ public class BlueShieldTest {
 
     @BeforeEach
     public void beforeEach() {
-        shield = new BlueShield(new Position());
+        shield = new BlueShield(new Rectangle());
     }
 
     @Test

@@ -2,7 +2,7 @@ package com.entities.bomb;
 
 import com.core.State;
 import com.core.enums.ExplosionDirection;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 import java.awt.*;
 
@@ -10,7 +10,7 @@ import static com.utils.Scheduler.scheduleTask;
 
 public class GreenBomb extends Bomb {
 
-    public GreenBomb(Position position) {
+    public GreenBomb(Rectangle position) {
         super(position);
         setLifespan(4000l);
     }
@@ -37,7 +37,7 @@ public class GreenBomb extends Bomb {
     }
 
     @Override
-    public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
+    public BombExplosion createExplosion(Rectangle position, ExplosionDirection direction) {
         return new GreenBombExplosion(position, direction, initiatorId);
     }
 }

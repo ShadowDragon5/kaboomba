@@ -1,12 +1,12 @@
 package com.entities.pits;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.players.Player;
 
 import java.awt.*;
 
-public class GreenPit extends Pit{
-    public GreenPit(Position position) {
+public class GreenPit extends Pit {
+    public GreenPit(Rectangle position) {
         super(position);
     }
 

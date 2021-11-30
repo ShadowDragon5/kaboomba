@@ -1,7 +1,7 @@
 package com.entities.portals;
 
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.players.Player;
 import com.entities.portals.effects.PortalEffect;
 import com.entities.tiles.Tile;
@@ -11,7 +11,7 @@ public abstract class Portal extends Tile {
 
     protected PortalEffect portalEffect;
 
-    public Portal(Position position) {
+    public Portal(Rectangle position) {
         super(position);
     }
 

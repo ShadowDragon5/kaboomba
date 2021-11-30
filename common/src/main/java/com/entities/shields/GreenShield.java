@@ -1,11 +1,11 @@
 package com.entities.shields;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 
 import java.awt.*;
 
 public class GreenShield extends Shield{
-    public GreenShield(Position position) {
+    public GreenShield(Rectangle position) {
         super(position);
     }
 

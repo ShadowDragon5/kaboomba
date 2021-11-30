@@ -1,11 +1,11 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public class SpeedPowerUp extends PowerUp {
 
-    public SpeedPowerUp(Position position) {
+    public SpeedPowerUp(Rectangle position) {
         super(position);
     }
 

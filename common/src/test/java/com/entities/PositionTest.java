@@ -18,9 +18,9 @@ class PositionTest {
     @DisplayName("should snap correctly")
     @ParameterizedTest
     @MethodSource("providePositions")
-    void snap(Position positionToSpy, Position positionResult) {
-        Position spyPosition = getPositionSpy(positionToSpy);
-        Position newPosition = spyPosition.snap();
+    void snap(Rectangle positionToSpy, Rectangle positionResult) {
+        Rectangle spyPosition = getPositionSpy(positionToSpy);
+        Rectangle newPosition = spyPosition.snap();
 
         assertEquals(newPosition.getX(), positionResult.getX());
         assertEquals(newPosition.getY(), positionResult.getY());
@@ -31,9 +31,9 @@ class PositionTest {
 
     private static Stream<Arguments> providePositions() {
         return Stream.of(
-                Arguments.of(new Position(10f, 10f), new Position(10.05f, 10.05f)),
-                Arguments.of(new Position(10.3f, 10.39f), new Position(10.35f, 10.35f)),
-                Arguments.of(new Position(10.46f, 10.89f), new Position(10.45f, 10.85f))
+                Arguments.of(new Rectangle(10f, 10f), new Rectangle(10.05f, 10.05f)),
+                Arguments.of(new Rectangle(10.3f, 10.39f), new Rectangle(10.35f, 10.35f)),
+                Arguments.of(new Rectangle(10.46f, 10.89f), new Rectangle(10.45f, 10.85f))
         );
     }
 
@@ -42,7 +42,7 @@ class PositionTest {
      * @param position
      * @return
      */
-    private Position getPositionSpy(Position position) {
-        return spy(new Position(position.getX(), position.getY()));
+    private Rectangle getPositionSpy(Rectangle position) {
+        return spy(new Rectangle(position.getX(), position.getY()));
     }
 }

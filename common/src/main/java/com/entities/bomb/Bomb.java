@@ -5,7 +5,7 @@ import com.core.enums.ExplosionDirection;
 import com.core.State;
 import com.core.WithLifespan;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public abstract class Bomb extends GameObject implements WithLifespan {
     public Bomb() {
     }
 
-    public Bomb(Position position) {
+    public Bomb(Rectangle position) {
         super(position.clone());
     }
 
@@ -40,7 +40,7 @@ public abstract class Bomb extends GameObject implements WithLifespan {
         this.lifespan = lifespan;
     }
 
-    public abstract BombExplosion createExplosion(Position position, ExplosionDirection direction);
+    public abstract BombExplosion createExplosion(Rectangle position, ExplosionDirection direction);
 
     public ArrayList<BombExplosion> createBombExplosion(){
         return bombExplosionController.createExplosion(this);

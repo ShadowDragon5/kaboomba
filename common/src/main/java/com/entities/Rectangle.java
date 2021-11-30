@@ -4,16 +4,19 @@ import com.core.enums.ArithmeticActions;
 import com.core.Defaults;
 import com.utils.UtilityMethods;
 
-public class Position {
+public class Rectangle {
     private float x;
     private float y;
 
-    public Position() {
+    private float width;
+	private float height;
+
+    public Rectangle() {
         this.x = 0;
         this.y = 0;
     }
 
-    public Position(float x, float y) {
+    public Rectangle(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -34,6 +37,21 @@ public class Position {
         this.y = y;
     }
 
+    public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
     public void addX(float dx) {
         this.x = UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM);
     }
@@ -42,11 +60,11 @@ public class Position {
         this.y = UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM);
     }
 
-    public Position clone() {
-        return new Position(this.getX(), this.getY());
+    public Rectangle clone() {
+        return new Rectangle(this.getX(), this.getY());
     }
 
-    public Position snap() {
+    public Rectangle snap() {
         float flooredX = (float) Math.floor(getX() / Defaults.getDimension());
         var snappedX = flooredX + 0.5f;
         setX(UtilityMethods.preciseArithmetics(snappedX, Defaults.getDimension(), ArithmeticActions.MUL));
@@ -57,8 +75,8 @@ public class Position {
         return this;
     }
 
-    public Position distanceManhattan(Position otherPos) {
-        return new Position(this.x - otherPos.getX(), this.y - otherPos.getY());
+    public Rectangle distanceManhattan(Rectangle otherPos) {
+        return new Rectangle(this.x - otherPos.getX(), this.y - otherPos.getY());
     }
 
     @Override
@@ -68,7 +86,7 @@ public class Position {
 
     @Override
     public boolean equals(Object obj) {
-        Position otherPosition = (Position) obj;
+        Rectangle otherPosition = (Rectangle) obj;
         return otherPosition.getX() == this.getX() && otherPosition.getY() == this.getY();
     }
 }

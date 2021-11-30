@@ -1,11 +1,11 @@
 package com.entities.bomb;
 
 import com.core.enums.ExplosionDirection;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public class GreenBombExplosion extends BombExplosion {
 
-    public GreenBombExplosion(Position position, ExplosionDirection direction, String initiatorId) {
+    public GreenBombExplosion(Rectangle position, ExplosionDirection direction, String initiatorId) {
         super(position, direction, initiatorId);
     }
 
