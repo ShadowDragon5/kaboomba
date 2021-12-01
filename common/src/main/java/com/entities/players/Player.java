@@ -16,8 +16,8 @@ public abstract class Player extends GameObject {
 
     private float speed = 0.01f;
     protected int health = Defaults.playerHealth;
-    private final int bombPower = 1;
-    private final int bombAmmo = 1;
+    private int bombPower = 1;
+    private int bombAmmo = 1;
     private int bombsPlanted = 0;
     private int pitsPlanted = 0;
     private int shieldsPlanted = 0;
@@ -35,6 +35,18 @@ public abstract class Player extends GameObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setBombPower(int bombPower) {
+        this.bombPower = bombPower;
+    }
+
+    public void setBombAmmo(int bombAmmo) {
+        this.bombAmmo = bombAmmo;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public Player() {

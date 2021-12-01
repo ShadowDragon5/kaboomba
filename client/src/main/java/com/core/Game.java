@@ -1,11 +1,15 @@
 package com.core;
 
+import com.core.enums.ClientAction;
+import com.esotericsoftware.kryonet.Client;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.*;
 import java.nio.IntBuffer;
+import java.util.Scanner;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -16,10 +20,12 @@ public class Game {
 
     private InputController inputController;
     private GameRenderer gameRenderer;
+    private Client appClient;
 
-    public Game(InputController inputController, GameRenderer gameRenderer) {
+    public Game(InputController inputController, GameRenderer gameRenderer, Client appClient) {
         this.inputController = inputController;
         this.gameRenderer = gameRenderer;
+        this.appClient = appClient;
     }
 
     // The window handle
@@ -89,13 +95,21 @@ public class Game {
 
     private void loop() {
         GL.createCapabilities();
+//        Scanner sc = new Scanner(System.in);
+//        Console console = System.console();
 
         while ( !glfwWindowShouldClose(window) ) {
-           gameRenderer.render(window);
+            gameRenderer.render(window);
 
-           glfwPollEvents();
+            glfwPollEvents();
 
-           inputController.keyActionHandler(window);
+//            if (console != null) {
+//                String message = console.readLine();
+//                if (!message.equals("") && !message.equals(null)) {
+//                    appClient.sendTCP(String.format("%s;%s", ClientAction.CHAT, message));
+//                }
+//            }
+            inputController.keyActionHandler(window);
         }
     }
 }
