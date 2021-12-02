@@ -2,6 +2,7 @@ package com.core;
 
 import com.core.enums.ClientAction;
 import com.esotericsoftware.kryonet.Client;
+import org.junit.internal.runners.statements.RunAfters;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -18,9 +19,9 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Game {
 
-    private InputController inputController;
-    private GameRenderer gameRenderer;
-    private Client appClient;
+    private final InputController inputController;
+    private final GameRenderer gameRenderer;
+    private final Client appClient;
 
     public Game(InputController inputController, GameRenderer gameRenderer, Client appClient) {
         this.inputController = inputController;
@@ -31,7 +32,28 @@ public class Game {
     // The window handle
     private long window;
 
+    private void startInterpreter() {
+        Scanner sc = new Scanner(System.in);
+
+        Runnable runnable = () -> {
+            System.out.println("Scanner starts");
+
+            while (true) {
+                String message = sc.nextLine();
+                if (message != null && !message.isEmpty()) {
+                    appClient.sendTCP(String.format("%s;%s", ClientAction.CHAT, message));
+                }
+            }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+
+
     public void run() {
+        startInterpreter();
+
         init();
         loop();
 
@@ -95,20 +117,12 @@ public class Game {
 
     private void loop() {
         GL.createCapabilities();
-//        Scanner sc = new Scanner(System.in);
-//        Console console = System.console();
 
         while ( !glfwWindowShouldClose(window) ) {
             gameRenderer.render(window);
 
             glfwPollEvents();
 
-//            if (console != null) {
-//                String message = console.readLine();
-//                if (!message.equals("") && !message.equals(null)) {
-//                    appClient.sendTCP(String.format("%s;%s", ClientAction.CHAT, message));
-//                }
-//            }
             inputController.keyActionHandler(window);
         }
     }
