@@ -34,7 +34,7 @@ public class ClientApplication {
         GameRenderer gameRenderer = new GameRenderer();
 
         // Initialize game renderer and controls listener
-        Game game = new Game(inputController, gameRenderer);
+        Game game = new Game(inputController, gameRenderer, appClient);
 
         // Server callbacks listener
         appClient.addListener(new Listener() {
@@ -55,6 +55,9 @@ public class ClientApplication {
                         InitialServerResponse response = Defaults.gson.fromJson(contents[1], InitialServerResponse.class);
                         gameRenderer.setMap(response.getGameMap());
                         gameRenderer.setPlayerId(response.getPlayerId());
+                        break;
+                    case CHAT:
+                        System.out.println(contents[1]);
                         break;
                 }
             }

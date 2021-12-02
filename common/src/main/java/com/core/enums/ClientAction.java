@@ -13,6 +13,7 @@ public enum ClientAction {
     SAVE,
     LOAD,
     UNDO,
-    NOOP
+    NOOP,
+    CHAT
 }
 

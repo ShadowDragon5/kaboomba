@@ -1,11 +1,16 @@
 package com.core;
 
+import com.core.enums.ClientAction;
+import com.esotericsoftware.kryonet.Client;
+import org.junit.internal.runners.statements.RunAfters;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.*;
 import java.nio.IntBuffer;
+import java.util.Scanner;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -14,18 +19,41 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Game {
 
-    private InputController inputController;
-    private GameRenderer gameRenderer;
+    private final InputController inputController;
+    private final GameRenderer gameRenderer;
+    private final Client appClient;
 
-    public Game(InputController inputController, GameRenderer gameRenderer) {
+    public Game(InputController inputController, GameRenderer gameRenderer, Client appClient) {
         this.inputController = inputController;
         this.gameRenderer = gameRenderer;
+        this.appClient = appClient;
     }
 
     // The window handle
     private long window;
 
+    private void startInterpreter() {
+        Scanner sc = new Scanner(System.in);
+
+        Runnable runnable = () -> {
+            System.out.println("Scanner starts");
+
+            while (true) {
+                String message = sc.nextLine();
+                if (message != null && !message.isEmpty()) {
+                    appClient.sendTCP(String.format("%s;%s", ClientAction.CHAT, message));
+                }
+            }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+
+
     public void run() {
+        startInterpreter();
+
         init();
         loop();
 
@@ -91,11 +119,11 @@ public class Game {
         GL.createCapabilities();
 
         while ( !glfwWindowShouldClose(window) ) {
-           gameRenderer.render(window);
+            gameRenderer.render(window);
 
-           glfwPollEvents();
+            glfwPollEvents();
 
-           inputController.keyActionHandler(window);
+            inputController.keyActionHandler(window);
         }
     }
 }

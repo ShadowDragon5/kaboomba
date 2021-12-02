@@ -1,5 +1,6 @@
 package com.filters;
 
+import com.commands.ChatCommand;
 import com.commands.ConnectedCommand;
 import com.core.Defaults;
 import com.core.ServerFacade;
@@ -31,6 +32,13 @@ public class ProcessRequestHandler extends RequestHandler {
             ConnectedCommand command = new ConnectedCommand(playerConnection, object1 -> {
                 facade.connectPlayer(connections, connection, object1);
             });
+            facade.getQueuedCommands().add(command);
+            return;
+        }
+
+        // Chat flow
+        if (clientAction == ClientAction.CHAT) {
+            ChatCommand command = new ChatCommand(connections, contents[1], connection);
             facade.getQueuedCommands().add(command);
             return;
         }
