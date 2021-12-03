@@ -20,7 +20,7 @@ import com.google.gson.GsonBuilder;
 
 // collection of global variables
 public class Defaults {
-    private static float dimension = 0.1f;
+    private static float dimension = 16;
 
     public final static String color = "RED";
     public final static PlayerColors playerColor = PlayerColors.BLUE;

@@ -10,7 +10,7 @@ public class ServerApplication {
 
     public static void main(String... args) throws Exception {
 
-        Level level = new HardLevel();
+        Level level = new EasyLevel();
         level.loadLevel();
 
         Server server = new Server(1000000, 1000000);

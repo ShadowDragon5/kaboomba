@@ -10,8 +10,8 @@ import com.strategies.box.*;
 public class Box extends Tile {
     private BoxExplosion boxExplosion;
 
-    public Box(Rectangle position) {
-        super(position);
+    public Box(Rectangle rectangle) {
+        super(rectangle);
         randomizeExplosion();
     }
 
@@ -20,13 +20,8 @@ public class Box extends Tile {
         randomizeExplosion();
     }
 
-    public Box(Rectangle position, float dimension) {
-        super(position, dimension);
-        randomizeExplosion();
-    }
-
     public Box(BoxBuilder builder) {
-        super(builder.position, builder.dimension);
+        super(builder.rectangle);
         randomizeExplosion();
     }
 
@@ -66,21 +61,15 @@ public class Box extends Tile {
     }
 
     public static class BoxBuilder {
-        private final Rectangle position;
-        private float dimension;
+        private final Rectangle rectangle;
         private BoxExplosion boxExplosion;
 
-        public BoxBuilder(Rectangle position) {
-            this.position = position;
+        public BoxBuilder(Rectangle rectangle) {
+            this.rectangle = rectangle;
         }
 
         public BoxBuilder boxExplosion(BoxExplosion boxExplosion) {
             this.boxExplosion = boxExplosion;
-            return this;
-        }
-
-        public BoxBuilder dimension(float dimension) {
-            this.dimension = dimension;
             return this;
         }
 

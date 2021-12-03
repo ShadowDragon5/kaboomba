@@ -14,7 +14,7 @@ import com.factories.player.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
 
-    private float speed = 0.01f;
+    private float speed = 1.6f;
     protected int health = Defaults.playerHealth;
     private final int bombPower = 1;
     private final int bombAmmo = 1;
@@ -58,10 +58,10 @@ public abstract class Player extends GameObject {
 
         switch (direction) {
             case UP:
-                this.rectangle.addY(getSpeed());
+                this.rectangle.addY(-getSpeed());
                 break;
             case DOWN:
-                this.rectangle.addY(-getSpeed());
+                this.rectangle.addY(getSpeed());
                 break;
             case LEFT:
                 this.rectangle.addX(-getSpeed());
@@ -167,7 +167,7 @@ public abstract class Player extends GameObject {
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Box || object instanceof Wall) {
-            this.setRectangle(oldRectangle.clone().snap());
+            // this.setRectangle(oldRectangle.clone().snap());
         }
         if(object instanceof PowerUp) {
             State.getInstance().removePowerup(object);

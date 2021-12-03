@@ -24,7 +24,7 @@ public class TileCreatorTest {
     @Test
     @DisplayName("Tile creator returns null, with non existing gids")
     public void testReturnNullTileCreator() {
-        Tile tile = tileCreator.createTile("100", new Rectangle(), 0.1f);
+        Tile tile = tileCreator.createTile("100", new Rectangle());
         Assertions.assertNull(tile);
     }
 
@@ -32,7 +32,7 @@ public class TileCreatorTest {
     @ParameterizedTest(name = "{index} => when gid is {0} tile is {1}")
     @MethodSource("provideTileMappings")
     void testWithCorrectGidsTileCreator(String gid, String result) {
-        Tile tile = tileCreator.createTile(gid, new Rectangle(), 0.1f);
+        Tile tile = tileCreator.createTile(gid, new Rectangle());
         Assertions.assertNotNull(tile);
         Assertions.assertEquals(tile.getTextureFile(), result);
     }

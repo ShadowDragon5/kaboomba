@@ -6,7 +6,7 @@ public class EasyLevel extends Level {
 
     @Override
     protected void loadMap() {
-        GameMap.getInstance().loadMap("src/main/resources/map2.tmx");
+        GameMap.getInstance().loadMap("src/main/resources/map3.tmx");
     }
 
     @Override

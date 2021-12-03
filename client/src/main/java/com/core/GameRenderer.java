@@ -28,7 +28,7 @@ public class GameRenderer {
     private void drawTexturedElements(List<? extends GameObject> objects) {
         objects.forEach(it-> {
             Texture texture = TextureLoader.getTexture(it);
-            texture.draw(it.getRectangle(), it.getDimensions(), it.getDimensions());
+            texture.draw(it.getRectangle());
         });
     }
 
@@ -48,14 +48,15 @@ public class GameRenderer {
             Rectangle heartRectangle = position.clone();
             heartRectangle.addY(height);
             heartRectangle.addX(0.05f * (i - heartCount / 2f + 0.5f));
-            heart.draw(heartRectangle, 0.05f, 0.05f);
+            // TODO fix width/height
+            heart.draw(heartRectangle);
         }
     }
 
     public void renderMap() {
         map.getGameObjects().forEach(it-> {
             Texture texture = TextureLoader.getTexture(it);
-            texture.draw(it.getRectangle(), it.getDimensions(), it.getDimensions());
+            texture.draw(it.getRectangle());
         });
     }
 

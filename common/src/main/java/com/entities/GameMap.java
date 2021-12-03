@@ -1,13 +1,11 @@
 package com.entities;
 
-import com.core.enums.ArithmeticActions;
 import com.core.Defaults;
 import com.core.State;
 import com.entities.portals.*;
 import com.entities.tiles.Tile;
 import com.factories.tile.DefaultTileCreator;
 import com.factories.tile.TileCreator;
-import com.utils.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -56,7 +54,7 @@ public class GameMap {
             tileWidth = Integer.parseInt(mapElement.getAttribute("tilewidth"));
             tileHeight = Integer.parseInt(mapElement.getAttribute("tileheight"));
 
-            Defaults.setDimension(UtilityMethods.preciseArithmetics(2f, mapWidth, ArithmeticActions.DIV));
+            Defaults.setDimension(tileWidth);
 
             // NodeList tileset =
             //     ((Element)doc.getElementsByTagName("tileset").item(0)).getElementsByTagName("image");
@@ -96,9 +94,7 @@ public class GameMap {
                 int portal_y = Integer.parseInt(element.getAttribute("y"));
 
                 Tile portal = creator.createTile(gid,
-                            new Rectangle(portal_x, portal_y),
-                            tileWidth
-                        );
+                            new Rectangle(portal_x, portal_y, tileWidth, tileHeight));
                 State.getInstance().addPortal(portal);
 
                 // portal linking
@@ -153,8 +149,8 @@ public class GameMap {
             if (!gid.equals("")) {
                 Tile tile = creator.createTile(
                     gid,
-                    new Rectangle((i % mapWidth) * tileWidth, (i / mapHeight) * tileHeight),
-                    tileWidth
+                    new Rectangle((i % mapWidth) * tileWidth, (i / mapHeight) * tileHeight,
+                        tileWidth, tileHeight)
                 );
                 result.accept(tile);
             }

@@ -1,8 +1,7 @@
 package com.entities;
 
-import com.core.enums.ArithmeticActions;
 import com.core.Defaults;
-import com.utils.UtilityMethods;
+import com.core.enums.Direction;
 
 public class Rectangle {
     private float x;
@@ -12,13 +11,18 @@ public class Rectangle {
 	private float height;
 
     public Rectangle() {
-        this.x = 0;
-        this.y = 0;
+        this(0, 0);
     }
 
     public Rectangle(float x, float y) {
+        this(x, y, Defaults.getDimension(), Defaults.getDimension());
+    }
+
+    public Rectangle(float x, float y, float w, float h) {
         this.x = x;
         this.y = y;
+        this.width = w;
+        this.height = h;
     }
 
     public float getX() {
@@ -52,12 +56,20 @@ public class Rectangle {
 	public void setHeight(float height) {
 		this.height = height;
 	}
+
     public void addX(float dx) {
-        this.x = UtilityMethods.preciseArithmetics(this.x, dx, ArithmeticActions.SUM);
+        this.x += dx;
     }
 
     public void addY(float dy) {
-        this.y = UtilityMethods.preciseArithmetics(this.y, dy, ArithmeticActions.SUM);
+        this.y += dy;
+    }
+
+    public float getSide(Direction dir) {
+        return dir == Direction.LEFT ? x :
+            dir == Direction.RIGHT ? x + width :
+            dir == Direction.UP ? y :
+            dir == Direction.DOWN ? y + height : 0;
     }
 
     public Rectangle clone() {
@@ -65,13 +77,12 @@ public class Rectangle {
     }
 
     public Rectangle snap() {
-        float flooredX = (float) Math.floor(getX() / Defaults.getDimension());
-        var snappedX = flooredX + 0.5f;
-        setX(UtilityMethods.preciseArithmetics(snappedX, Defaults.getDimension(), ArithmeticActions.MUL));
+        float dd = Defaults.getDimension();
+        float flooredX = (float) Math.floor(getX() / dd);
+        setX(flooredX * dd);
 
-        float flooredY = (float) Math.floor(getY() / Defaults.getDimension());
-        var snappedY = flooredY + 0.5f;
-        setY(UtilityMethods.preciseArithmetics(snappedY, Defaults.getDimension(), ArithmeticActions.MUL));
+        float flooredY = (float) Math.floor(getY() / dd);
+        setY(flooredY * dd);
         return this;
     }
 

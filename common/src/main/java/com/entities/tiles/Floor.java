@@ -2,17 +2,13 @@ package com.entities.tiles;
 
 import com.entities.Rectangle;
 
-public class Floor extends Tile{
+public class Floor extends Tile {
     public Floor() {
         super();
     }
 
-    public Floor(Rectangle position) {
-        super(position);
-    }
-
-    public Floor(Rectangle position, float dimension){
-        super(position,dimension);
+    public Floor(Rectangle rectangle) {
+        super(rectangle);
     }
 
     @Override

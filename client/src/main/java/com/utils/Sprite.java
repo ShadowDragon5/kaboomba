@@ -13,16 +13,18 @@ public class Sprite implements Texture {
     }
 
     @Override
-    public void draw(Rectangle position, float width, float height) {
+    public void draw(Rectangle rectangle) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        DrawTexturedQuad(position, width, height);
+        DrawTexturedQuad(rectangle);
         glDisable(GL_BLEND);
     }
 
-    private void DrawTexturedQuad(Rectangle position, float width, float height) {
-        float x = position.getX();
-        float y = position.getY();
+    private void DrawTexturedQuad(Rectangle rectangle) {
+        float x = rectangle.getX();
+        float y = rectangle.getY();
+        float width = rectangle.getWidth();
+        float height = rectangle.getHeight();
 
         glColor4f(1f, 1f, 1f, 1f);
 

@@ -1,6 +1,5 @@
 package com.commands;
 
-import com.core.enums.ArithmeticActions;
 import com.core.enums.PlayerColors;
 import com.core.State;
 import com.entities.InitialPlayerConnection;
@@ -33,19 +32,9 @@ public class ConnectedCommand implements Command {
         }
         player.setName(name);
 
-        int playerCount = state.getPlayers().size() + 1;
-        float playerDim = 1.5f *  player.getDimensions();
-
         // TODO pick from spawnpoint
-        float xPos = playerCount == 1 || playerCount == 4 ?
-                UtilityMethods.preciseArithmetics(-1f, playerDim, ArithmeticActions.SUM)
-                :
-                UtilityMethods.preciseArithmetics(1f, playerDim, ArithmeticActions.MIN);
-
-        float yPos = playerCount == 1 || playerCount == 3 ?
-                UtilityMethods.preciseArithmetics(1f, playerDim, ArithmeticActions.MIN)
-                :
-                UtilityMethods.preciseArithmetics(-1f, playerDim, ArithmeticActions.SUM);
+        float xPos = 160;
+        float yPos = 160;
 
         player.setRectangle(new Rectangle(xPos, yPos));
         execution.onExecuted(player);
