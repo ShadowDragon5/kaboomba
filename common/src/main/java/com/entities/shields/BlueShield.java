@@ -4,13 +4,13 @@ import com.entities.Rectangle;
 
 import java.awt.*;
 
-public class BlueShield extends Shield{
+public class BlueShield extends Shield {
     public BlueShield(Rectangle position) {
         super(position);
     }
 
     @Override
-    public Color getColor(){
+    public Color getColor() {
         return new Color(0f,0.5f,1f);
     }
 

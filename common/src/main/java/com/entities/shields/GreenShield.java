@@ -5,8 +5,8 @@ import com.entities.Rectangle;
 import java.awt.*;
 
 public class GreenShield extends Shield{
-    public GreenShield(Rectangle position) {
-        super(position);
+    public GreenShield(Rectangle rectangle) {
+        super(rectangle);
     }
 
     @Override

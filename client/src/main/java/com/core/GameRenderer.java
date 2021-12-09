@@ -69,7 +69,8 @@ public class GameRenderer {
 
         State state = State.getInstance();
         Player player = state.getPlayer(playerId);
-        String title = player instanceof NullPlayer ? "💀 DEAD 💀" : player.getName() + ": " + player.getScore();
+        String title = player instanceof NullPlayer ?
+            "💀 DEAD 💀" : player.getName() + ": " + player.getScore();
         glfwSetWindowTitle(window, "KABOOMBA! " + title);
 
         drawTexturedElements(state.getPortals());
