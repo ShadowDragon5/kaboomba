@@ -43,7 +43,7 @@ public class GameRenderer {
     }
 
     private void drawPlayerLivesLine(int heartCount, Rectangle position, float height) {
-        Texture heart = TextureLoader.getTexture("src/main/resources/heart.png");
+        Texture heart = TextureLoader.getTexture(TextureFile.HEART);
         for (int i = 0; i < heartCount; i++) {
             Rectangle heartRectangle = position.clone();
             heartRectangle.addY(height);

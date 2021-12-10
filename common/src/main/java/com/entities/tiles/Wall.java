@@ -1,5 +1,6 @@
 package com.entities.tiles;
 
+import com.core.TextureFile;
 import com.entities.Rectangle;
 
 public class Wall extends Tile {
@@ -12,7 +13,7 @@ public class Wall extends Tile {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/wall.png";
+        return TextureFile.WALL;
     }
 }
 

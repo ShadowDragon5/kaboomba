@@ -1,6 +1,7 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
+import com.core.TextureFile;
 import com.entities.Rectangle;
 
 public class SpeedPowerUp extends PowerUp {
@@ -16,7 +17,7 @@ public class SpeedPowerUp extends PowerUp {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/powerup_speed.png";
+        return TextureFile.POWERUP_SPEED;
     }
 
 }

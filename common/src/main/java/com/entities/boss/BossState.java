@@ -57,7 +57,5 @@ public abstract class BossState {
         boss.move(direction);
     }
 
-    public String bossStateTexture() {
-        return "src/main/resources/bomb.png";
-    }
+    public abstract String bossStateTexture();
 }

@@ -2,6 +2,7 @@ package com.entities.boss;
 
 import com.core.Defaults;
 import com.core.State;
+import com.core.TextureFile;
 import com.entities.shields.BlueShield;
 
 import static com.utils.Scheduler.scheduleTask;
@@ -75,6 +76,6 @@ public class ThirdPhase extends BossState {
 
     @Override
     public String bossStateTexture() {
-        return "src/main/resources/bomb_green.png";
+        return TextureFile.BOSS_STAGE_THREE;
     }
 }

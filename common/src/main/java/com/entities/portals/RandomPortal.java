@@ -1,6 +1,7 @@
 package com.entities.portals;
 
 import com.core.State;
+import com.core.TextureFile;
 import com.entities.GameMap;
 import com.entities.GameObject;
 import com.entities.Rectangle;
@@ -39,6 +40,6 @@ public class RandomPortal extends Portal {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/portal_random.png";
+        return TextureFile.PORTAL_RANDOM;
     }
 }

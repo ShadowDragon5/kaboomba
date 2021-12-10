@@ -1,6 +1,7 @@
 package com.entities.tiles;
 
 import com.core.State;
+import com.core.TextureFile;
 import com.core.Defaults;
 import com.entities.GameObject;
 import com.entities.Rectangle;
@@ -36,7 +37,7 @@ public class Box extends Tile {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/box.png";
+        return TextureFile.BOX;
     }
 
     public void randomizeExplosion() {

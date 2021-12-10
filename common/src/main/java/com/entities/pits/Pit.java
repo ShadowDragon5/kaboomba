@@ -1,5 +1,6 @@
 package com.entities.pits;
 
+import com.core.Defaults;
 import com.core.WithLifespan;
 import com.entities.GameObject;
 import com.entities.Rectangle;
@@ -17,7 +18,7 @@ public class Pit extends GameObject implements WithLifespan {
 
     @Override
     public String getTextureFile() {
-        return "src/pit";
+        return Defaults.color;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.entities.shields;
 
+import com.core.Defaults;
 import com.core.WithLifespan;
 import com.entities.GameObject;
 import com.entities.Rectangle;
@@ -16,7 +17,7 @@ public class Shield extends GameObject implements WithLifespan {
 
     @Override
     public String getTextureFile() {
-        return "src/shield";
+        return Defaults.color;
     }
 
     @Override

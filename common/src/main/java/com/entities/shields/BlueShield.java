@@ -1,5 +1,6 @@
 package com.entities.shields;
 
+import com.core.TextureFile;
 import com.entities.Rectangle;
 
 import java.awt.*;
@@ -16,6 +17,6 @@ public class BlueShield extends Shield {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/shield_blue.png";
+        return TextureFile.SHIELD_BLUE;
     }
 }

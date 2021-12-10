@@ -1,5 +1,6 @@
 package com.entities.bomb;
 
+import com.core.TextureFile;
 import com.core.enums.ExplosionDirection;
 import com.entities.Rectangle;
 
@@ -19,7 +20,7 @@ public class BlueBomb extends Bomb {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/bomb_blue.png";
+        return TextureFile.BOMB_BLUE;
     }
 
     @Override

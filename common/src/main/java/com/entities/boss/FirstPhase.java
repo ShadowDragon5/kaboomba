@@ -1,6 +1,7 @@
 package com.entities.boss;
 
 import com.core.State;
+import com.core.TextureFile;
 
 
 public class FirstPhase extends BossState {
@@ -30,6 +31,6 @@ public class FirstPhase extends BossState {
 
     @Override
     public String bossStateTexture() {
-        return super.bossStateTexture();
+        return TextureFile.BOSS_STAGE_ONE;
     }
 }

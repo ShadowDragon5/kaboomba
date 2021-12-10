@@ -1,6 +1,7 @@
 package com.entities.pits;
 
 import com.core.State;
+import com.core.TextureFile;
 import com.entities.Rectangle;
 import com.entities.players.Player;
 
@@ -40,6 +41,6 @@ public class BluePit extends Pit {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/trap_blue.png";
+        return TextureFile.TRAP_BLUE;
     }
 }

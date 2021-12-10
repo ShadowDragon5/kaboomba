@@ -2,6 +2,7 @@ package com.entities.boss;
 
 import com.entities.bomb.*;
 import com.core.State;
+import com.core.TextureFile;
 
 public class FourthPhase extends BossState {
 
@@ -73,6 +74,6 @@ public class FourthPhase extends BossState {
 
     @Override
     public String bossStateTexture() {
-        return "src/main/resources/bomb_red.png";
+        return TextureFile.BOSS_STAGE_FOUR;
     }
 }

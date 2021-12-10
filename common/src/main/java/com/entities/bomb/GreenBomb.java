@@ -1,6 +1,7 @@
 package com.entities.bomb;
 
 import com.core.State;
+import com.core.TextureFile;
 import com.core.enums.ExplosionDirection;
 import com.entities.Rectangle;
 
@@ -33,7 +34,7 @@ public class GreenBomb extends Bomb {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/bomb_green.png";
+        return TextureFile.BOMB_GREEN;
     }
 
     @Override

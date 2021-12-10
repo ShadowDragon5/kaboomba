@@ -1,5 +1,6 @@
 package com.entities.players;
 
+import com.core.TextureFile;
 import com.factories.player.GreenPlayerFactory;
 import com.factories.player.PlayersAbstractFactory;
 
@@ -31,6 +32,6 @@ public class GreenPlayer extends Player {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/green_player.png";
+        return TextureFile.GREEN_PLAYER;
     }
 }

@@ -1,5 +1,6 @@
 package com.entities.bomb;
 
+import com.core.TextureFile;
 import com.core.enums.ExplosionDirection;
 import com.entities.Rectangle;
 
@@ -11,16 +12,16 @@ public class GreenBombExplosion extends BombExplosion {
 
     @Override
     protected String getCenterTexture() {
-        return "src/main/resources/green_explosion_center.png";
+        return TextureFile.GREEN_EXPLOSION_CENTER;
     }
 
     @Override
     protected String getHorizontalTexture() {
-        return "src/main/resources/green_explosion_horizontal.png";
+        return TextureFile.GREEN_EXPLOSION_HORIZONTAL;
     }
 
     @Override
     protected String getVerticalTexture() {
-        return "src/main/resources/green_explosion_vertical.png";
+        return TextureFile.GREEN_EXPLOSION_VERTICAL;
     }
 }

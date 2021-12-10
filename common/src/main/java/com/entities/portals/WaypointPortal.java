@@ -1,5 +1,6 @@
 package com.entities.portals;
 
+import com.core.TextureFile;
 import com.entities.GameObject;
 import com.entities.Rectangle;
 import com.entities.players.Player;
@@ -21,7 +22,7 @@ public class WaypointPortal extends Portal {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/portal_waypoint.png";
+        return TextureFile.PORTAL_WAYPOINT;
     }
 
     public Rectangle getLinkedPortalRectangle() {

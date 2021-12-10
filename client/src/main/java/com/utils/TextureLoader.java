@@ -32,7 +32,7 @@ public class TextureLoader {
         if (textureKey.equals(Defaults.color)) {
             texture = new ColoredSquare(Color.MAGENTA);
         } else {
-            BufferedImage image = loadImage(textureKey);
+            BufferedImage image = loadImage("src/main/resources/" + textureKey);
             texture = new Sprite(loadTexture(image));
         }
 

@@ -1,5 +1,6 @@
 package com.entities.tiles;
 
+import com.core.TextureFile;
 import com.entities.Rectangle;
 import com.strategies.box.DestroyBox;
 import com.strategies.box.DropBomb;
@@ -12,7 +13,7 @@ public class DamagedBox extends Box {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/box_damaged.png";
+        return TextureFile.BOX_DAMAGED;
     }
 
     @Override

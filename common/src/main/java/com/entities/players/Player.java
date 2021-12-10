@@ -161,7 +161,7 @@ public abstract class Player extends GameObject {
 
     @Override
     public String getTextureFile() {
-        return "src/main/player";
+        return Defaults.color;
     }
 
     @Override

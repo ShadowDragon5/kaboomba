@@ -1,6 +1,7 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
+import com.core.TextureFile;
 import com.entities.Rectangle;
 
 public class BombAmmoPowerUp extends PowerUp {
@@ -16,7 +17,7 @@ public class BombAmmoPowerUp extends PowerUp {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/powerup_ammo.png";
+        return TextureFile.POWERUP_AMMO;
     }
 
 }

@@ -3,6 +3,7 @@ package com.entities.bomb;
 import com.controllers.BombExplosionController;
 import com.core.enums.ExplosionDirection;
 import com.core.State;
+import com.core.TextureFile;
 import com.core.WithLifespan;
 import com.entities.GameObject;
 import com.entities.Rectangle;
@@ -27,7 +28,7 @@ public abstract class Bomb extends GameObject implements WithLifespan {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/bomb.png";
+        return TextureFile.BOMB;
     }
 
     @Override
