@@ -9,39 +9,42 @@ import com.entities.players.BossPlayer;
 import com.entities.players.Player;
 import com.entities.tiles.Wall;
 import com.esotericsoftware.kryonet.Connection;
+import com.mediator.Colleague;
+import com.mediator.Client;
+import com.mediator.Mediator;
+import com.mediator.ServerMediator;
 
 import java.util.*;
 
-public class ServerFacade {
+public class ServerFacade implements Colleague {
     private final Stack<UndoableCommand> undoableCommands = new Stack<>();
     private final Queue<Command> queuedCommands;
-    private final ServerState serverState;
+    private final ServerMediator serverMediator;
     private final ProxyCommandAggregator proxyCommandAggregator;
 
     public Queue<Command> getQueuedCommands() {
         return queuedCommands;
     }
 
-    public ServerState getServerState() {
-        return serverState;
-    }
 
-    public ServerFacade(Queue<Command> queuedCommands, ServerState serverState) {
+
+    public ServerFacade(Queue<Command> queuedCommands) {
         this.queuedCommands = queuedCommands;
-        this.serverState = serverState;
+        this.serverMediator = new ServerMediator();
 
         CommandAggregator commandAggregator = new CommandAggregator(undoableCommands, queuedCommands);
-        this.proxyCommandAggregator = new ProxyCommandAggregator(commandAggregator);
+        this.proxyCommandAggregator = new ProxyCommandAggregator(commandAggregator, serverMediator);
+        serverMediator.addColleague(proxyCommandAggregator);
+        serverMediator.addColleague(this);
     }
 
     public void connectPlayer(HashMap<Connection, String> connections, Connection connection, Object object) {
         Player player = (Player) object;
         connections.put(connection, player.ID);
-        serverState.attach(new Client(serverState, connection, player.ID));
-        serverState.getState().addPlayer(player);
-        proxyCommandAggregator.addCommand("CLEAR_SAVES");
-        proxyCommandAggregator.addCommand("SAVE");
-
+        serverMediator.addColleague(new Client(serverMediator, connection, player.ID));
+        serverMediator.getState().addPlayer(player);
+        sendMessage("NEW_PLAYER_ADDED");
+        
         String mapJson = String.format("%s;%s", ServerAction.GAME_INIT,
                 Defaults.gson.toJson(new InitialServerResponse(GameMap.getInstance(), player.ID)));
         connection.sendTCP(mapJson);
@@ -54,10 +57,10 @@ public class ServerFacade {
                 executeQueueCommands();
                 checkCollisions();
 
-                serverState.getState().removeDeadPlayers();
+                serverMediator.getState().removeDeadPlayers();
 
                 manageBossState();
-                serverState.notifyObservers();
+                sendMessage("NOTIFY_OBSERVERS");
             }
         }, 0, 10);
     }
@@ -77,23 +80,23 @@ public class ServerFacade {
 
     public void checkCollisions() {
         // Check player collisions wit boxes and explosions
-        new ArrayList<GameObject>(serverState.getState().getPlayers()).forEach(player -> {
-            serverState.getState().getBoxes().forEach(player::collides);
-            serverState.getState().getExplosions().forEach(player::collides);
-            new ArrayList<GameObject>(serverState.getState().getPits()).forEach(player::collides);
+        new ArrayList<GameObject>(serverMediator.getState().getPlayers()).forEach(player -> {
+            serverMediator.getState().getBoxes().forEach(player::collides);
+            serverMediator.getState().getExplosions().forEach(player::collides);
+            new ArrayList<GameObject>(serverMediator.getState().getPits()).forEach(player::collides);
             GameMap.getInstance().getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
-            new ArrayList<GameObject>(serverState.getState().getPowerups()).forEach(player::collides);
+            new ArrayList<GameObject>(serverMediator.getState().getPowerups()).forEach(player::collides);
         });
 
         // Portal collisions
-        new ArrayList<GameObject>(serverState.getState().getPortals()).forEach(portal -> {
-            serverState.getState().getPlayers().forEach(portal::collides);
+        new ArrayList<GameObject>(serverMediator.getState().getPortals()).forEach(portal -> {
+            serverMediator.getState().getPlayers().forEach(portal::collides);
         });
 
         // Boss collisions
-        new ArrayList<GameObject>(serverState.getState().getBosses()).forEach(boss -> {
-            serverState.getState().getExplosions().forEach(boss::collides);
-            new ArrayList<GameObject>(serverState.getState().getPits()).forEach(boss::collides);
+        new ArrayList<GameObject>(serverMediator.getState().getBosses()).forEach(boss -> {
+            serverMediator.getState().getExplosions().forEach(boss::collides);
+            new ArrayList<GameObject>(serverMediator.getState().getPits()).forEach(boss::collides);
             GameMap.getInstance().getGameObjects().stream().filter(it -> it instanceof Wall).forEach(boss::collides);
         });
     }
@@ -111,5 +114,15 @@ public class ServerFacade {
 
     public ProxyCommandAggregator getProxyCommandAggregator() {
         return proxyCommandAggregator;
+    }
+
+    @Override
+    public Mediator getMediator() {
+        return serverMediator;
+    }
+
+    @Override
+    public void sendMessage(String message) {
+        getMediator().broadcast(this, message);
     }
 }

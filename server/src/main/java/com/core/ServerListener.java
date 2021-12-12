@@ -2,19 +2,23 @@ package com.core;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
 import com.filters.*;
+import com.mediator.Mediator;
+import com.mediator.ServerMediator;
 
+import javax.print.attribute.standard.Media;
 import java.util.HashMap;
 
 public class ServerListener extends Listener {
     private final HashMap<Connection, String> connections = new HashMap<>();
-    private final ServerState serverState;
+    private final Mediator serverMediator;
     private final ServerFacade facade;
     private final RequestHandler requestHandlerChain;
 
     public ServerListener(ServerFacade facade) {
         this.facade = facade;
-        this.serverState = facade.getServerState();
+        this.serverMediator = facade.getMediator();
         requestHandlerChain = new LogRequestHandler();
 
         requestHandlerChain
@@ -36,8 +40,8 @@ public class ServerListener extends Listener {
     @Override
     public void disconnected(Connection outGoingConnection) {
         String id = connections.get(outGoingConnection);
-        serverState.getState().removePlayer(id);
-        serverState.notifyObservers();
+        serverMediator.getState().removePlayer(id);
+        serverMediator.broadcast(null, "NOTIFY_OBSERVERS");
         facade.getProxyCommandAggregator().addCommand("CLEAR_SAVES");
         facade.getProxyCommandAggregator().addCommand("SAVE");
         System.out.println("Disconnected" + outGoingConnection.getID());

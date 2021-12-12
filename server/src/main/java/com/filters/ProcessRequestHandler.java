@@ -44,7 +44,7 @@ public class ProcessRequestHandler extends RequestHandler {
         }
 
         String id = connections.get(connection);
-        Player playerToUpdate = facade.getServerState().getState().getPlayer(id);
+        Player playerToUpdate = facade.getMediator().getState().getPlayer(id);
         facade.getProxyCommandAggregator().addCommand(clientAction, playerToUpdate);
 
         super.handleRequest(connection, object);

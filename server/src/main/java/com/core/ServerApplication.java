@@ -18,7 +18,7 @@ public class ServerApplication {
         server.start();
         server.bind(54555);
 
-        ServerFacade facade = new ServerFacade(queuedCommands, new ServerState());
+        ServerFacade facade = new ServerFacade(queuedCommands);
         facade.startEventLoop();
 
         server.addListener(new ServerListener(facade));
