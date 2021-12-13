@@ -83,9 +83,9 @@ public class ServerFacade implements Colleague {
         new ArrayList<GameObject>(serverMediator.getState().getPlayers()).forEach(player -> {
             serverMediator.getState().getBoxes().forEach(player::collides);
             serverMediator.getState().getExplosions().forEach(player::collides);
-            new ArrayList<GameObject>(serverMediator.getState().getPits()).forEach(player::collides);
+            for (var object : serverMediator.getState().getPits()) player.collides(object);
             GameMap.getInstance().getGameObjects().stream().filter(it -> it instanceof Wall).forEach(player::collides);
-            new ArrayList<GameObject>(serverMediator.getState().getPowerups()).forEach(player::collides);
+            for (var object : serverMediator.getState().getPowerups()) player.collides(object);
         });
 
         // Portal collisions
@@ -96,7 +96,7 @@ public class ServerFacade implements Colleague {
         // Boss collisions
         new ArrayList<GameObject>(serverMediator.getState().getBosses()).forEach(boss -> {
             serverMediator.getState().getExplosions().forEach(boss::collides);
-            new ArrayList<GameObject>(serverMediator.getState().getPits()).forEach(boss::collides);
+            for (var object : serverMediator.getState().getPits()) boss.collides(object);
             GameMap.getInstance().getGameObjects().stream().filter(it -> it instanceof Wall).forEach(boss::collides);
         });
     }
