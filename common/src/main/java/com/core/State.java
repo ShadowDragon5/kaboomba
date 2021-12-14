@@ -8,6 +8,7 @@ import com.entities.players.BossPlayer;
 import com.entities.players.NullPlayer;
 import com.entities.players.Player;
 import com.entities.shields.Shield;
+import com.utils.CustomList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,21 +16,21 @@ import java.util.List;
 
 public class State {
 
-    private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
-    private final List<GameObject> boxes = Collections.synchronizedList(new ArrayList<>());
-    private final List<GameObject> portals = Collections.synchronizedList(new ArrayList<>());
-    private final List<GameObject> powerups = Collections.synchronizedList(new ArrayList<>());
+    private final List<Player> players = Collections.synchronizedList(new CustomList<>());
+    private final List<GameObject> boxes = Collections.synchronizedList(new CustomList<>());
+    private final List<GameObject> portals = Collections.synchronizedList(new CustomList<>());
+    private final List<GameObject> powerups = Collections.synchronizedList(new CustomList<>());
 
     // Player droppable entities
-    private final List<GameObject> bombs = Collections.synchronizedList(new ArrayList<>());
-    private final List<GameObject> shields = Collections.synchronizedList(new ArrayList<>());
-    private final List<GameObject> pits = Collections.synchronizedList(new ArrayList<>());
+    private final List<GameObject> bombs = Collections.synchronizedList(new CustomList<>());
+    private final List<GameObject> shields = Collections.synchronizedList(new CustomList<>());
+    private final List<GameObject> pits = Collections.synchronizedList(new CustomList<>());
 
     // Bots
-    private final List<Player> bosses = Collections.synchronizedList(new ArrayList<>());
+    private final List<Player> bosses = Collections.synchronizedList(new CustomList<>());
 
     // Explosion
-    private final List<GameObject> explosions = Collections.synchronizedList(new ArrayList<>());
+    private final List<GameObject> explosions = Collections.synchronizedList(new CustomList<>());
 
     private State() {}
     private static State state;
