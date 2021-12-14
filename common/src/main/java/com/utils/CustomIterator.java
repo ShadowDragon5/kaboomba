@@ -8,7 +8,7 @@ public class CustomIterator<E> implements Iterator<E> {
 
     // prevent creating a synthetic constructor
     public CustomIterator (CustomList<E> list) {
-        this.list = new CustomList(list);
+        this.list = new CustomList<>(list);
     }
 
     @Override

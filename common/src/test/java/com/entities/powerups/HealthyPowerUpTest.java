@@ -1,6 +1,6 @@
 package com.entities.powerups;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ public class HealthyPowerUpTest {
 
     @BeforeEach
     public void beforeEach() {
-        powerUp = new HealthyPowerUp(new Position());
+        powerUp = new HealthyPowerUp(new Rectangle());
     }
 
     @Test

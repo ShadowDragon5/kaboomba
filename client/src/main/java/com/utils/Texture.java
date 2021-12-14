@@ -1,7 +1,7 @@
 package com.utils;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public interface Texture {
-    public void draw(Position position, float width, float height);
+    public void draw(Rectangle rectangle);
 }

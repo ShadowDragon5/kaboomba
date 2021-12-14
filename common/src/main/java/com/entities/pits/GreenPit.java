@@ -1,12 +1,13 @@
 package com.entities.pits;
 
-import com.entities.Position;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 import com.entities.players.Player;
 
 import java.awt.*;
 
-public class GreenPit extends Pit{
-    public GreenPit(Position position) {
+public class GreenPit extends Pit {
+    public GreenPit(Rectangle position) {
         super(position);
     }
 
@@ -24,6 +25,6 @@ public class GreenPit extends Pit{
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/trap_green.png";
+        return TextureFile.TRAP_GREEN;
     }
 }

@@ -59,8 +59,9 @@ public class InputController {
             case GLFW_KEY_U:
                 keysPressed.put(key, false);
                 return ClientAction.UNDO;
+            default:
+                return ClientAction.NOOP;
         }
-        return ClientAction.NOOP;
     }
 
     public void keyActionHandler(long window) {

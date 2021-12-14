@@ -3,20 +3,20 @@ package com.entities.bomb;
 import com.core.enums.ExplosionDirection;
 import com.core.WithLifespan;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 public abstract class BombExplosion extends GameObject implements WithLifespan {
 
     private ExplosionDirection direction;
     protected Long lifespan = 2000L; 
 
-    public BombExplosion (Position position, ExplosionDirection direction) {
-        super(position);
+    public BombExplosion (Rectangle rectangle, ExplosionDirection direction) {
+        super(rectangle);
         this.direction = direction;
     }
 
-    public BombExplosion (Position position, ExplosionDirection direction, String initiatorId) {
-        super(position);
+    public BombExplosion (Rectangle rectangle, ExplosionDirection direction, String initiatorId) {
+        super(rectangle);
         this.direction = direction;
         this.initiatorId = initiatorId;
     }
@@ -49,7 +49,7 @@ public abstract class BombExplosion extends GameObject implements WithLifespan {
     protected abstract String getHorizontalTexture();
     protected abstract String getVerticalTexture();
 
-    public BombExplosion(Position position){
+    public BombExplosion(Rectangle position){
         super(position);
     }
 }

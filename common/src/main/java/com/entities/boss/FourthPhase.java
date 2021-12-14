@@ -2,6 +2,7 @@ package com.entities.boss;
 
 import com.entities.bomb.*;
 import com.core.State;
+import com.core.TextureFile;
 
 public class FourthPhase extends BossState {
 
@@ -10,7 +11,7 @@ public class FourthPhase extends BossState {
     public FourthPhase(String bossID) {
         super(bossID);
         minInterval = 6000l;
-        speed = 0.015f;
+        speed = 1;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class FourthPhase extends BossState {
         var state = State.getInstance();
         var boss = state.getBoss(bossID);
 
-        var b = new BaseBomb(boss.getPosition());
+        var b = new BaseBomb(boss.getRectangle());
         b.setInitiatorId(bossID);
         b.setBombPower(power);
         state.addBomb(b);
@@ -73,6 +74,6 @@ public class FourthPhase extends BossState {
 
     @Override
     public String bossStateTexture() {
-        return "src/main/resources/bomb_red.png";
+        return TextureFile.BOSS_STAGE_FOUR;
     }
 }

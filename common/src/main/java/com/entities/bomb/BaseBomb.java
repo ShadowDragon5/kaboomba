@@ -1,13 +1,14 @@
 package com.entities.bomb;
 
 import com.core.enums.ExplosionDirection;
-import com.entities.Position;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 
 import java.awt.*;
 
 public class BaseBomb extends Bomb {
 
-    public BaseBomb(Position position) {
+    public BaseBomb(Rectangle position) {
         super(position.snap());
         setLifespan(4000L);
     }
@@ -19,13 +20,13 @@ public class BaseBomb extends Bomb {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/bomb.png";
+        return TextureFile.BOMB;
     }
 
     @Override
-    public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
+    public BombExplosion createExplosion(Rectangle rectangle, ExplosionDirection direction) {
         if (initiatorId == null)
-            return new BaseBombExplosion(position, direction);
-        return new BaseBombExplosion(position, direction, initiatorId);
+            return new BaseBombExplosion(rectangle, direction);
+        return new BaseBombExplosion(rectangle, direction, initiatorId);
     }
 }

@@ -1,8 +1,9 @@
 package com.entities.bomb;
 
 import com.core.State;
+import com.core.TextureFile;
 import com.core.enums.ExplosionDirection;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 import java.awt.*;
 
@@ -10,7 +11,7 @@ import static com.utils.Scheduler.scheduleTask;
 
 public class GreenBomb extends Bomb {
 
-    public GreenBomb(Position position) {
+    public GreenBomb(Rectangle position) {
         super(position);
         setLifespan(4000l);
     }
@@ -33,11 +34,11 @@ public class GreenBomb extends Bomb {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/bomb_green.png";
+        return TextureFile.BOMB_GREEN;
     }
 
     @Override
-    public BombExplosion createExplosion(Position position, ExplosionDirection direction) {
+    public BombExplosion createExplosion(Rectangle position, ExplosionDirection direction) {
         return new GreenBombExplosion(position, direction, initiatorId);
     }
 }

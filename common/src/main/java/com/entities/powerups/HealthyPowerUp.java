@@ -1,12 +1,13 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
-import com.entities.Position;
 import com.entities.visitor.Visitor;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 
 public class HealthyPowerUp extends PowerUp {
 
-    public HealthyPowerUp(Position position) {
+    public HealthyPowerUp(Rectangle position) {
         super(position);
     }
 
@@ -22,7 +23,7 @@ public class HealthyPowerUp extends PowerUp {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/powerup_health.png";
+        return TextureFile.POWERUP_HEALTH;
     }
 
 }

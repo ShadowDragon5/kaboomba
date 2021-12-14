@@ -1,6 +1,6 @@
 package com.entities.pits;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ public class GreenPitTest {
 
     @BeforeEach
     public void beforeEach() {
-       pit = new GreenPit(new Position());
+       pit = new GreenPit(new Rectangle());
     }
 
     @Test

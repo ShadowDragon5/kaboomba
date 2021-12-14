@@ -11,18 +11,18 @@ import com.entities.tiles.Wall;
 public class DefaultTileCreator extends TileCreator {
 
     @Override
-    public Tile createTile(String gid, Position position, float dimension) {
+    public Tile createTile(String gid, Rectangle rectangle) {
         switch (gid) {
             case "1":
-                return new Floor(position, dimension);
+                return new Floor(rectangle);
             case "2":
-                return new Wall(position, dimension);
+                return new Wall(rectangle);
             case "3":
-                return new Box.BoxBuilder(position).dimension(dimension).build();
+                return new Box.BoxBuilder(rectangle).build();
             case "4":
-                return new WaypointPortal(position);
+                return new WaypointPortal(rectangle);
             case "5":
-                return new RandomPortal(position);
+                return new RandomPortal(rectangle);
             default:
                 return null;
         }

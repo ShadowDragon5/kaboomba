@@ -2,24 +2,16 @@ package com.core;
 
 import com.entities.GameMap;
 import com.entities.GameObject;
-import com.entities.Position;
-import com.entities.players.*;
+import com.entities.Rectangle;
+import com.entities.players.Player;
 import com.utils.TextureLoader;
+
 import com.utils.Texture;
 
 import java.util.List;
 
-import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
-import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
-import static org.lwjgl.opengl.GL11.*;
-
 public class GameRenderer {
-    private String playerId;
     private GameMap map;
-
-    public void setPlayerId(String playerId) {
-        this.playerId = playerId;
-    }
 
     public void setMap(GameMap map) {
         this.map = map;
@@ -28,7 +20,7 @@ public class GameRenderer {
     private void drawTexturedElements(List<? extends GameObject> objects) {
         objects.forEach(it-> {
             Texture texture = TextureLoader.getTexture(it);
-            texture.draw(it.getPosition(), it.getDimensions(), it.getDimensions());
+            texture.draw(it.getRectangle());
         });
     }
 
@@ -38,39 +30,35 @@ public class GameRenderer {
 
     private void drawPlayerLives(Player player) {
         var n = Math.min(8, player.getHealth());
-        drawPlayerLivesLine(n, player.getPosition(), 0.1f);
-        drawPlayerLivesLine(player.getHealth() - n, player.getPosition(), 0.15f);
+        drawPlayerLivesLine(n, player.getRectangle(), -8);
+        drawPlayerLivesLine(player.getHealth() - n, player.getRectangle(), -16);
     }
 
-    private void drawPlayerLivesLine(int heartCount, Position position, float height) {
-        Texture heart = TextureLoader.getTexture("src/main/resources/heart.png");
-        for (int i = 0; i < heartCount; i++) {
-            Position heartPosition = position.clone();
-            heartPosition.addY(height);
-            heartPosition.addX(0.05f * (i - heartCount / 2f + 0.5f));
-            heart.draw(heartPosition, 0.05f, 0.05f);
+    private void drawPlayerLivesLine(int heartCount, Rectangle position, float height) {
+        Texture heart = TextureLoader.getTexture(TextureFile.HEART);
+        for (int i = 1; i <= heartCount; i++) {
+            Rectangle heartRectangle = position.clone();
+            heartRectangle.addY(height);
+            heartRectangle.addX(8 * (i - heartCount / 2f) - 1);
+            heartRectangle.setWidth(8);
+            heartRectangle.setHeight(8);
+            heart.draw(heartRectangle);
         }
     }
 
     public void renderMap() {
         map.getGameObjects().forEach(it-> {
             Texture texture = TextureLoader.getTexture(it);
-            texture.draw(it.getPosition(), it.getDimensions(), it.getDimensions());
+            texture.draw(it.getRectangle());
         });
     }
 
     public void render(long window) {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
         if (map != null) {
             renderMap();
         }
 
         State state = State.getInstance();
-        Player player = state.getPlayer(playerId);
-        String title = player instanceof NullPlayer ? "💀 DEAD 💀" : player.getName() + ": " + player.getScore();
-        glfwSetWindowTitle(window, "KABOOMBA! " + title);
-
         drawTexturedElements(state.getPortals());
         drawTexturedElements(state.getBombs());
         drawTexturedElements(state.getPits());
@@ -82,7 +70,5 @@ public class GameRenderer {
         drawPlayersLives(state.getPlayers());
         drawPlayersLives(state.getBosses());
         drawTexturedElements(state.getPlayers());
-
-        glfwSwapBuffers(window); // swap the color buffers
     }
 }

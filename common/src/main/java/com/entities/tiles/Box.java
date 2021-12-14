@@ -1,17 +1,18 @@
 package com.entities.tiles;
 
 import com.core.State;
+import com.core.TextureFile;
 import com.core.Defaults;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.bomb.BombExplosion;
 import com.strategies.box.*;
 
 public class Box extends Tile {
     private BoxExplosion boxExplosion;
 
-    public Box(Position position) {
-        super(position);
+    public Box(Rectangle rectangle) {
+        super(rectangle);
         randomizeExplosion();
     }
 
@@ -20,13 +21,8 @@ public class Box extends Tile {
         randomizeExplosion();
     }
 
-    public Box(Position position, float dimension) {
-        super(position, dimension);
-        randomizeExplosion();
-    }
-
     public Box(BoxBuilder builder) {
-        super(builder.position, builder.dimension);
+        super(builder.rectangle);
         randomizeExplosion();
     }
 
@@ -41,7 +37,7 @@ public class Box extends Tile {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/box.png";
+        return TextureFile.BOX;
     }
 
     public void randomizeExplosion() {
@@ -66,21 +62,15 @@ public class Box extends Tile {
     }
 
     public static class BoxBuilder {
-        private final Position position;
-        private float dimension;
+        private final Rectangle rectangle;
         private BoxExplosion boxExplosion;
 
-        public BoxBuilder(Position position) {
-            this.position = position;
+        public BoxBuilder(Rectangle rectangle) {
+            this.rectangle = rectangle;
         }
 
         public BoxBuilder boxExplosion(BoxExplosion boxExplosion) {
             this.boxExplosion = boxExplosion;
-            return this;
-        }
-
-        public BoxBuilder dimension(float dimension) {
-            this.dimension = dimension;
             return this;
         }
 

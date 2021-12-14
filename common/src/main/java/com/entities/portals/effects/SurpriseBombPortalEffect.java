@@ -9,7 +9,7 @@ import static com.utils.Scheduler.scheduleTask;
 public class SurpriseBombPortalEffect extends PortalEffect {
     @Override
     public void portalEffect(Player player) {
-        BaseBomb baseBomb = new BaseBomb(player.getPosition().clone().snap());
+        BaseBomb baseBomb = new BaseBomb(player.getRectangle().clone().snap());
         State.getInstance().addBomb(baseBomb);
         scheduleTask(() -> {
             baseBomb.explode();

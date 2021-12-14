@@ -1,5 +1,6 @@
 package com.entities.powerups;
 
+import com.core.Defaults;
 import com.entities.players.Player;
 
 public class SpeedPowerUpDecorator extends PowerUpDecorator {
@@ -14,6 +15,6 @@ public class SpeedPowerUpDecorator extends PowerUpDecorator {
 
     @Override
     public float getSpeed() {
-        return player.getSpeed() + 0.005f;
+        return player.getSpeed() + Defaults.speedUp;
     }
 }

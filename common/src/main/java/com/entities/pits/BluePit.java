@@ -1,7 +1,8 @@
 package com.entities.pits;
 
 import com.core.State;
-import com.entities.Position;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 import com.entities.players.Player;
 
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.*;
 import static com.utils.Scheduler.scheduleTask;
 
 public class BluePit extends Pit {
-    public BluePit(Position position) {
+    public BluePit(Rectangle position) {
         super(position);
     }
 
@@ -40,6 +41,6 @@ public class BluePit extends Pit {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/trap_blue.png";
+        return TextureFile.TRAP_BLUE;
     }
 }

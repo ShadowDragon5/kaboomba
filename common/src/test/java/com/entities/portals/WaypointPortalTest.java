@@ -1,6 +1,6 @@
 package com.entities.portals;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ public class WaypointPortalTest {
 
     @BeforeEach
     public void beforeEach() {
-        portal = new WaypointPortal(new Position());
+        portal = new WaypointPortal(new Rectangle());
     }
 
     @Test

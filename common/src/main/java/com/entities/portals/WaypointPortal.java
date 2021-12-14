@@ -1,34 +1,36 @@
 package com.entities.portals;
 
+import com.core.TextureFile;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.players.Player;
 
 public class WaypointPortal extends Portal {
 
-    private Position linkedPortalPosition;
+    private Rectangle linkedPortalRectangle;
 
-    public WaypointPortal(Position position) {
+    public WaypointPortal(Rectangle position) {
         super(position);
     }
 
     @Override
     void teleport(GameObject object) {
-        if(linkedPortalPosition == null) return;
-        object.setPosition(linkedPortalPosition.clone().snap());
+        if(linkedPortalRectangle == null) return;
+        object.getRectangle().setX(linkedPortalRectangle.getX());
+        object.getRectangle().setY(linkedPortalRectangle.getY());
         portalEffect.portalEffect((Player) object);
     }
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/portal_waypoint.png";
+        return TextureFile.PORTAL_WAYPOINT;
     }
 
-    public Position getLinkedPortalPosition() {
-        return linkedPortalPosition;
+    public Rectangle getLinkedPortalRectangle() {
+        return linkedPortalRectangle;
     }
 
-    public void setLinkedPortalPosition(Position linkedPortalPosition) {
-        this.linkedPortalPosition = linkedPortalPosition;
+    public void setLinkedPortalRectangle(Rectangle linkedPortalRectangle) {
+        this.linkedPortalRectangle = linkedPortalRectangle;
     }
 }

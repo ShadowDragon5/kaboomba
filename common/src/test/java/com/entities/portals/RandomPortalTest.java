@@ -1,6 +1,6 @@
 package com.entities.portals;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ public class RandomPortalTest {
 
     @BeforeEach
     public void beforeEach() {
-        portal = new RandomPortal(new Position());
+        portal = new RandomPortal(new Rectangle());
     }
 
     @Test

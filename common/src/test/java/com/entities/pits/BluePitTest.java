@@ -1,6 +1,6 @@
 package com.entities.pits;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.players.BluePlayer;
 import com.entities.players.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ public class BluePitTest {
 
     @BeforeEach
     public void beforeEach() {
-        pit = new BluePit(new Position());
+        pit = new BluePit(new Rectangle());
     }
 
     @Test

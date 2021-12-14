@@ -15,7 +15,7 @@ public class BluePlayerFactory extends PlayersAbstractFactory {
 
     @Override
     public Bomb createBomb(Player player) {
-        BlueBomb blueBomb = new BlueBomb(player.getPosition().clone().snap());
+        BlueBomb blueBomb = new BlueBomb(player.getRectangle().clone().snap());
         blueBomb.setInitiatorId(player.ID);
         blueBomb.setBombPower(player.getBombPower());
 
@@ -24,7 +24,7 @@ public class BluePlayerFactory extends PlayersAbstractFactory {
 
     @Override
     public Shield createShield(Player player) {
-        BlueShield blueShield = new BlueShield(player.getPosition().clone().snap());
+        BlueShield blueShield = new BlueShield(player.getRectangle().clone().snap());
         blueShield.setInitiatorId(player.ID);
 
         return blueShield;
@@ -32,7 +32,7 @@ public class BluePlayerFactory extends PlayersAbstractFactory {
 
     @Override
     public Pit createPit(Player player) {
-        BluePit bluePit = new BluePit(player.getPosition().clone().snap());
+        BluePit bluePit = new BluePit(player.getRectangle().clone().snap());
         bluePit.setInitiatorId(player.ID);
 
         return bluePit;

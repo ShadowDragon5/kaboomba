@@ -9,7 +9,7 @@ import static com.utils.Scheduler.scheduleTask;
 public class DropBomb extends BoxExplosion {
     @Override
     public void explosionEffect(Box box) {
-        BaseBomb baseBomb = new BaseBomb(box.getPosition().clone().snap());
+        BaseBomb baseBomb = new BaseBomb(box.getRectangle().clone().snap());
         State.getInstance().addBomb(baseBomb);
         scheduleTask(() -> {
             baseBomb.explode();

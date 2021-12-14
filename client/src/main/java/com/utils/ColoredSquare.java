@@ -1,6 +1,6 @@
 package com.utils;
 
-import com.entities.Position;
+import com.entities.Rectangle;
 import java.awt.Color;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -15,16 +15,18 @@ public class ColoredSquare implements Texture {
     }
 
     @Override
-    public void draw(Position position, float width, float height) {
+    public void draw(Rectangle rectangle) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        SolidFill(position, width, height, color);
+        SolidFill(rectangle);
         glDisable(GL_BLEND);
     }
 
-    private void SolidFill(Position position, float width, float height, Color textureId) {
-        float x = position.getX();
-        float y = position.getY();
+    private void SolidFill(Rectangle rectangle) {
+        float x = rectangle.getX();
+        float y = rectangle.getY();
+        float width = rectangle.getWidth();
+        float height = rectangle.getHeight();
 
         glColor4f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1f);
 

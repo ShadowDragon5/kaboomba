@@ -1,13 +1,13 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
-import com.entities.Position;
+import com.entities.Rectangle;
 import com.entities.tiles.Tile;
 import com.entities.visitor.Visitor;
 
 public abstract class PowerUp extends Tile {
-    public PowerUp(Position position) {
-        super(position);
+    public PowerUp(Rectangle rectangle) {
+        super(rectangle);
     }
 
     public abstract Player decorate(Player player);

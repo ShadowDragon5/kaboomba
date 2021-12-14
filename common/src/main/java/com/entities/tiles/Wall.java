@@ -1,20 +1,19 @@
 package com.entities.tiles;
 
-import com.entities.Position;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 
 public class Wall extends Tile {
 
-    public Wall(){}
-    public Wall(Position position) {
-        super(position);
+    public Wall() {}
+
+    public Wall(Rectangle rectangle) {
+        super(rectangle);
     }
 
-    public Wall(Position position, float dimension){
-        super(position,dimension);
-    }
     @Override
     public String getTextureFile() {
-        return "src/main/resources/wall.png";
+        return TextureFile.WALL;
     }
 }
 

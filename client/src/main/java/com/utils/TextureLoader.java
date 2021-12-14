@@ -32,26 +32,24 @@ public class TextureLoader {
         if (textureKey.equals(Defaults.color)) {
             texture = new ColoredSquare(Color.MAGENTA);
         } else {
-            BufferedImage image = loadImage(textureKey);
+            BufferedImage image = loadImage("src/main/resources/" + textureKey);
             texture = new Sprite(loadTexture(image));
         }
 
         textures.put(textureKey, texture);
-
         return texture;
     }
 
-
-    private static final int BYTES_PER_PIXEL = 4;//3 for RGB, 4 for RGBA
-    public static int loadTexture(BufferedImage image){
+    public static int loadTexture(BufferedImage image) {
 
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
 
-        ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
+        ByteBuffer buffer = BufferUtils.createByteBuffer(
+            image.getWidth() * image.getHeight() * 4); //4 for RGBA, 3 for RGB
 
-        for(int y = 0; y < image.getHeight(); y++){
-            for(int x = 0; x < image.getWidth(); x++){
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
                 int pixel = pixels[y * image.getWidth() + x];
                 buffer.put((byte) ((pixel >> 16) & 0xFF));     // Red component
                 buffer.put((byte) ((pixel >> 8) & 0xFF));      // Green component
@@ -78,18 +76,18 @@ public class TextureLoader {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         //Send texel data to OpenGL
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(),
+            image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
         //Return the texture ID so we can bind it later again
         return textureID;
     }
 
-    public static BufferedImage loadImage(String loc)
-    {
+    private static BufferedImage loadImage(String loc) {
         try {
             return ImageIO.read(new File(loc));
         } catch (IOException e) {
-            //Error Handling Here
+            System.out.println(e.getMessage() + loc);
         }
         return null;
     }

@@ -1,12 +1,13 @@
 package com.entities.shields;
 
-import com.entities.Position;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 
 import java.awt.*;
 
 public class GreenShield extends Shield{
-    public GreenShield(Position position) {
-        super(position);
+    public GreenShield(Rectangle rectangle) {
+        super(rectangle);
     }
 
     @Override
@@ -16,6 +17,6 @@ public class GreenShield extends Shield{
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/shield_green.png";
+        return TextureFile.SHIELD_GREEN;
     }
 }

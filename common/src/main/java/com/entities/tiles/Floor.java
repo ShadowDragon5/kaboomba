@@ -1,22 +1,19 @@
 package com.entities.tiles;
 
-import com.entities.Position;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 
-public class Floor extends Tile{
+public class Floor extends Tile {
     public Floor() {
         super();
     }
 
-    public Floor(Position position) {
-        super(position);
-    }
-
-    public Floor(Position position, float dimension){
-        super(position,dimension);
+    public Floor(Rectangle rectangle) {
+        super(rectangle);
     }
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/path.png";
+        return TextureFile.PATH;
     }
 }

@@ -3,9 +3,10 @@ package com.entities.bomb;
 import com.controllers.BombExplosionController;
 import com.core.enums.ExplosionDirection;
 import com.core.State;
+import com.core.TextureFile;
 import com.core.WithLifespan;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.Rectangle;
 
 import java.util.ArrayList;
 
@@ -21,13 +22,13 @@ public abstract class Bomb extends GameObject implements WithLifespan {
     public Bomb() {
     }
 
-    public Bomb(Position position) {
-        super(position.clone());
+    public Bomb(Rectangle rectangle) {
+        super(rectangle.clone());
     }
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/bomb.png";
+        return TextureFile.BOMB;
     }
 
     @Override
@@ -40,7 +41,7 @@ public abstract class Bomb extends GameObject implements WithLifespan {
         this.lifespan = lifespan;
     }
 
-    public abstract BombExplosion createExplosion(Position position, ExplosionDirection direction);
+    public abstract BombExplosion createExplosion(Rectangle rectangle, ExplosionDirection direction);
 
     public ArrayList<BombExplosion> createBombExplosion(){
         return bombExplosionController.createExplosion(this);

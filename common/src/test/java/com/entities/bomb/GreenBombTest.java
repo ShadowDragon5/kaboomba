@@ -1,7 +1,7 @@
 package com.entities.bomb;
 
 import com.core.enums.ExplosionDirection;
-import com.entities.Position;
+import com.entities.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +16,7 @@ public class GreenBombTest {
 
     @BeforeEach
     public void beforeEach() {
-        bomb = spy(new GreenBomb(new Position()));
+        bomb = spy(new GreenBomb(new Rectangle()));
     }
 
     @Test
@@ -29,8 +29,8 @@ public class GreenBombTest {
 
     @Test
     void shouldCreateExplosion() {
-        var expectedExplosion = new GreenBombExplosion(new Position(), ExplosionDirection.CENTER, bomb.getInitiatorId());
-        var bombExplosion = bomb.createExplosion(new Position(), ExplosionDirection.CENTER);
+        var expectedExplosion = new GreenBombExplosion(new Rectangle(), ExplosionDirection.CENTER, bomb.getInitiatorId());
+        var bombExplosion = bomb.createExplosion(new Rectangle(), ExplosionDirection.CENTER);
 
         Assertions.assertEquals(bombExplosion.getInitiatorId(), expectedExplosion.getInitiatorId());
         Assertions.assertEquals(bombExplosion.getCenterTexture(), expectedExplosion.getCenterTexture());

@@ -5,6 +5,8 @@ import com.entities.powerups.BombPowerPowerUp;
 import com.entities.powerups.HealthyPowerUp;
 import com.entities.powerups.SpeedPowerUp;
 import com.entities.visitor.Visitor;
+import com.core.TextureFile;
+
 import com.factories.player.BluePlayerFactory;
 import com.factories.player.PlayersAbstractFactory;
 
@@ -70,6 +72,6 @@ public class BluePlayer extends Player implements Visitor {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/blue_player.png";
+        return TextureFile.BLUE_PLAYER;
     }
 }

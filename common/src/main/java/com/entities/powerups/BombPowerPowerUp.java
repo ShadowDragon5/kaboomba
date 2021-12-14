@@ -1,12 +1,13 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
-import com.entities.Position;
 import com.entities.visitor.Visitor;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 
 public class BombPowerPowerUp extends PowerUp {
 
-    public BombPowerPowerUp(Position position) {
+    public BombPowerPowerUp(Rectangle position) {
         super(position);
     }
 
@@ -22,7 +23,7 @@ public class BombPowerPowerUp extends PowerUp {
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/powerup_explosion.png";
+        return TextureFile.POWERUP_EXPLOSION;
     }
 
 }

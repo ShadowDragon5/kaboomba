@@ -8,13 +8,14 @@ import com.entities.pits.Pit;
 import com.entities.powerups.*;
 import com.entities.tiles.Box;
 import com.entities.GameObject;
-import com.entities.Position;
+import com.entities.powerups.PowerUp;
+
 import com.entities.tiles.Wall;
 import com.factories.player.PlayersAbstractFactory;
 
 public abstract class Player extends GameObject {
 
-    private float speed = 0.01f;
+    private float speed = 1.5f;
     protected int health = Defaults.playerHealth;
     private int bombPower = 1;
     private int bombAmmo = 1;
@@ -25,7 +26,6 @@ public abstract class Player extends GameObject {
 
     private long lastTimeTeleported;
     private String name;
-    protected Position oldPosition;
     private long lastDamageReceived;
 
 
@@ -55,8 +55,7 @@ public abstract class Player extends GameObject {
 
     public Player(Player player) {
         super();
-        this.setPosition(player.getPosition().clone());
-        this.setOldPosition(player.getOldPosition().clone());
+        this.setRectangle(player.getRectangle().clone());
         this.health = player.getHealth();
         this.score = player.getScore();
         this.name = player.getName();
@@ -66,31 +65,23 @@ public abstract class Player extends GameObject {
     public abstract PlayersAbstractFactory getFactory();
 
     public void move(Direction direction) {
-        setOldPosition(new Position(this.getPosition().getX(), this.getPosition().getY()));
-
         switch (direction) {
             case UP:
-                this.position.addY(getSpeed());
+                this.rectangle.addY(-getSpeed());
                 break;
             case DOWN:
-                this.position.addY(-getSpeed());
+                this.rectangle.addY(getSpeed());
                 break;
             case LEFT:
-                this.position.addX(-getSpeed());
+                this.rectangle.addX(-getSpeed());
                 break;
             case RIGHT:
-                this.position.addX(getSpeed());
+                this.rectangle.addX(getSpeed());
                 break;
         }
     }
 
     public abstract Player clone();
-
-    public Position getOldPosition() {
-        if (this.oldPosition == null)
-            this.oldPosition = this.position.clone();
-        return oldPosition;
-    }
 
     public int getScore() {
         return score;
@@ -100,13 +91,10 @@ public abstract class Player extends GameObject {
         this.score += score;
     }
 
-    public void setOldPosition(Position oldPosition) {
-        this.oldPosition = oldPosition;
-    }
-
     public float getSpeed() {
         return speed;
     }
+
     public void setSpeed(float speed) {
         this.speed = speed;
     }
@@ -173,13 +161,30 @@ public abstract class Player extends GameObject {
 
     @Override
     public String getTextureFile() {
-        return "src/main/player";
+        return Defaults.color;
     }
 
     @Override
     public void onCollision(GameObject object) {
         if (object instanceof Box || object instanceof Wall) {
-            this.setPosition(oldPosition.clone().snap());
+            switch (object.getCollisionDirection(this)) {
+				case DOWN:
+                    rectangle.setY(object.getRectangle().getSide(Direction.DOWN));
+					break;
+				case UP:
+                    rectangle.setY(
+                        object.getRectangle().getSide(Direction.UP) - rectangle.getHeight());
+					break;
+				case LEFT:
+                    rectangle.setX(
+                        object.getRectangle().getSide(Direction.LEFT) - rectangle.getWidth());
+					break;
+				case RIGHT:
+                    rectangle.setX(object.getRectangle().getSide(Direction.RIGHT));
+					break;
+				default:
+					break;
+            }
         }
 
         if(object instanceof PowerUp) {

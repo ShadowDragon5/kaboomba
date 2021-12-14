@@ -2,18 +2,21 @@ package com.core;
 
 import com.core.enums.ClientAction;
 import com.esotericsoftware.kryonet.Client;
-import org.junit.internal.runners.statements.RunAfters;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.*;
 import java.nio.IntBuffer;
 import java.util.Scanner;
 
+import com.UI.GameMenu;
+import com.entities.Rectangle;
+
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -22,15 +25,21 @@ public class Game {
     private final InputController inputController;
     private final GameRenderer gameRenderer;
     private final Client appClient;
+    private GameMenu gameMenu;
+
+    // The window handle
+    private long window;
 
     public Game(InputController inputController, GameRenderer gameRenderer, Client appClient) {
         this.inputController = inputController;
         this.gameRenderer = gameRenderer;
         this.appClient = appClient;
+        this.gameMenu = new GameMenu(new Rectangle(-160, 0, 160, 320));
     }
 
-    // The window handle
-    private long window;
+    public void setPlayerId(String playerId) {
+        gameMenu.setPlayerId(playerId);
+    }
 
     private void startInterpreter() {
         Scanner sc = new Scanner(System.in);
@@ -78,12 +87,22 @@ public class Game {
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // the window will be resizable
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_FALSE);
+
         // Create the window
-        window = glfwCreateWindow(600, 600, "KABOOMBA!", NULL, NULL);
+        window = glfwCreateWindow(960, 600, "KABOOMBA!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
+
+        glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback() {
+			@Override
+			public void invoke(long window, int width, int height) {
+                glViewport(0, 0, width, height);
+			}
+        });
+
+        glfwSetWindowAspectRatio(window, 960, 600);
 
         inputController.listenControls(window);
 
@@ -118,11 +137,20 @@ public class Game {
     private void loop() {
         GL.createCapabilities();
 
-        while ( !glfwWindowShouldClose(window) ) {
+        while (!glfwWindowShouldClose(window)) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
             gameRenderer.render(window);
 
-            glfwPollEvents();
+            gameMenu.render();
 
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(-160, 320, 320, 0, -1, 1);
+
+            glfwSwapBuffers(window); // swap the color buffers
+
+            glfwPollEvents();
             inputController.keyActionHandler(window);
         }
     }

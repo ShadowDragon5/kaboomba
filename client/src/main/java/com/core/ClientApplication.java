@@ -24,9 +24,10 @@ public class ClientApplication {
         Client appClient = application.client;
 
         //Select team
-        String color = application.selectTeam();
-
-        String name = application.inputName();
+        // String color = application.selectTeam();
+        // String name = application.inputName();
+        String color = "";
+        String name = "";
 
         ClientActionListener inputListener = action -> appClient.sendTCP(action + ";");
 
@@ -54,7 +55,7 @@ public class ClientApplication {
                     case GAME_INIT:
                         InitialServerResponse response = Defaults.gson.fromJson(contents[1], InitialServerResponse.class);
                         gameRenderer.setMap(response.getGameMap());
-                        gameRenderer.setPlayerId(response.getPlayerId());
+                        game.setPlayerId(response.getPlayerId());
                         break;
                     case CHAT:
                         System.out.println(contents[1]);

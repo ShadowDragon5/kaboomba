@@ -1,18 +1,19 @@
 package com.entities.tiles;
 
-import com.entities.Position;
+import com.core.TextureFile;
+import com.entities.Rectangle;
 import com.strategies.box.DestroyBox;
 import com.strategies.box.DropBomb;
 import com.strategies.box.DropPowerUp;
 
 public class DamagedBox extends Box {
-    public DamagedBox(Position position) {
+    public DamagedBox(Rectangle position) {
         super(position);
     }
 
     @Override
     public String getTextureFile() {
-        return "src/main/resources/box_damaged.png";
+        return TextureFile.BOX_DAMAGED;
     }
 
     @Override

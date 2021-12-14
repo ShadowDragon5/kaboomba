@@ -35,7 +35,7 @@ public abstract class BossState {
         var state = State.getInstance();
         var boss = state.getBoss(bossID);
 
-        var b = new BaseBomb(boss.getPosition());
+        var b = new BaseBomb(boss.getRectangle().clone());
         b.setInitiatorId(bossID);
         b.setBombPower(power);
         state.addBomb(b);
@@ -47,17 +47,15 @@ public abstract class BossState {
     protected void move() {
         var boss = State.getInstance().getBoss(bossID);
 
-        var distance = targetPlayer.getPosition().distanceManhattan(boss.getPosition());
+        var distance = targetPlayer.getRectangle().distanceManhattan(boss.getRectangle());
         Direction direction;
         if (Math.abs(distance.getX()) > Math.abs(distance.getY())) {
             direction = distance.getX() >= 0 ? Direction.RIGHT : Direction.LEFT;
         } else {
-            direction = distance.getY() >= 0 ? Direction.UP : Direction.DOWN;
+            direction = distance.getY() >= 0 ? Direction.DOWN : Direction.UP;
         }
         boss.move(direction);
     }
 
-    public String bossStateTexture() {
-        return "src/main/resources/bomb.png";
-    }
+    public abstract String bossStateTexture();
 }
