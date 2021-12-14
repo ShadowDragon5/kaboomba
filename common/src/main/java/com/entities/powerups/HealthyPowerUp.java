@@ -2,6 +2,7 @@ package com.entities.powerups;
 
 import com.entities.players.Player;
 import com.entities.Position;
+import com.entities.visitor.Visitor;
 
 public class HealthyPowerUp extends PowerUp {
 
@@ -12,6 +13,11 @@ public class HealthyPowerUp extends PowerUp {
     @Override
     public Player decorate(Player player) {
         return new HealthyPowerUpDecorator(player);
+    }
+
+    @Override
+    public void accept(Visitor v) {
+        v.visitHealthPowerUp(this);
     }
 
     @Override

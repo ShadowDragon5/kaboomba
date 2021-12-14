@@ -5,10 +5,10 @@ import com.core.State;
 import com.core.Defaults;
 import com.entities.bomb.BombExplosion;
 import com.entities.pits.Pit;
+import com.entities.powerups.*;
 import com.entities.tiles.Box;
 import com.entities.GameObject;
 import com.entities.Position;
-import com.entities.powerups.PowerUp;
 import com.entities.tiles.Wall;
 import com.factories.player.PlayersAbstractFactory;
 
@@ -181,9 +181,39 @@ public abstract class Player extends GameObject {
         if (object instanceof Box || object instanceof Wall) {
             this.setPosition(oldPosition.clone().snap());
         }
+
         if(object instanceof PowerUp) {
+
             State.getInstance().removePowerup(object);
-            State.getInstance().replacePlayer(this, ((PowerUp) object).decorate(this));
+            if (object instanceof HealthyPowerUp) {
+                if (this instanceof GreenPlayer) {
+                    State.getInstance().replacePlayer(this, ((GreenPlayer) this).visitHealthPowerUp((HealthyPowerUp) object));
+                } else {
+                    State.getInstance().replacePlayer(this, ((BluePlayer) this).visitHealthPowerUp((HealthyPowerUp) object));
+                }
+            }
+            else if (object instanceof SpeedPowerUp) {
+                if (this instanceof GreenPlayer) {
+                    State.getInstance().replacePlayer(this, ((GreenPlayer) this).visitSpeedPowerUp((SpeedPowerUp) object));
+                } else {
+                    State.getInstance().replacePlayer(this, ((BluePlayer) this).visitSpeedPowerUp((SpeedPowerUp) object));
+                }
+            }
+            else if (object instanceof BombAmmoPowerUp) {
+                if (this instanceof GreenPlayer) {
+                    State.getInstance().replacePlayer(this, ((GreenPlayer) this).visitAmmoPowerUp((BombAmmoPowerUp) object));
+                } else {
+                    State.getInstance().replacePlayer(this, ((BluePlayer) this).visitAmmoPowerUp((BombAmmoPowerUp) object));
+                }
+            }
+            else if (object instanceof BombPowerPowerUp) {
+                if (this instanceof GreenPlayer) {
+                    State.getInstance().replacePlayer(this, ((GreenPlayer) this).visitPowerPowerUp((BombPowerPowerUp) object));
+                } else {
+                    State.getInstance().replacePlayer(this, ((BluePlayer) this).visitPowerPowerUp((BombPowerPowerUp) object));
+                }
+            }
+
         }
         if(object instanceof BombExplosion) {
             String initiatorId = object.getInitiatorId();
