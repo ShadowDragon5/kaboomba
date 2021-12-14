@@ -12,7 +12,7 @@ public class ThirdPhase extends BossState {
     public ThirdPhase(String bossID) {
         super(bossID);
         minInterval = 4000l;
-        speed = 0.005f;
+        speed = 0.5f;
     }
 
     @Override

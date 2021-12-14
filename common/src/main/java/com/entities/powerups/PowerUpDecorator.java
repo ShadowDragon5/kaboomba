@@ -50,5 +50,4 @@ public abstract class PowerUpDecorator extends Player {
     public PlayersAbstractFactory getFactory() {
         return player.getFactory();
     }
-
 }

@@ -11,7 +11,7 @@ public class FourthPhase extends BossState {
     public FourthPhase(String bossID) {
         super(bossID);
         minInterval = 6000l;
-        speed = 0.015f;
+        speed = 1;
     }
 
     @Override

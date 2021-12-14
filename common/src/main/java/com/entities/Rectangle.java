@@ -73,8 +73,13 @@ public class Rectangle {
     }
 
     public Rectangle clone() {
+        return new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    }
+
+    public Rectangle clonePosition() {
         return new Rectangle(this.getX(), this.getY());
     }
+
 
     public Rectangle snap() {
         float dd = Defaults.getDimension();
@@ -92,7 +97,7 @@ public class Rectangle {
 
     @Override
     public String toString() {
-        return String.format("x: %s, y:%s", getX(), getY());
+        return String.format("x: %s, y: %s, w: %s, h: %s", getX(), getY(), getWidth(), getHeight());
     }
 
     @Override

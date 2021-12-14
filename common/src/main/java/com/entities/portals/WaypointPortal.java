@@ -16,7 +16,8 @@ public class WaypointPortal extends Portal {
     @Override
     void teleport(GameObject object) {
         if(linkedPortalRectangle == null) return;
-        object.setRectangle(linkedPortalRectangle.clone().snap());
+        object.getRectangle().setX(linkedPortalRectangle.getX());
+        object.getRectangle().setY(linkedPortalRectangle.getY());
         portalEffect.portalEffect((Player) object);
     }
 

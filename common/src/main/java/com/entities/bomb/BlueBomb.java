@@ -24,7 +24,7 @@ public class BlueBomb extends Bomb {
     }
 
     @Override
-    public BombExplosion createExplosion(Rectangle position, ExplosionDirection direction) {
-        return new BlueBombExplosion(position, direction, initiatorId);
+    public BombExplosion createExplosion(Rectangle rectangle, ExplosionDirection direction) {
+        return new BlueBombExplosion(rectangle, direction, initiatorId);
     }
 }

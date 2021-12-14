@@ -55,7 +55,7 @@ public class ClientApplication {
                     case GAME_INIT:
                         InitialServerResponse response = Defaults.gson.fromJson(contents[1], InitialServerResponse.class);
                         gameRenderer.setMap(response.getGameMap());
-                        gameRenderer.setPlayerId(response.getPlayerId());
+                        game.setPlayerId(response.getPlayerId());
                         break;
                 }
             }

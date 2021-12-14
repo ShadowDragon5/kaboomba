@@ -22,8 +22,8 @@ public abstract class Bomb extends GameObject implements WithLifespan {
     public Bomb() {
     }
 
-    public Bomb(Rectangle position) {
-        super(position.clone());
+    public Bomb(Rectangle rectangle) {
+        super(rectangle.clone());
     }
 
     @Override
@@ -41,7 +41,7 @@ public abstract class Bomb extends GameObject implements WithLifespan {
         this.lifespan = lifespan;
     }
 
-    public abstract BombExplosion createExplosion(Rectangle position, ExplosionDirection direction);
+    public abstract BombExplosion createExplosion(Rectangle rectangle, ExplosionDirection direction);
 
     public ArrayList<BombExplosion> createBombExplosion(){
         return bombExplosionController.createExplosion(this);

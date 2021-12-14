@@ -20,14 +20,19 @@ import com.google.gson.GsonBuilder;
 
 // collection of global variables
 public class Defaults {
-    private static float dimension = 16;
+    private static int dimension = 16;
 
     public final static String color = "RED";
     public final static PlayerColors playerColor = PlayerColors.BLUE;
+    public static int playerWidth = 14;
+    public static int playerHeight = 14;
 
     public static int playerHealth = 3;
     public static int playerPits = 2;
     public static int playerShields = 2;
+
+    // powerup speed increase
+    public static float speedUp = 0.5f;
 
     public static int scoreBox = 50;
     public static int scoreReceiveDamage = -500;
@@ -51,11 +56,11 @@ public class Defaults {
         .registerTypeAdapter(GameObject.class, new CustomJsonAdapter<GameObject>())
     ).create();
 
-    public static float getDimension() {
+    public static int getDimension() {
         return dimension;
     }
 
-    public static void setDimension(float dimension) {
+    public static void setDimension(int dimension) {
         Defaults.dimension = dimension;
     }
 }

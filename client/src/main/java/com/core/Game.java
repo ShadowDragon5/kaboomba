@@ -8,6 +8,9 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
 
+import com.UI.GameMenu;
+import com.entities.Rectangle;
+
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -18,14 +21,20 @@ public class Game {
 
     private InputController inputController;
     private GameRenderer gameRenderer;
+    private GameMenu gameMenu;
+
+    // The window handle
+    private long window;
 
     public Game(InputController inputController, GameRenderer gameRenderer) {
         this.inputController = inputController;
         this.gameRenderer = gameRenderer;
+        this.gameMenu = new GameMenu(new Rectangle(-160, 0, 160, 320));
     }
 
-    // The window handle
-    private long window;
+    public void setPlayerId(String playerId) {
+        gameMenu.setPlayerId(playerId);
+    }
 
     public void run() {
         init();
@@ -56,7 +65,7 @@ public class Game {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_FALSE);
 
         // Create the window
-        window = glfwCreateWindow(600, 600, "KABOOMBA!", NULL, NULL);
+        window = glfwCreateWindow(960, 600, "KABOOMBA!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -67,6 +76,7 @@ public class Game {
 			}
         });
 
+        glfwSetWindowAspectRatio(window, 960, 600);
 
         inputController.listenControls(window);
 
@@ -101,12 +111,22 @@ public class Game {
     private void loop() {
         GL.createCapabilities();
 
-        while ( !glfwWindowShouldClose(window) ) {
-           gameRenderer.render(window);
+        while (!glfwWindowShouldClose(window)) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-           glfwPollEvents();
+            gameRenderer.render(window);
 
-           inputController.keyActionHandler(window);
+            gameMenu.render();
+
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(-160, 320, 320, 0, -1, 1);
+
+            glfwSwapBuffers(window); // swap the color buffers
+
+            glfwPollEvents();
+
+            inputController.keyActionHandler(window);
         }
     }
 }

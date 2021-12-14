@@ -24,14 +24,15 @@ public class RandomPortal extends Portal {
         var mergedObjects = Stream.concat(
                 GameMap.getInstance().getGameObjects().stream().filter(it->it instanceof Wall),
                 State.getInstance().getBoxes().stream()).collect(Collectors.toList());
+
         while (positionMatched) {
-            float randomX = (float) (Math.random() * 2 - 1);
-            float randomY = (float) (Math.random() * 2 - 1);
+            float randomX = (float) (Math.random() * GameMap.getInstance().getMapWidth());
+            float randomY = (float) (Math.random() * GameMap.getInstance().getMapWidth());
             Rectangle randomRectangle = new Rectangle(randomX, randomY).snap();
             positionMatched = mergedObjects.stream().anyMatch(it->it.getRectangle().equals(randomRectangle));
-            if(!positionMatched)
-            {
-                object.setRectangle(randomRectangle);
+            if (!positionMatched) {
+                object.getRectangle().setX(randomRectangle.getX());
+                object.getRectangle().setY(randomRectangle.getY());
                 portalEffect.portalEffect((Player) object);
             }
         }

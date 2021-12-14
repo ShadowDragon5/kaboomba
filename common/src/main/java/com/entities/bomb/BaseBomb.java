@@ -24,9 +24,9 @@ public class BaseBomb extends Bomb {
     }
 
     @Override
-    public BombExplosion createExplosion(Rectangle position, ExplosionDirection direction) {
+    public BombExplosion createExplosion(Rectangle rectangle, ExplosionDirection direction) {
         if (initiatorId == null)
-            return new BaseBombExplosion(position, direction);
-        return new BaseBombExplosion(position, direction, initiatorId);
+            return new BaseBombExplosion(rectangle, direction);
+        return new BaseBombExplosion(rectangle, direction, initiatorId);
     }
 }

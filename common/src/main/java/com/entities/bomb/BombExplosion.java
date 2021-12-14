@@ -10,13 +10,13 @@ public abstract class BombExplosion extends GameObject implements WithLifespan {
     private ExplosionDirection direction;
     protected Long lifespan = 2000L; 
 
-    public BombExplosion (Rectangle position, ExplosionDirection direction) {
-        super(position);
+    public BombExplosion (Rectangle rectangle, ExplosionDirection direction) {
+        super(rectangle);
         this.direction = direction;
     }
 
-    public BombExplosion (Rectangle position, ExplosionDirection direction, String initiatorId) {
-        super(position);
+    public BombExplosion (Rectangle rectangle, ExplosionDirection direction, String initiatorId) {
+        super(rectangle);
         this.direction = direction;
         this.initiatorId = initiatorId;
     }

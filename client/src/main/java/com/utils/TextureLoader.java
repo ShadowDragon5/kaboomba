@@ -37,7 +37,6 @@ public class TextureLoader {
         }
 
         textures.put(textureKey, texture);
-
         return texture;
     }
 
@@ -84,7 +83,7 @@ public class TextureLoader {
         return textureID;
     }
 
-    public static BufferedImage loadImage(String loc) {
+    private static BufferedImage loadImage(String loc) {
         try {
             return ImageIO.read(new File(loc));
         } catch (IOException e) {

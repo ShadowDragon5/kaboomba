@@ -1,6 +1,7 @@
 package com.commands;
 
 import com.core.enums.PlayerColors;
+import com.core.Defaults;
 import com.core.State;
 import com.entities.InitialPlayerConnection;
 import com.entities.players.Player;
@@ -36,7 +37,7 @@ public class ConnectedCommand implements Command {
         float xPos = 160;
         float yPos = 160;
 
-        player.setRectangle(new Rectangle(xPos, yPos));
+        player.setRectangle(new Rectangle(xPos, yPos, Defaults.playerWidth, Defaults.playerHeight));
         execution.onExecuted(player);
     }
 }

@@ -11,8 +11,8 @@ public abstract class Portal extends Tile {
 
     protected PortalEffect portalEffect;
 
-    public Portal(Rectangle position) {
-        super(position);
+    public Portal(Rectangle rectangle) {
+        super(rectangle);
     }
 
     public PortalEffect getPortalEffect() {

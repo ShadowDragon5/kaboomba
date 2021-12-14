@@ -11,13 +11,11 @@ public abstract class GameObject {
     protected Color color;
     protected String initiatorId;
 
-
     public GameObject(Rectangle rectangle) {
         this.rectangle = rectangle;
     }
 
     public GameObject() {
-        this.rectangle = new Rectangle();
     }
 
     public Rectangle getRectangle() {
@@ -34,16 +32,44 @@ public abstract class GameObject {
 
     public boolean collides(GameObject other) {
         if (rectangle.getSide(Direction.RIGHT) > other.rectangle.getSide(Direction.LEFT)
-            && rectangle.getSide(Direction.LEFT)  < other.rectangle.getSide(Direction.RIGHT))
-            // && rectangle.getSide(Direction.DOWN)  < other.rectangle.getSide(Direction.UP)
-            // && rectangle.getSide(Direction.UP)    > other.rectangle.getSide(Direction.DOWN))
+            && rectangle.getSide(Direction.LEFT) < other.rectangle.getSide(Direction.RIGHT)
+            && rectangle.getSide(Direction.DOWN) > other.rectangle.getSide(Direction.UP)
+            && rectangle.getSide(Direction.UP) < other.rectangle.getSide(Direction.DOWN))
         {
             onCollision(other);
-            System.out.println("Collides with " + other.getClass().toString());
             return true;
         }
-
         return false;
+    }
+
+    // current object collision with other
+    public Direction getCollisionDirection(GameObject other) {
+        float[] dd = {
+            this.rectangle.getSide(Direction.DOWN) - other.rectangle.getSide(Direction.UP),
+            this.rectangle.getSide(Direction.UP) - other.rectangle.getSide(Direction.DOWN),
+            this.rectangle.getSide(Direction.LEFT) - other.rectangle.getSide(Direction.RIGHT),
+            this.rectangle.getSide(Direction.RIGHT) - other.rectangle.getSide(Direction.LEFT),
+        };
+
+        int min = 0;
+        for (int i = 1; i < 4; i++) {
+            if (Math.abs(dd[min]) > Math.abs(dd[i])) {
+                min = i;
+            }
+        }
+
+        switch (min) {
+            case 0:
+                return Direction.DOWN;
+            case 1:
+                return Direction.UP;
+            case 2:
+                return Direction.LEFT;
+            case 3:
+                return Direction.RIGHT;
+            default:
+                return Direction.UP;
+        }
     }
 
     public abstract String getTextureFile();

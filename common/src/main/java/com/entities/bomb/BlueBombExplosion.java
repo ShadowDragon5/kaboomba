@@ -5,8 +5,8 @@ import com.core.enums.ExplosionDirection;
 import com.entities.Rectangle;
 
 public class BlueBombExplosion extends BombExplosion {
-    public BlueBombExplosion(Rectangle position, ExplosionDirection direction, String initiatorId) {
-        super(position, direction, initiatorId);
+    public BlueBombExplosion(Rectangle rectangle, ExplosionDirection direction, String initiatorId) {
+        super(rectangle, direction, initiatorId);
     }
 
     @Override

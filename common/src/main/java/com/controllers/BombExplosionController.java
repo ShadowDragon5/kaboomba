@@ -19,7 +19,7 @@ public class BombExplosionController {
     public ArrayList<BombExplosion> createExplosion(Bomb bomb) {
 
         var explosions = new ArrayList<BombExplosion>();
-        explosions.add(bomb.createExplosion(bomb.getRectangle().snap(), ExplosionDirection.CENTER));
+        explosions.add(bomb.createExplosion(bomb.getRectangle().clonePosition().snap(), ExplosionDirection.CENTER));
 
         explosions.addAll(generateExplosions(Direction.UP, bomb));
         explosions.addAll(generateExplosions(Direction.LEFT, bomb));
@@ -31,39 +31,38 @@ public class BombExplosionController {
 
     private ArrayList<BombExplosion> generateExplosions(Direction direction, Bomb bomb) {
         var explosions = new ArrayList<BombExplosion>();
-        Rectangle initialRectangle = bomb.getRectangle();
 
-        for(int i = 1; i<bomb.getBombPower() + 1; i++) {
-            Rectangle newPos = new Rectangle(initialRectangle.getX(), initialRectangle.getY());
+        for (int i = 1; i < bomb.getBombPower() + 1; i++) {
+            Rectangle newRec = bomb.getRectangle().clonePosition();
 
             switch (direction) {
                 case UP:
-                    newPos.addY(dim * i);
+                    newRec.addY(dim * i);
                     break;
                 case DOWN:
-                    newPos.addY(-dim * i);
+                    newRec.addY(-dim * i);
                     break;
                 case LEFT:
-                    newPos.addX(-dim * i);
+                    newRec.addX(-dim * i);
                     break;
                 case RIGHT:
-                    newPos.addX(dim * i);
+                    newRec.addX(dim * i);
                     break;
             }
 
-            GameObject object = atRectangle(newPos);
+            GameObject object = atRectangle(newRec);
 
             var explosionDirection = direction == Direction.DOWN || direction == Direction.UP ?
                 ExplosionDirection.VERTICAL : ExplosionDirection.HORIZONTAL;
             if (object instanceof Box) {
-                BombExplosion explosion = bomb.createExplosion(newPos, explosionDirection);
+                BombExplosion explosion = bomb.createExplosion(newRec, explosionDirection);
                 object.onCollision(explosion);
                 explosions.add(explosion);
                 break;
             } else if (object instanceof Wall || object instanceof Shield) {
                 break;
             } else {
-                explosions.add(bomb.createExplosion(newPos, explosionDirection));
+                explosions.add(bomb.createExplosion(newRec, explosionDirection));
             }
         }
 
@@ -71,7 +70,7 @@ public class BombExplosionController {
     }
 
 
-    private GameObject atRectangle(Rectangle position) {
+    private GameObject atRectangle(Rectangle rectangle) {
         var state = State.getInstance();
 
         // Check if at given position exists GameObject from state
@@ -80,7 +79,7 @@ public class BombExplosionController {
         gameObjects.addAll(state.getShields());
 
         GameObject gameObject = gameObjects.stream()
-                .filter(it -> it.getRectangle().equals(position))
+                .filter(it -> it.getRectangle().equals(rectangle))
                 .findFirst().orElse(null);
 
         if (gameObject != null) {
@@ -89,7 +88,7 @@ public class BombExplosionController {
 
         //Tile from GameMap
         return GameMap.getInstance().getGameObjects().stream()
-                .filter(it -> it.getRectangle().equals(position))
+                .filter(it -> it.getRectangle().equals(rectangle))
                 .findFirst().orElse(null);
     }
 }

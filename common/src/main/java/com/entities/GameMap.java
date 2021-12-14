@@ -94,7 +94,7 @@ public class GameMap {
                 int portal_y = Integer.parseInt(element.getAttribute("y"));
 
                 Tile portal = creator.createTile(gid,
-                            new Rectangle(portal_x, portal_y, tileWidth, tileHeight));
+                            new Rectangle(portal_x, portal_y - tileHeight, tileWidth, tileHeight));
                 State.getInstance().addPortal(portal);
 
                 // portal linking
@@ -156,6 +156,10 @@ public class GameMap {
             }
 		}
 	}
+
+    public int getMapWidth() {
+        return mapWidth * tileWidth;
+    }
 
     public ArrayList<GameObject> getGameObjects() {
         return mapTiles;

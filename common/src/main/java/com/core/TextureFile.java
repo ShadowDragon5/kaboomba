@@ -45,4 +45,17 @@ public final class TextureFile {
     public static final String BOSS_STAGE_TWO = "bomb_blue.png";
     public static final String BOSS_STAGE_THREE = "bomb_green.png";
     public static final String BOSS_STAGE_FOUR = "bomb_red.png";
+
+    // UI sprites
+    public static final String MENU_TOP_LEFT = "ui/menu_top_left.png";
+    public static final String MENU_TOP_MIDDLE = "ui/menu_top_middle.png";
+    public static final String MENU_TOP_RIGHT = "ui/menu_top_right.png";
+
+    public static final String MENU_MIDDLE_LEFT = "ui/menu_middle_left.png";
+    public static final String MENU_MIDDLE = "ui/menu_middle.png";
+    public static final String MENU_MIDDLE_RIGHT = "ui/menu_middle_right.png";
+
+    public static final String MENU_BOTTOM_LEFT = "ui/menu_bottom_left.png";
+    public static final String MENU_BOTTOM_MIDDLE = "ui/menu_bottom_middle.png";
+    public static final String MENU_BOTTOM_RIGHT = "ui/menu_bottom_right.png";
 }
