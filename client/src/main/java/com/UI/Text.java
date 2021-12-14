@@ -16,12 +16,18 @@ import com.utils.TextureLoader;
 public class Text implements UIComponent {
     private String value;
     private Sprite texture;
-    Rectangle rectangle;
+    private Rectangle rectangle;
+    private Color color;
 
     public Text(String value, Rectangle rectangle) {
+        this(value, rectangle, Color.WHITE);
+    }
+
+    public Text(String value, Rectangle rectangle, Color color) {
         this.rectangle = rectangle;
         this.value = value;
         this.texture = null;
+        this.color = color;
     }
 
 	public void setValue(String value) {
@@ -53,7 +59,7 @@ public class Text implements UIComponent {
 
                 g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // for antialiasing
                 g.setFont(font);
-                g.setColor(Color.WHITE);
+                g.setColor(color);
                 g.drawString(value, 0, metrics.getAscent());
                 g.dispose();
 
