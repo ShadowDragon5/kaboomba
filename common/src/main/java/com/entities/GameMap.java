@@ -20,6 +20,7 @@ import javax.xml.parsers.*;
 
 public class GameMap {
     private final ArrayList<GameObject> mapTiles = new ArrayList<>();
+    private final ArrayList<Rectangle> spawnPoints = new ArrayList<>();
 
 	private int mapWidth;
 	private int mapHeight;
@@ -81,7 +82,9 @@ public class GameMap {
 
             // Portal objects
             HashMap<Integer, WaypointPortal> portalLinks = new HashMap<>();
-            NodeList portals = doc.getElementsByTagName("object");
+            NodeList objects = doc.getElementsByTagName("objectgroup");
+
+            NodeList portals = objects.item(0).getChildNodes();
 
             for (int i = 0; i < portals.getLength(); i++) {
                 Node node = portals.item(i);
@@ -128,6 +131,20 @@ public class GameMap {
                     }
                 }
             }
+
+            NodeList spawns = objects.item(1).getChildNodes();
+
+            for (int i = 0; i < spawns.getLength(); i++) {
+                Node node = spawns.item(i);
+                if (node.getNodeType() != Node.ELEMENT_NODE)
+                    continue;
+
+                Element element = (Element) node;
+                float spawn_x = Float.parseFloat(element.getAttribute("x"));
+                float spawn_y = Float.parseFloat(element.getAttribute("y"));
+
+                spawnPoints.add(new Rectangle(spawn_x, spawn_y));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,5 +180,9 @@ public class GameMap {
 
     public ArrayList<GameObject> getGameObjects() {
         return mapTiles;
+    }
+
+    public ArrayList<Rectangle> getSpawnPoints() {
+        return spawnPoints;
     }
 }

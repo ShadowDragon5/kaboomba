@@ -13,7 +13,7 @@ public class ServerConnection {
     private static ServerConnection serverConnection = null;
 
     public static ServerConnection getInstance() {
-        if(serverConnection == null) {
+        if (serverConnection == null) {
             return new ServerConnection();
         }
 
@@ -29,7 +29,6 @@ public class ServerConnection {
 
         try {
             client.connect(5000, "localhost", 54555);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

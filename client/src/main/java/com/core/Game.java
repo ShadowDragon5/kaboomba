@@ -26,6 +26,7 @@ public class Game {
     private final GameRenderer gameRenderer;
     private final Client appClient;
     private GameMenu gameMenu;
+    private Thread interpreter;
 
     // The window handle
     private long window;
@@ -47,16 +48,18 @@ public class Game {
         Runnable runnable = () -> {
             System.out.println("Scanner starts");
 
-            while (true) {
+            Thread.currentThread();
+			while (!Thread.interrupted()) {
                 String message = sc.nextLine();
                 if (message != null && !message.isEmpty()) {
                     appClient.sendTCP(String.format("%s;%s", ClientAction.CHAT, message));
                 }
             }
+            System.out.println("Scanner stops");
         };
 
-        Thread thread = new Thread(runnable);
-        thread.start();
+        interpreter = new Thread(runnable);
+        interpreter.start();
     }
 
 
@@ -65,6 +68,8 @@ public class Game {
 
         init();
         loop();
+
+        interpreter.interrupt();
 
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(window);

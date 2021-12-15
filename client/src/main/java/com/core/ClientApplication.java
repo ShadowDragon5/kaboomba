@@ -24,10 +24,8 @@ public class ClientApplication {
         Client appClient = application.client;
 
         //Select team
-        // String color = application.selectTeam();
-        // String name = application.inputName();
-        String color = "";
-        String name = "";
+        String color = application.selectTeam();
+        String name = application.inputName();
 
         ClientActionListener inputListener = action -> appClient.sendTCP(action + ";");
 
@@ -44,22 +42,26 @@ public class ClientApplication {
                     return;
                 }
 
-                String[] contents = String.valueOf(object).split(";");
-                ServerAction serverAction = ServerAction.valueOf(contents[0]);
+                try {
+                    String[] contents = String.valueOf(object).split(";");
+                    ServerAction serverAction = ServerAction.valueOf(contents[0]);
 
-                switch (serverAction) {
-                    case STATE_UPDATE:
-                        State state = Defaults.gson.fromJson(contents[1], State.class);
-                        State.setNewInstance(state);
-                        break;
-                    case GAME_INIT:
-                        InitialServerResponse response = Defaults.gson.fromJson(contents[1], InitialServerResponse.class);
-                        gameRenderer.setMap(response.getGameMap());
-                        game.setPlayerId(response.getPlayerId());
-                        break;
-                    case CHAT:
-                        System.out.println(contents[1]);
-                        break;
+                    switch (serverAction) {
+                        case STATE_UPDATE:
+                            State state = Defaults.gson.fromJson(contents[1], State.class);
+                            State.setNewInstance(state);
+                            break;
+                        case GAME_INIT:
+                            InitialServerResponse response = Defaults.gson.fromJson(contents[1], InitialServerResponse.class);
+                            gameRenderer.setMap(response.getGameMap());
+                            game.setPlayerId(response.getPlayerId());
+                            break;
+                        case CHAT:
+                            System.out.println(contents[1]);
+                            break;
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             }
         });

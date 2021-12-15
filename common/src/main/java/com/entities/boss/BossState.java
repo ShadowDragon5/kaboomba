@@ -45,6 +45,9 @@ public abstract class BossState {
     }
 
     protected void move() {
+        if (targetPlayer == null) {
+            return;
+        }
         var boss = State.getInstance().getBoss(bossID);
 
         var distance = targetPlayer.getRectangle().distanceManhattan(boss.getRectangle());

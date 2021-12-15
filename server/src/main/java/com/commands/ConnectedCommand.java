@@ -3,6 +3,7 @@ package com.commands;
 import com.core.enums.PlayerColors;
 import com.core.Defaults;
 import com.core.State;
+import com.entities.GameMap;
 import com.entities.InitialPlayerConnection;
 import com.entities.players.Player;
 import com.entities.Rectangle;
@@ -33,9 +34,10 @@ public class ConnectedCommand implements Command {
         }
         player.setName(name);
 
-        // TODO pick from spawnpoint
-        float xPos = 160;
-        float yPos = 160;
+        var spawnPoints = GameMap.getInstance().getSpawnPoints();
+        var point = spawnPoints.get(state.getPlayers().size() % spawnPoints.size()).snap();
+        float xPos = point.getX();
+        float yPos = point.getY();
 
         player.setRectangle(new Rectangle(xPos, yPos, Defaults.playerWidth, Defaults.playerHeight));
         execution.onExecuted(player);
