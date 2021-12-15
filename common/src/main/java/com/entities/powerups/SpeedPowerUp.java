@@ -1,7 +1,7 @@
 package com.entities.powerups;
 
 import com.entities.players.Player;
-import com.entities.visitor.Visitor;
+import com.entities.visitor.IVisitor;
 import com.core.TextureFile;
 import com.entities.Rectangle;
 
@@ -17,7 +17,7 @@ public class SpeedPowerUp extends PowerUp {
     }
 
     @Override
-    public void accept(Visitor v) {
+    public void accept(IVisitor v) {
         v.visitSpeedPowerUp(this);
     }
 

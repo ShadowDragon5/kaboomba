@@ -4,7 +4,7 @@ import com.entities.powerups.BombAmmoPowerUp;
 import com.entities.powerups.BombPowerPowerUp;
 import com.entities.powerups.HealthyPowerUp;
 import com.entities.powerups.SpeedPowerUp;
-import com.entities.visitor.Visitor;
+import com.entities.visitor.IVisitor;
 import com.core.TextureFile;
 
 import com.factories.player.GreenPlayerFactory;
@@ -12,7 +12,7 @@ import com.factories.player.PlayersAbstractFactory;
 
 import java.awt.*;
 
-public class GreenPlayer extends Player implements Visitor {
+public class GreenPlayer extends Player implements IVisitor {
     public GreenPlayer() {
         super();
     }

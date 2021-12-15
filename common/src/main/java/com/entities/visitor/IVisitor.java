@@ -6,7 +6,7 @@ import com.entities.powerups.BombPowerPowerUp;
 import com.entities.powerups.HealthyPowerUp;
 import com.entities.powerups.SpeedPowerUp;
 
-public interface Visitor {
+public interface IVisitor {
     Player visitHealthPowerUp(HealthyPowerUp hp);
 
     Player visitSpeedPowerUp(SpeedPowerUp sp);

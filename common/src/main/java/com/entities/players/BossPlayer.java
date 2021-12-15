@@ -7,7 +7,7 @@ import com.entities.powerups.BombAmmoPowerUp;
 import com.entities.powerups.BombPowerPowerUp;
 import com.entities.powerups.HealthyPowerUp;
 import com.entities.powerups.SpeedPowerUp;
-import com.entities.visitor.Visitor;
+import com.entities.visitor.IVisitor;
 import com.factories.player.BossPlayerFactory;
 import com.factories.player.PlayersAbstractFactory;
 import com.core.Defaults;
@@ -15,7 +15,7 @@ import com.core.State;
 
 import java.awt.*;
 
-public class BossPlayer extends Player implements Visitor {
+public class BossPlayer extends Player implements IVisitor {
     private BossState bossState;
 
     public BossPlayer() {
