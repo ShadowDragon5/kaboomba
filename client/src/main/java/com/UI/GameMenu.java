@@ -9,7 +9,6 @@ import com.entities.players.*;
 public class GameMenu implements UIComponent {
     private UIComponent menu;
     private Text name;
-    private Text score;
     private String playerId;
 
     public GameMenu(Rectangle rectangle) {
@@ -25,18 +24,13 @@ public class GameMenu implements UIComponent {
         name = new Text("Hello!", content.clone(), Color.decode("#e9bd98"));
         menu.add(name);
 
-        // content.addY(30);
-        // content.setHeight(18);
-        // score = new Text("", content.clone());
-        // menu.add(score);
-
-        // content.addY(30);
-        // content.setHeight(24);
-        // menu.add(new Button("press me", content.clone()));
-
         content.addY(50);
         content.setHeight(100);
         menu.add(new PlayerList(content.clone()));
+
+        content.addY(120);
+        content.setHeight(24);
+        menu.add(new Button("press me", content.clone()));
 
     }
 
@@ -48,7 +42,6 @@ public class GameMenu implements UIComponent {
 	public void render() {
         Player player = State.getInstance().getPlayer(playerId);
         name.setValue(player instanceof NullPlayer ? "DEAD" : player.getName());
-        // score.setValue(player instanceof NullPlayer ? "" : "Score: " + player.getScore());
 
         menu.render();
 	}

@@ -1,21 +1,24 @@
 package com.commands;
 
 import com.core.State;
+import com.core.memento.MementoState;
+
 import java.util.Deque;
 
 public class LoadCommand implements UndoableCommand {
-    private Deque<State> stateSaves;
+    private Deque<MementoState> stateSaves;
     private State temporaryState;
 
-    public LoadCommand(Deque<State> stateSaves) {
+    public LoadCommand(Deque<MementoState> stateSaves) {
         this.stateSaves = stateSaves;
     }
+
     @Override
     public void execute() {
         if(stateSaves.isEmpty())
             return;
         temporaryState = State.getInstance().clone();
-        State.getInstance().loadState(stateSaves.getLast().clone());
+        State.getInstance().restore(stateSaves.getLast());
         System.out.println("Save " + stateSaves.size() +  " LOADED");
     }
 

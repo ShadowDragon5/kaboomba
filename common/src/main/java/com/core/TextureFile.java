@@ -58,4 +58,16 @@ public final class TextureFile {
     public static final String MENU_BOTTOM_LEFT = "ui/menu_bottom_left.png";
     public static final String MENU_BOTTOM_MIDDLE = "ui/menu_bottom_middle.png";
     public static final String MENU_BOTTOM_RIGHT = "ui/menu_bottom_right.png";
+
+    public static final String BUTTON_TOP_LEFT = "ui/button_top_left.png";
+    public static final String BUTTON_TOP_MIDDLE = "ui/button_top_middle.png";
+    public static final String BUTTON_TOP_RIGHT = "ui/button_top_right.png";
+
+    public static final String BUTTON_MIDDLE_LEFT = "ui/button_middle_left.png";
+    public static final String BUTTON_MIDDLE = "ui/button_middle.png";
+    public static final String BUTTON_MIDDLE_RIGHT = "ui/button_middle_right.png";
+
+    public static final String BUTTON_BOTTOM_LEFT = "ui/button_bottom_left.png";
+    public static final String BUTTON_BOTTOM_MIDDLE = "ui/button_bottom_middle.png";
+    public static final String BUTTON_BOTTOM_RIGHT = "ui/button_bottom_right.png";
 }

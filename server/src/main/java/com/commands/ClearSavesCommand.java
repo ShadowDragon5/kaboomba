@@ -1,15 +1,16 @@
 package com.commands;
 
-import com.core.State;
+import com.core.memento.MementoState;
 
 import java.util.Deque;
 
 public class ClearSavesCommand implements Command {
-    private Deque<State> stateSaves;
+    private Deque<MementoState> stateSaves;
 
-    public ClearSavesCommand(Deque<State> stateSaves) {
+    public ClearSavesCommand(Deque<MementoState> stateSaves) {
         this.stateSaves = stateSaves;
     }
+
     @Override
     public void execute() {
         stateSaves.clear();

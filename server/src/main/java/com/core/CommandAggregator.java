@@ -2,6 +2,7 @@ package com.core;
 
 import com.commands.*;
 import com.core.enums.ClientAction;
+import com.core.memento.MementoState;
 import com.entities.players.Player;
 
 import java.util.ArrayDeque;
@@ -10,7 +11,7 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class CommandAggregator implements ICommandAggregator {
-    private final Deque<State> stateSaves = new ArrayDeque<>();
+    private final Deque<MementoState> stateSaves = new ArrayDeque<>();
     private final Stack<UndoableCommand> undoableCommands;
     private final Queue<Command> queuedCommands;
 

@@ -1,18 +1,21 @@
 package com.commands;
 
 import com.core.State;
+import com.core.memento.MementoState;
+
 import java.util.Deque;
 
 public class SaveCommand implements UndoableCommand {
-    private Deque<State> stateSaves;
+    private Deque<MementoState> stateSaves;
 
-    public SaveCommand(Deque<State> stateSaves) {
+    public SaveCommand(Deque<MementoState> stateSaves) {
         this.stateSaves = stateSaves;
     }
     @Override
     public void execute() {
+        var state = State.getInstance();
         if (!stateSaves.isEmpty() &&
-                State.getInstance().getPlayers().size() != stateSaves.getLast().getPlayers().size()) {
+                state.getPlayers().size() != stateSaves.getLast().getState().getPlayers().size()) {
             stateSaves.clear();
             System.out.println("All state saves removed!");
         }
@@ -20,7 +23,7 @@ public class SaveCommand implements UndoableCommand {
             System.out.println("State save capacity reached. Oldest save deleted.");
             stateSaves.pollFirst();
         }
-        stateSaves.add(State.getInstance().clone());
+        stateSaves.add(state.save());
         System.out.println("SAVE " + stateSaves.size());
     }
 

@@ -1,5 +1,6 @@
 package com.core;
 
+import com.core.memento.MementoState;
 import com.entities.*;
 import com.entities.bomb.BombExplosion;
 import com.entities.boss.BombBoss;
@@ -46,6 +47,18 @@ public class State {
         State.state = newState;
     }
 
+    public static void setNewInstance(State newState) {
+        state = newState;
+    }
+
+    public MementoState save() {
+        return new MementoState(this.clone());
+    }
+
+    public void restore(MementoState mementoState) {
+        loadState(mementoState.getState());
+    }
+
     public State clone() {
         var newState = new State();
         this.players.forEach(it->newState.addPlayer(it.clone()));
@@ -55,10 +68,6 @@ public class State {
         this.bosses.forEach(it->newState.addBoss((BossPlayer)it.clone()));
 
         return newState;
-    }
-
-    public static void setNewInstance(State newState) {
-        state = newState;
     }
 
     public List<Player> getPlayers() {
