@@ -193,29 +193,37 @@ public abstract class Player extends GameObject {
             if (object instanceof HealthyPowerUp) {
                 if (this instanceof GreenPlayer) {
                     State.getInstance().replacePlayer(this, ((GreenPlayer) this).visitHealthPowerUp((HealthyPowerUp) object));
-                } else {
+                } else if (this instanceof BluePlayer) {
                     State.getInstance().replacePlayer(this, ((BluePlayer) this).visitHealthPowerUp((HealthyPowerUp) object));
+                } else {
+                    State.getInstance().replacePlayer(this, ((BossPlayer) this).visitHealthPowerUp((HealthyPowerUp) object));
                 }
             }
             else if (object instanceof SpeedPowerUp) {
                 if (this instanceof GreenPlayer) {
                     State.getInstance().replacePlayer(this, ((GreenPlayer) this).visitSpeedPowerUp((SpeedPowerUp) object));
-                } else {
+                } else if (this instanceof BluePlayer) {
                     State.getInstance().replacePlayer(this, ((BluePlayer) this).visitSpeedPowerUp((SpeedPowerUp) object));
+                } else {
+                    State.getInstance().replacePlayer(this, ((BossPlayer) this).visitSpeedPowerUp((SpeedPowerUp) object));
                 }
             }
             else if (object instanceof BombAmmoPowerUp) {
                 if (this instanceof GreenPlayer) {
                     State.getInstance().replacePlayer(this, ((GreenPlayer) this).visitAmmoPowerUp((BombAmmoPowerUp) object));
-                } else {
+                } else if (this instanceof BluePlayer) {
                     State.getInstance().replacePlayer(this, ((BluePlayer) this).visitAmmoPowerUp((BombAmmoPowerUp) object));
+                } else {
+                    State.getInstance().replacePlayer(this, ((BossPlayer) this).visitAmmoPowerUp((BombAmmoPowerUp) object));
                 }
             }
             else if (object instanceof BombPowerPowerUp) {
                 if (this instanceof GreenPlayer) {
                     State.getInstance().replacePlayer(this, ((GreenPlayer) this).visitPowerPowerUp((BombPowerPowerUp) object));
-                } else {
+                } else if (this instanceof BluePlayer) {
                     State.getInstance().replacePlayer(this, ((BluePlayer) this).visitPowerPowerUp((BombPowerPowerUp) object));
+                } else {
+                    State.getInstance().replacePlayer(this, ((BossPlayer) this).visitPowerPowerUp((BombPowerPowerUp) object));
                 }
             }
 
