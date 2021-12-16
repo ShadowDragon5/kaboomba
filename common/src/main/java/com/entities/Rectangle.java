@@ -83,10 +83,10 @@ public class Rectangle {
 
     public Rectangle snap() {
         float dd = Defaults.getDimension();
-        float flooredX = (float) Math.floor(getX() / dd);
+        float flooredX = (float) Math.floor((getX() + getWidth() / 2) / dd);
         setX(flooredX * dd);
 
-        float flooredY = (float) Math.floor(getY() / dd);
+        float flooredY = (float) Math.floor((getY() + getHeight() / 2) / dd);
         setY(flooredY * dd);
         return this;
     }

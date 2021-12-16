@@ -28,9 +28,9 @@ public class GameMenu implements UIComponent {
         content.setHeight(100);
         menu.add(new PlayerList(content.clone()));
 
-        content.addY(120);
-        content.setHeight(24);
-        menu.add(new Button("press me", content.clone()));
+        // content.addY(120);
+        // content.setHeight(24);
+        // menu.add(new Button("press me", content.clone()));
 
     }
 

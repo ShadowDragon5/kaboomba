@@ -76,7 +76,7 @@ public class BossPlayer extends Player implements IVisitor {
     @Override
     public void onCollision(GameObject object) {
         if(object instanceof BombExplosion) {
-            if (object.getInitiatorId().equals(this.ID)) return;
+            if (object.getInitiatorId() == null || object.getInitiatorId().equals(this.ID)) return;
             if (decreaseHealth()) {
                 var player = State.getInstance().getPlayer(object.getInitiatorId());
                 player.addScore(Defaults.scoreDealDamage);

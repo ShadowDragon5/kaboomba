@@ -63,7 +63,7 @@ public class FourthPhase extends BossState {
         var state = State.getInstance();
         var boss = state.getBoss(bossID);
 
-        var b = new BaseBomb(boss.getRectangle());
+        var b = new BaseBomb(boss.getRectangle().clone());
         b.setInitiatorId(bossID);
         b.setBombPower(power);
         state.addBomb(b);
