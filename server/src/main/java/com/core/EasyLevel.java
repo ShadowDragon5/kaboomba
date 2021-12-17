@@ -11,14 +11,12 @@ public class EasyLevel extends Level {
 
     @Override
     protected void setVariables() {
-        /* Use defaults
-         * Defaults.playerHealth = 4;
-         * Defaults.playerPits = 3;
-         * Defaults.playerShields = 2;
-         * Defaults.scoreBox = 25;
-         * Defaults.scoreReceiveDamage = -750;
-         * Defaults.scoreDealDamage = 500;
-         * Defaults.scorePortalCost = -200;
-         */
+        Defaults.playerHealth = 5;
+        Defaults.playerPits = 3;
+        Defaults.playerShields = 2;
+        Defaults.scoreBox = 25;
+        Defaults.scoreReceiveDamage = -750;
+        Defaults.scoreDealDamage = 500;
+        Defaults.scorePortalCost = -200;
     }
 }

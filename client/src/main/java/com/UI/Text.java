@@ -1,6 +1,5 @@
 package com.UI;
 
-import static java.awt.Font.MONOSPACED;
 import static java.awt.Font.PLAIN;
 import static java.awt.Font.TRUETYPE_FONT;
 
@@ -19,6 +18,7 @@ import com.utils.TextureLoader;
 
 public class Text implements UIComponent {
     private String value;
+    private String oldVal;
     private Sprite texture;
     private Rectangle rectangle;
     private Color color;
@@ -30,6 +30,7 @@ public class Text implements UIComponent {
     public Text(String value, Rectangle rectangle, Color color) {
         this.rectangle = rectangle;
         this.value = value;
+        this.oldVal = null;
         this.texture = null;
         this.color = color;
     }
@@ -41,7 +42,7 @@ public class Text implements UIComponent {
 	@Override
     public void render() {
         // not confirmed if has any performance impact
-        // if (texture == null) {
+        if (!value.equals(oldVal)) {
             try {
                 var f = Font.createFont(TRUETYPE_FONT, new File("src/main/resources/fonts/ponde___.ttf"));
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -70,14 +71,12 @@ public class Text implements UIComponent {
                 g.dispose();
 
                 texture = new Sprite(TextureLoader.loadTexture(image));
-                texture.draw(rectangle);
-
+                oldVal = value;
             } catch(Exception e) {
                 System.out.println("UI: " + e.getMessage());
             }
-        // }
-        // else {
-        // }
+        }
+        texture.draw(rectangle);
     }
 }
 

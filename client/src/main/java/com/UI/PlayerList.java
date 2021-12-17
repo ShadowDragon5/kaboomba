@@ -7,14 +7,12 @@ import com.entities.Rectangle;
 
 public class PlayerList implements UIComponent {
     Rectangle rectangle;
+    Menu menu;
+    Text list[] = new Text[4];
 
     public PlayerList(Rectangle rectangle) {
         this.rectangle = rectangle;
-    }
-
-	@Override
-	public void render() {
-        var menu = new Menu(rectangle);
+        menu = new Menu(rectangle);
         Rectangle content = rectangle.clone();
         // left-right margin
         content.addX(5);
@@ -24,16 +22,23 @@ public class PlayerList implements UIComponent {
         menu.add(new Text("Score", content.clone(), Color.ORANGE));
         content.addY(30);
 
+        for (int i = 0; i < 4; i++) {
+            content.setHeight(18);
+            list[i] = new Text("", content.clone());
+            menu.add(list[i]);
+            content.addY(20);
+        }
+    }
 
+	@Override
+	public void render() {
         var playerList = State.getInstance().getPlayers();
         playerList.sort((o1, o2) -> o2.getScore() - o1.getScore());
-        for (var player : playerList) {
-            content.setHeight(18);
-            menu.add(new Text(
-                player.getName() + ":" + player.getScore(),
-                content.clone()
-            ));
-            content.addY(20);
+        for (int i = 0; i < 4; i++) {
+            if (i < playerList.size() && playerList.get(i) != null) {
+                var player = playerList.get(i);
+                list[i].setValue(player.getName() + ":" + player.getScore());
+            }
         }
         menu.render();
 	}
